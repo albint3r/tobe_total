@@ -1,16 +1,12 @@
 // Imports
-// System
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:flutter/services.dart' show rootBundle;
 // Flutter
 import 'package:flutter/material.dart';
-// SQL & SupaBase
-import 'package:supabase_flutter/supabase_flutter.dart';
-// Project Paths
-import 'db.dart';
-import 'my_app.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// SQL & SupaBase
+import 'db.dart'; // TODO find a way to use this in the [STATE Management]
+// Project Paths
+import 'my_app.dart';
 
 void main() async {
   // This ensure the initialization of the DB
@@ -19,6 +15,7 @@ void main() async {
   DataBaseTobeTotal.ifNotExistCreateInitialDataBaseInDevice();
   // Wait to connect with the local DataBase
   print(await DataBaseTobeTotal.getMyMovements());
-  runApp(const MyApp());
+  runApp(const ProviderScope(
+    child: MyApp(),
+  ));
 }
-
