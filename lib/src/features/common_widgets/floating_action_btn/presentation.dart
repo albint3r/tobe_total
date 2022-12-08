@@ -8,18 +8,16 @@ class FloatBottomBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      elevation: 10,
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      backgroundColor: Colors.redAccent,
       onPressed: () {},
       tooltip: 'Create Training Week',
       child: const SizedBox(
-        // width: MediaQuery.of(context).size.width /2,
         width: double.infinity,
-        child: Text('Start Workout',
+        child: Text('Go Training',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 7,
+              fontSize: 9.5,
+              fontWeight: FontWeight.bold
             )),
       ),
     );

@@ -2,7 +2,7 @@
 // Flutter
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../db.dart';
+import '../../db.dart';
 
 final counterProvider = StateProvider<int>((ref) {
   return 0;

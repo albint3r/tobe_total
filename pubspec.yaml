@@ -31,6 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_riverpod: ^2.0.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -40,6 +41,8 @@ dependencies:
   encrypted_shared_preferences: ^3.0.1
   sqflite: ^2.2.2
   sqflite_common_ffi: ^2.2.0+1
+  path_provider: ^2.0.11
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

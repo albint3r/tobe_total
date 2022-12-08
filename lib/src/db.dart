@@ -8,7 +8,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart'; //Smart phones
 import 'package:sqflite_common_ffi/sqflite_ffi.dart'; // Linux & Windows
 
-abstract class DataBaseTobeTotal {
+abstract class LocalDataBase {
   static bool isDeviceSmartPhone() {
     // If the device is [Android] or [IOS] return True
     if (Platform.isAndroid || Platform.isIOS) {
