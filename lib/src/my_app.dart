@@ -3,13 +3,13 @@
 import 'package:flutter/material.dart';
 // Riverpod
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tobe_total/src/preferences/preferences.dart';
+import 'package:tobe_total/src/preferences_cache/preferences.dart';
 
 // Routes
 import 'package:tobe_total/src/routes/routes.dart';
 
 // Controllers
-import 'package:tobe_total/src/preferences/theme/settings_aparience.dart';
+import 'package:tobe_total/src/theme/settings_aparience.dart';
 
 class MyApp extends ConsumerWidget {
   MyApp({
@@ -26,7 +26,7 @@ class MyApp extends ConsumerWidget {
       title: 'To be Total',
       // this would check if the user create already an account
       initialRoute: existUserProfile.getBoolPreference('existUserProfile')
-          ? '/'
+          ? 'home'
           : 'sign_in',
       // initialRoute: ,
       debugShowCheckedModeBanner: false,

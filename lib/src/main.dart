@@ -2,7 +2,7 @@
 // Flutter
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tobe_total/src/preferences/preferences.dart';
+import 'package:tobe_total/src/preferences_cache/preferences.dart';
 
 // SQL & SupaBase
 import 'data_base/db.dart'; // TODO find a way to use this in the [STATE Management]
@@ -16,7 +16,7 @@ void main() async {
   LocalDataBase.ifNotExistCreateInitialDataBaseInDevice();
   // Set the initial preference of the users.
   preferences.initPrefs();
-  // Check in [SQLite] if the exit at least one [user]. And add the info th [preferences]
+  // Check in [SQLite] if the exit at least one [user]. And add the info th [preferences_cache]
   preferences.initExistUserProfile(await LocalDataBase.existUserProfile());
 
   runApp(ProviderScope(

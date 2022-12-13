@@ -19,7 +19,7 @@ class Client extends LocalDataBase {
           name = value;
         }
         break;
-      case 'lastName':
+      case 'last name':
         {
           lastName = value;
         }
@@ -39,7 +39,7 @@ class Client extends LocalDataBase {
 
   Future<void> createNewUser() async {
     // Create a new User in the SQLite
-    add('users', 'name, email', "'$name', '$email'");
+    add('users', 'name, last_name, email', "'$name', '$lastName', '$email'");
     // change the user status existences
   }
 }

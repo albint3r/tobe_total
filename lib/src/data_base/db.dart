@@ -21,7 +21,7 @@ abstract class LocalDataBase {
   static Future<bool> existUserProfile() async {
     // Verify if exist a [user] in the [DataBase].
     // Also, this is a patch to solve the main form. This helps to add
-    // the value to the [preferences]. So, if you have problems check that area.
+    // the value to the [preferences_cache]. So, if you have problems check that area.
     var db = await LocalDataBase.openDB();
     List<Map<String, Object?>> response =
         await db.rawQuery('SELECT * FROM users');

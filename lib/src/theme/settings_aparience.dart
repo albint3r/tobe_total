@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../preferences.dart';
+import 'package:tobe_total/src/theme/pallete_colors.dart';
+import '../preferences_cache/preferences.dart';
 
+
+// TODO CHANGE NAME TO THE CLASS FOR SOME MORE GENERIC FOR THEME SETTINGS
 class IsDarkModeNotifier extends StateNotifier<bool> {
   IsDarkModeNotifier() : super(false) {
     _init();
@@ -24,7 +27,7 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
     setPreference(state);
   }
 
-  // Save the preferences of the client.
+  // Save the preferences_cache of the client.
   // TODO HOW TO DO THIS WITH THE STATE ONLY?
   void setPreference(bool state) => preferences.setBoolPreference("darkMode", state);
 
@@ -39,7 +42,7 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
       backgroundColor: backgroundColor,
       elevation: 20,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.red,
+      selectedItemColor: Palette.red,
       unselectedItemColor: unselectedItemColor,
       unselectedLabelStyle: const TextStyle(fontSize: 10),
       selectedLabelStyle: const TextStyle(fontSize: 12),
@@ -47,6 +50,7 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
   }
 
   FloatingActionButtonThemeData getFloatingActionBtn(Color backColor) {
+    // Return an ActionButton Theme Data to Configure there aparience
     return FloatingActionButtonThemeData(
       elevation: 10,
       backgroundColor: backColor,
@@ -57,27 +61,27 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
   ThemeData showLight() => ThemeData(
         brightness: Brightness.light,
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.red,
+          primarySwatch: Palette.red,
         ),
         bottomNavigationBarTheme: getBottomNavSettings(
-          Colors.white,
-          Colors.blueGrey,
+          Palette.white,
+          Palette.blueGrey,
         ),
-        floatingActionButtonTheme: getFloatingActionBtn(Colors.red),
-        scaffoldBackgroundColor: Colors.white,
-        textTheme: const TextTheme(
+        floatingActionButtonTheme: getFloatingActionBtn(Palette.red),
+        scaffoldBackgroundColor: Palette.white,
+        textTheme: TextTheme(
           headline1: TextStyle(
-            color: Colors.red,
+            color: Palette.red,
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
           bodyText2: TextStyle(
-            color: Colors.black,
+            color: Palette.black,
             fontSize: 12.0,
           ),
           // body text
           headline6: TextStyle(
-            color: Colors.black,
+            color: Palette.black,
             fontSize: 20.0,
           ), // app bar
         ),

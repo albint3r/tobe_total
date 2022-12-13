@@ -2,7 +2,8 @@
 // Dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'controller.dart';
+import '../controller/index_bottom_nav_provider.dart';
+import 'bottom_nav_item.dart';
 
 class BottomNavBar extends ConsumerStatefulWidget {
   const BottomNavBar({
@@ -33,11 +34,5 @@ class _BottomNavBarState extends ConsumerState<BottomNavBar> {
   }
 }
 
-BottomNavigationBarItem barItem(IconData icon, String label) {
-  // Create a Navigation Item fot the Bottom Menu Bar.
-  return BottomNavigationBarItem(
-    icon: Icon(icon),
-    label: label,
-  );
-}
+
 
