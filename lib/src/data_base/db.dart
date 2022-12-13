@@ -58,4 +58,5 @@ abstract class LocalDataBase {
     var db = await openDB();
     return await db.rawQuery('SELECT * FROM my_movements');
   }
+
 }

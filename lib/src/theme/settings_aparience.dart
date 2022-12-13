@@ -1,37 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../preferences/preferences.dart';
 
 class IsDarkModeNotifier extends StateNotifier<bool> {
   IsDarkModeNotifier() : super(false) {
     _init();
   }
 
-  late SharedPreferences prefs;
-
   get darkMode => ThemeMode.dark;
 
   get lightMode => ThemeMode.light;
 
   Future _init() async {
-    // Initialize the Theme Mode Client Preferences
-    // Create instances Preferences
-    prefs = await SharedPreferences.getInstance();
-    // Check the darkMode cache value exist
-    var darkMode = prefs.getBool("darkMode");
-    // if is Null return -> False
-    state = darkMode ?? false;
+    // Initialize the Theme Mode Client Preferences.
+    // TODO HOW TO DO THIS WITH THE STATE ONLY?
+    state = preferences.getBoolPreference("darkMode");
   }
 
-  // Change state if the switch is off
   void toggle() {
+    // Change state if the switch is off
     state = !state;
     // Save the Preferences of the client
     setPreference(state);
   }
 
   // Save the preferences of the client.
-  void setPreference(bool state) => prefs.setBool("darkMode", state);
+  // TODO HOW TO DO THIS WITH THE STATE ONLY?
+  void setPreference(bool state) => preferences.setBoolPreference("darkMode", state);
 
   // Show the Current Theme Mode Depending in the Switch On /Off
   ThemeMode showCurrentMode(bool isDark) => isDark ? darkMode : lightMode;
@@ -73,7 +68,7 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
         textTheme: const TextTheme(
           headline1: TextStyle(
             color: Colors.red,
-            fontSize: 50,
+            fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
           bodyText2: TextStyle(
@@ -91,7 +86,9 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
   // Show Dark Mode
   ThemeData showDark() => ThemeData(
         brightness: Brightness.dark,
-        appBarTheme: const AppBarTheme(color: Colors.black12),
+        appBarTheme: const AppBarTheme(
+          color: Colors.black12,
+        ),
         bottomNavigationBarTheme: getBottomNavSettings(
           Colors.black12,
           Colors.white38,
@@ -100,8 +97,8 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
         scaffoldBackgroundColor: Colors.white12,
         textTheme: const TextTheme(
           headline1: TextStyle(
-            color: Colors.red,
-            fontSize: 50,
+            color: Colors.white,
+            fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
           bodyText2: TextStyle(
