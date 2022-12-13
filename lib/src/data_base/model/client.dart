@@ -1,5 +1,6 @@
 // Imports
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tobe_total/src/data_base/db.dart';
 
 class Client extends LocalDataBase {
@@ -7,21 +8,27 @@ class Client extends LocalDataBase {
   String lastName = '';
   String email = '';
 
-  void setValueInState(String typeValue, String value) {
+  void setFieldValueInState(String typeValue, String value) {
     // Set the values in the field form to their respective attributes
     // This helps to send the information to SQLite
     // We need to convert in lower case to avoid possible errors
     typeValue = typeValue.toLowerCase();
-    switch(typeValue) {
-      case 'name': {
-        name = value;
-      } break;
-      case 'lastName': {
-        lastName = value;
-      } break;
-      case 'email': {
-        email = value;
-      }break;
+    switch (typeValue) {
+      case 'name':
+        {
+          name = value;
+        }
+        break;
+      case 'lastName':
+        {
+          lastName = value;
+        }
+        break;
+      case 'email':
+        {
+          email = value;
+        }
+        break;
     }
   }
 
@@ -33,11 +40,9 @@ class Client extends LocalDataBase {
   Future<void> createNewUser() async {
     // Create a new User in the SQLite
     add('users', 'name, email', "'$name', '$email'");
+    // change the user status existences
   }
-
 }
-
-
 
 final clientProvider = Provider<Client>((ref) {
   return Client();

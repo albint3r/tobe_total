@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../preferences/preferences.dart';
+import '../preferences.dart';
 
 class IsDarkModeNotifier extends StateNotifier<bool> {
   IsDarkModeNotifier() : super(false) {

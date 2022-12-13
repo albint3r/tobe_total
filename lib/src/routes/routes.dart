@@ -1,9 +1,11 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../features/homepage/home_page.dart';
 import 'package:flutter/material.dart';
-import '../features/signin/presentation/form.dart';
+import '../features/sign_in/presentation/sign_in.dart';
 
 class Routes {
-  static Map<String, Widget Function(BuildContext)> getScreens(
+  Map<String, Widget Function(BuildContext)> getScreens(
       BuildContext context) {
     /// Return a Map with all the Routes Screens Location.
     /// Parameters:
@@ -11,8 +13,18 @@ class Routes {
     /// BuildContext context:
     /// Is responsible to bind the context with the Screen.
     return {
-      '/': (context) => const HomePage(),
+      'home': (context) => const HomePage(),
       'sign_in':(context) => const SignIn(),
     };
   }
+
+  navigateTo(BuildContext context, [String urlRoute = '/']) {
+    // Enable to navigate between screens.
+    Navigator.pushNamed(context, urlRoute);
+  }
+
 }
+
+final routesProvider = Provider<Routes>((ref) {
+  return Routes();
+});
