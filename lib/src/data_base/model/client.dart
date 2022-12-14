@@ -42,8 +42,21 @@ class Client extends LocalDataBase {
     add('users', 'name, last_name, email', "'$name', '$lastName', '$email'");
     // change the user status existences
   }
+
+  Future<List<Map<String, Object?>>> getProfile() async {
+    return getAll('users');
+  }
 }
 
 final clientProvider = Provider<Client>((ref) {
   return Client();
+});
+
+final futureClientProfileProvider =
+    FutureProvider.autoDispose<Map<String, Object?>>((ref) async {
+      // Return the User Profile Info
+  final Client client = ref.watch(clientProvider);
+  List<Map<String, Object?>> response = await client.getProfile();
+  Map<String, Object?> clientProfile = response[0];
+  return clientProfile;
 });

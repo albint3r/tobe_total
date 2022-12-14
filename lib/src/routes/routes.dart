@@ -6,17 +6,16 @@ import '../features/progress/progress.dart';
 import 'const_url.dart';
 
 class Routes {
-  Map<String, Widget Function(BuildContext)> getScreens(
-      BuildContext context) {
+  Map<String, Widget Function(BuildContext)> getScreens(BuildContext context) {
     /// Return a Map with all the Routes Screens Location.
     /// Parameters:
     /// ------------
     /// BuildContext context:
     /// Is responsible to bind the context with the Screen.
     return {
-      ConstantsUrls.progress : (context) => const Progress(),
-      ConstantsUrls.signIn :(context) => const SignIn(),
-      ConstantsUrls.settingsMenu :(context) => const SettingsMenu(),
+      ConstantsUrls.progress: (context) => const Progress(),
+      ConstantsUrls.signIn: (context) => const SignIn(),
+      ConstantsUrls.settingsMenu: (context) => const SettingsMenu(),
     };
   }
 
@@ -40,7 +39,6 @@ class Routes {
   String getScreenOfIndex(int index) {
     return ConstantsUrls.getScreenOfIndex(index);
   }
-
 }
 
 final routesProvider = Provider<Routes>((ref) {

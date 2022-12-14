@@ -64,9 +64,9 @@ abstract class LocalDataBase {
 
   // TODO THIS METHOD IS AN EXAMPLE OF HOW WORKS, BUT THIS MUST BE IMPLEMENTED
   // IN THE MODELS FOLDER WHIT THE STATE MACHINE.
-  static Future<List<Map<String, Object?>>> getMyMovements() async {
+  Future<List<Map<String, Object?>>> getAll(String tableName) async {
     var db = await openDB();
-    return await db.rawQuery('SELECT * FROM my_movements');
+    return await db.rawQuery('SELECT * FROM $tableName');
   }
 
   Future<bool> isAny(String tableName) async {

@@ -30,6 +30,7 @@ class MyApp extends ConsumerWidget {
           : 'sign_in',
       // initialRoute: ,
       debugShowCheckedModeBanner: false,
+      // debugShowMaterialGrid: true,
       routes: ref.watch(routesProvider).getScreens(context),
       theme: themeSettings.showLight(),
       darkTheme: themeSettings.showDark(),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/features/sign_in/presentation/single_text_field.dart';
-import '../../../preferences_cache/preferences.dart';
 import '../../../data_base/model/client.dart';
 import '../../../routes/const_url.dart';
 import '../../../routes/routes.dart';
+import '../../common_widgets/headers_screens/header_screens.dart';
 
 class MyCustomForm extends StatefulWidget {
   const MyCustomForm({Key? key}) : super(key: key);
@@ -42,10 +42,7 @@ class MyCustomFormState extends State<MyCustomForm> {
       key: _formKey,
       child: Column(
         children: [
-          Text(
-            'Pleas Create an account',
-            style: Theme.of(context).textTheme.headline1,
-          ),
+          H1Screens(header:'Create your profile'),
           SingleTextField(
             typeValue: 'Name',
             icon: Icons.account_box,

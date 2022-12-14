@@ -82,6 +82,7 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
           // body text
           headline6: TextStyle(
             color: Palette.black,
+            fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ), // app bar
         ),
@@ -111,7 +112,8 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
           ),
           // body text
           headline6: TextStyle(
-            color: Colors.white,
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ), // app bar
         ),
