@@ -23,6 +23,6 @@ class _AppPreferences {
   void setBoolPreference(String mode, bool state) => prefs.setBool(mode, state);
 }
 
-final appPreferencesProvider = Provider<_AppPreferences>((ref) {
+final appPreferencesProvider = StateProvider<_AppPreferences>((ref) {
   return preferences;
 });

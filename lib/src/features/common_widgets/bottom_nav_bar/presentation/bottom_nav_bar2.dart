@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../preferences_cache/preferences.dart';
 import '../../../../routes/const_url.dart';
 import '../../../../routes/routes.dart';
+import '../../../../theme/settings_aparience.dart';
 import '../controller/index_bottom_nav_provider.dart';
 import 'item_bottom_nav_bar.dart';
 
@@ -33,13 +34,14 @@ class _CurveBottomNavBarState extends ConsumerState<CurveBottomNavBar> {
       // light mode
       backgroundColor = Colors.white;
       buttonBackgroundColor = Colors.red;
-      color = Colors.black54;
+      color = Colors.black;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = ref.watch(appPreferencesProvider).getBoolPreference('darkMode');
+    // final isDark = ref.watch(appPreferencesProvider).getBoolPreference('darkMode');
+    final isDark = ref.watch(isDarkModeProviderNotifier);
     setColorsSelectedTheme(isDark);
     return CurvedNavigationBar(
       // Index Provider
@@ -56,7 +58,6 @@ class _CurveBottomNavBarState extends ConsumerState<CurveBottomNavBar> {
         final routes = ref.watch(routesProvider);
         ref.watch(indexBottomNavStateProvider.notifier).state = i;
         routes.navigateTo(context, routes.getScreenOfIndex(i));
-
       },
       items: <Widget>[
         ItemBottomNavBar(

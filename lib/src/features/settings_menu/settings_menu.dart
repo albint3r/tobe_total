@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/features/settings_menu/presentation/dark_mode_card_switch.dart';
-import 'package:tobe_total/src/features/settings_menu/presentation/profile_card/profile_card_menu.dart';
+import 'package:tobe_total/src/features/settings_menu/presentation/profile_card/card_profile_menu.dart';
 import 'package:tobe_total/src/features/settings_menu/presentation/settings_card_menu.dart';
 import '../common_widgets/bottom_nav_bar/presentation/bottom_nav_bar2.dart';
 import '../common_widgets/headers_screens/header_screens.dart';

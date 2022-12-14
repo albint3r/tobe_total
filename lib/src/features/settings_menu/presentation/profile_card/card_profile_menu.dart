@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'avatar_profile_picture.dart';
-import 'card_info_profile_athlete.dart';
+import 'info_profile_athlete.dart';
 
 class CardProfileMenu extends ConsumerStatefulWidget {
   const CardProfileMenu({
@@ -24,7 +24,7 @@ class _CardProfileMenuState extends ConsumerState<CardProfileMenu> {
           borderRadius: BorderRadius.circular(15),
         ),
         child: SizedBox(
-          height: 150,
+          height: 175,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [

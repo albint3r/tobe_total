@@ -11,10 +11,11 @@ class AvatarProfilePicture extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(25),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: const [
           CircleAvatar(
             backgroundImage:
-            AssetImage(r'assets/statics/profile_picture2.jpg'),
+            AssetImage(r'assets/statics/profile_picture.jpg'),
             maxRadius: 50,
           ),
         ],
