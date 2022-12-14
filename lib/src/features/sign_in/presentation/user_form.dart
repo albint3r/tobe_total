@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/features/sign_in/presentation/single_text_field.dart';
 import '../../../preferences_cache/preferences.dart';
 import '../../../data_base/model/client.dart';
+import '../../../routes/const_url.dart';
 import '../../../routes/routes.dart';
 
 class MyCustomForm extends StatefulWidget {
@@ -83,7 +84,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                               Text('You create successfully your account')),
                     );
                     // Navigate to -> [home]
-                    ref.watch(routesProvider).navigateTo(context, 'home');
+                    ref.watch(routesProvider).navigateTo(context, ConstantsUrls.progress);
                   }
                 },
                 child: const Text('Submit'),
