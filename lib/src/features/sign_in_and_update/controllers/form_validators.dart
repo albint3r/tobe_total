@@ -16,4 +16,13 @@ class FormValidators {
     }
     return false;
   }
+
+  static bool isNotValidInteger(String? fieldValue) {
+    // Check if the Age is validated
+    if (fieldValue != null) {
+      final nameRegExp = RegExp(r"[0-9]{1,2}");
+      return !nameRegExp.hasMatch(fieldValue);
+    }
+    return false;
+  }
 }

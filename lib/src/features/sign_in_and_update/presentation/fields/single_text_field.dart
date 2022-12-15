@@ -9,6 +9,7 @@ class SingleTextField extends ConsumerWidget {
     required this.icon,
     required this.callBackFunction,
     required this.errorMsg,
+    required this.isNumberType,
     Key? key,
   }) : super(key: key);
 
@@ -17,6 +18,7 @@ class SingleTextField extends ConsumerWidget {
   IconData icon;
   Function(String) callBackFunction = (value) => value.isEmpty;
   String errorMsg;
+  bool isNumberType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,6 +26,8 @@ class SingleTextField extends ConsumerWidget {
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
       child: TextFormField(
+        // if the user select number type it will display another keyboard
+        keyboardType: isNumberType ? TextInputType.number : TextInputType.text,
         decoration: InputDecoration(
             icon: Icon(icon), label: Text(typeValue), hintText: hintValue),
         validator: (value) {
@@ -45,6 +49,4 @@ class SingleTextField extends ConsumerWidget {
     // Check if the value is not null or emtpy
     return (fieldValue == null || fieldValue.isEmpty);
   }
-
-
 }

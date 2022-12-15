@@ -8,7 +8,7 @@ import 'package:flutter/services.dart' show ByteData, rootBundle;
 import 'package:sqflite/sqflite.dart'; //Smart phones
 import 'package:sqflite_common_ffi/sqflite_ffi.dart'; // Linux & Windows
 
-abstract class LocalDataBase {
+class LocalDataBase {
   static bool isDeviceSmartPhone() {
     // If the device is [Android] or [IOS] return True
     if (Platform.isAndroid || Platform.isIOS) {
@@ -24,7 +24,7 @@ abstract class LocalDataBase {
     // the value to the [preferences_cache]. So, if you have problems check that area.
     var db = await LocalDataBase.openDB();
     List<Map<String, Object?>> response =
-        await db.rawQuery('SELECT * FROM users');
+    await db.rawQuery('SELECT * FROM users');
     return response.isNotEmpty;
   }
 
@@ -39,10 +39,30 @@ abstract class LocalDataBase {
       // Write the project into a local DataBase
       await file.writeAsBytes(dbLocation.buffer
           .asUint8List(dbLocation.offsetInBytes, dbLocation.lengthInBytes));
+      // check if Android copied correctly the Db
+      if (await LocalDataBase.notCopiedInMobil()) {
+        print("The DB wasn't copied to the device.");
+        /* TODO THIS IF STATEMENT WAS CREATE TO CREATE THE MISSING TABLES
+        but after create this if statement the problem solves.
+        apparently load the db before end the process helps to create the tables.
+        If the problem persist in the future it will be good idea to
+        create manually the tables and load all the [fitness_moves]*/
+      }
       print('[Local] DataBase Copied to [device Documents] successfully');
     } else {
       print('Device already have the [tobe_total.db] installed');
     }
+  }
+
+  static Future<bool> notCopiedInMobil() async {
+    // Check if Android create correctly copied the [LocalDataBase]
+    // if this is correct it will trow a list with dict with all the tables.
+    // Otherwise it will trow -> [{name: android_metadata}]
+    // This is the expected -> [{name: fitness_moves}, {name: my_movements}, ... },
+    // This just have one element or a empty list of tables.
+    Database db = await LocalDataBase.openDB();
+    List<Map> response = await db.rawQuery("SELECT name FROM sqlite_master");
+    return response.length > 2;
   }
 
   static Future<Database> openDB() async {
@@ -107,6 +127,6 @@ abstract class LocalDataBase {
       String tableName, Map<String, Object> columnsValues) async {
     var db = await openDB();
     String columnsQuery = createColumnInsertQuery(columnsValues);
-    await db.rawQuery('UPDATE $tableName SET $columnsQuery WHERE id = 5;');
+    await db.rawQuery('UPDATE $tableName SET $columnsQuery WHERE id = 1;');
   }
 }

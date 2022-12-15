@@ -16,6 +16,7 @@ class LastNameField extends ConsumerWidget {
       hintValue: 'Example: "Doe"',
       callBackFunction: FormValidators.isNotValidName,
       errorMsg: 'Name in Lower Case (min 3, max 20 characters)',
+      isNumberType: false,
     );
   }
 }

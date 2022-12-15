@@ -7,6 +7,9 @@ class Client extends LocalDataBase {
   String name = '';
   String lastName = '';
   String email = '';
+  int age = -1;
+  int weight = -1;
+  int height = -1;
   bool sex = true;
 
   void setFieldValueInState(String typeValue, String value) {
@@ -17,26 +20,41 @@ class Client extends LocalDataBase {
     switch (typeValue) {
       case 'name':
         {
-          name = value;
+          name = value.trim();
         }
         break;
       case 'last name':
         {
-          lastName = value;
+          lastName = value.trim();
         }
         break;
       case 'email':
         {
-          email = value;
+          email = value.toLowerCase().trim();
+        }
+        break;
+      case 'age':
+        {
+          age = int.parse(value);
+        }
+        break;
+      case 'weight':
+        {
+          weight = int.parse(value);
+        }
+        break;
+      case 'height':
+        {
+          height = int.parse(value);
         }
         break;
     }
   }
 
   void setSex(Sex value) {
-    if(value == Sex.male){
+    if (value == Sex.male) {
       sex = true;
-    }else {
+    } else {
       sex = false;
     }
     print(sex);
@@ -55,7 +73,15 @@ class Client extends LocalDataBase {
 
   Future<void> updateUser() async {
     // Update the information of the User
-    update('users', {'name': name, 'last_name': lastName, 'email': email, 'sex': sex});
+    update('users', {
+      'name': name,
+      'last_name': lastName,
+      'email': email,
+      'sex': sex,
+      'age': age,
+      'weight': weight,
+      'height': height
+    });
   }
 
   Future<List<Map<String, Object?>>> getProfile() async {

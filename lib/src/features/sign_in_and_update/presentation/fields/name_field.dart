@@ -16,6 +16,7 @@ class NameField extends ConsumerWidget {
       hintValue: 'Example: "John"',
       callBackFunction: FormValidators.isNotValidName,
       errorMsg: 'Name in Lower Case (min 3, max 20 characters)',
+      isNumberType: false,
     );
   }
 }
