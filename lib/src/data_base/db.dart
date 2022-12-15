@@ -82,4 +82,31 @@ abstract class LocalDataBase {
     var db = await openDB();
     await db.rawQuery('INSERT INTO $tableName ($columns) VALUES ($values);');
   }
+
+  String createColumnInsertQuery(Map<String, Object> columnsValues) {
+    // Crate the format depending of the value to insert in SQLite
+    List listQueries = [];
+    for (var col in columnsValues.keys) {
+      String columnQuery;
+      var tempValue = columnsValues[col];
+
+      if (tempValue is String) {
+        columnQuery = " $col = '${columnsValues[col]}'";
+      } else if (tempValue is bool) {
+        columnQuery = ' $col = ${columnsValues[col].toString().toUpperCase()}';
+      } else {
+        columnQuery = " $col = ${columnsValues[col]}";
+      }
+
+      listQueries.add(columnQuery);
+    }
+    return listQueries.join(',');
+  }
+
+  Future<void> update(
+      String tableName, Map<String, Object> columnsValues) async {
+    var db = await openDB();
+    String columnsQuery = createColumnInsertQuery(columnsValues);
+    await db.rawQuery('UPDATE $tableName SET $columnsQuery WHERE id = 5;');
+  }
 }

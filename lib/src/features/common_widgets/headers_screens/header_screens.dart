@@ -30,4 +30,19 @@ class H6Screens extends StatelessWidget {
   }
 }
 
+class H2Screens extends StatelessWidget {
+  H2Screens({required this.header,Key? key}) : super(key: key);
+  String header;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Text(
+        header,
+        style: Theme.of(context).textTheme.headline2,
+      ),
+    );
+  }
+}
+
 

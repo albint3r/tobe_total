@@ -17,6 +17,7 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
   Future _init() async {
     // Initialize the Theme Mode Client Preferences.
     // TODO HOW TO DO THIS WITH THE STATE ONLY?
+    // The preference init when the app start. This value is passed here -> [true/false]
     state = preferences.getBoolPreference("darkMode");
   }
 
@@ -24,12 +25,10 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
     // Change state if the switch is off
     state = !state;
     // Save the Preferences of the client
-    setPreference(state);
+    // TODO HOW TO DO THIS WITH THE STATE ONLY?
+    // Add the changes to the preference cache
+    preferences.setBoolPreference("darkMode", state);
   }
-
-  // Save the preferences_cache of the client.
-  // TODO HOW TO DO THIS WITH THE STATE ONLY?
-  void setPreference(bool state) => preferences.setBoolPreference("darkMode", state);
 
   // Show the Current Theme Mode Depending in the Switch On /Off
   ThemeMode showCurrentMode(bool isDark) => isDark ? darkMode : lightMode;
@@ -75,6 +74,11 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
+          headline2: TextStyle(
+            color: Palette.black,
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
           bodyText2: TextStyle(
             color: Palette.black,
             fontSize: 12.0,
@@ -104,6 +108,11 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
           headline1: TextStyle(
             color: Colors.white,
             fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+          headline2: TextStyle(
+            color: Colors.white,
+            fontSize: 15,
             fontWeight: FontWeight.bold,
           ),
           bodyText2: TextStyle(

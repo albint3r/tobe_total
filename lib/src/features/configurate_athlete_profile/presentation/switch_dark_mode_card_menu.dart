@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tobe_total/src/features/settings_menu/presentation/settings_card_menu.dart';
+import 'package:tobe_total/src/features/configurate_athlete_profile/presentation/item_settings_card_menu.dart';
 
 import '../../../theme/settings_aparience.dart';
 
@@ -12,6 +12,7 @@ class DarkModeCardSwitch extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Change the Value in is the dark Mode
     bool isDarkMode = ref.watch(isDarkModeProviderNotifier);
     return SettingsCardMenu(
       title: isDarkMode ? 'Light Mode': 'Dark Mode',
@@ -20,6 +21,7 @@ class DarkModeCardSwitch extends ConsumerWidget {
       trailing: Switch(
         value: isDarkMode,
         onChanged: (value) {
+          // Switch the value [true or false] in the dark mode
           ref.watch(isDarkModeProviderNotifier.notifier).toggle();
         },
       ),

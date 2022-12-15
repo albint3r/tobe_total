@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/preferences_cache/preferences.dart';
-
 // SQL & SupaBase
 import 'data_base/db.dart'; // TODO find a way to use this in the [STATE Management]
 // Project Paths

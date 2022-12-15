@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import '../features/settings_menu/settings_menu.dart';
+import '../features/configurate_athlete_profile/presentation/settings_menu.dart';
 import '../features/sign_in/presentation/sign_in.dart';
 import '../features/progress/progress.dart';
+import '../features/sign_in/presentation/update_athlete_profile.dart';
 import 'const_url.dart';
 
 class Routes {
@@ -16,6 +17,7 @@ class Routes {
       ConstantsUrls.progress: (context) => const Progress(),
       ConstantsUrls.signIn: (context) => const SignIn(),
       ConstantsUrls.settingsMenu: (context) => const SettingsMenu(),
+      ConstantsUrls.updateAthleteProfile: (context) => const UpdateAthleteProfile(),
     };
   }
 
