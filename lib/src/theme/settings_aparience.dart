@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/theme/pallete_colors.dart';
 import '../preferences_cache/preferences.dart';
 
-
 // TODO CHANGE NAME TO THE CLASS FOR SOME MORE GENERIC FOR THEME SETTINGS
 class IsDarkModeNotifier extends StateNotifier<bool> {
   IsDarkModeNotifier() : super(false) {
@@ -69,27 +68,33 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
         floatingActionButtonTheme: getFloatingActionBtn(Palette.red),
         scaffoldBackgroundColor: Palette.white,
         textTheme: TextTheme(
-          headline1: TextStyle(
-            color: Palette.red,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-          headline2: TextStyle(
-            color: Palette.black,
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-          ),
-          bodyText2: TextStyle(
-            color: Palette.black,
-            fontSize: 12.0,
-          ),
-          // body text
-          headline6: TextStyle(
-            color: Palette.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0,
-          ), // app bar
-        ),
+            headline1: TextStyle(
+              color: Palette.red,
+              fontSize: 30,
+              fontFamily: 'Bebas',
+              fontStyle: FontStyle.italic,
+              letterSpacing: 2,
+            ),
+            headline3: TextStyle(
+              color: Palette.black,
+              fontSize: 18,
+              fontFamily: 'Bebas',
+              fontStyle: FontStyle.italic,
+              letterSpacing: 2,
+            ),
+            // body text
+            headline6: TextStyle(
+              color: Palette.black,
+              fontSize: 20.0,
+              fontFamily: 'Bebas',
+              fontStyle: FontStyle.italic,
+              letterSpacing: 2,
+            ),
+            bodyText2: TextStyle(
+              color: Palette.black,
+              fontSize: 12.0,
+            ) // app bar
+            ),
       );
 
   // Show Dark Mode
@@ -105,27 +110,33 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
         floatingActionButtonTheme: getFloatingActionBtn(Colors.white),
         scaffoldBackgroundColor: Colors.white12,
         textTheme: const TextTheme(
-          headline1: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-          headline2: TextStyle(
-            color: Colors.white,
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-          ),
-          bodyText2: TextStyle(
-            color: Colors.white,
-            fontSize: 12.0,
-          ),
-          // body text
-          headline6: TextStyle(
-            color: Colors.red,
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0,
-          ), // app bar
-        ),
+            headline1: TextStyle(
+              color: Colors.red,
+              fontSize: 30,
+              fontFamily: 'Bebas',
+              fontStyle: FontStyle.italic,
+              letterSpacing: 2,
+            ),
+            headline3: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontFamily: 'Bebas',
+              fontStyle: FontStyle.italic,
+              letterSpacing: 2,
+            ),
+            // body text
+            headline6: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+              fontFamily: 'Bebas',
+              fontStyle: FontStyle.italic,
+              letterSpacing: 2,
+            ),
+            bodyText2: TextStyle(
+              color: Colors.white,
+              fontSize: 12.0,
+            ) // app bar
+            ),
       );
 }
 

@@ -16,8 +16,9 @@ class SexFormField extends ConsumerWidget {
       width: MediaQuery.of(context).size.width * .90,
       child: Card(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            H2Screens(header:'Select your sex'),
+            H3Screens(header:'Select your sex:'),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: const [

@@ -1,7 +1,7 @@
 // Imports
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/data_base/db.dart';
-import 'package:tobe_total/src/features/sign_in/controllers/sex_provider.dart';
+import 'package:tobe_total/src/features/sign_in_and_update/controllers/sex_provider.dart';
 
 class Client extends LocalDataBase {
   String name = '';
@@ -54,10 +54,12 @@ class Client extends LocalDataBase {
   }
 
   Future<void> updateUser() async {
+    // Update the information of the User
     update('users', {'name': name, 'last_name': lastName, 'email': email, 'sex': sex});
   }
 
   Future<List<Map<String, Object?>>> getProfile() async {
+    // Get the profile of the user.
     return getAll('users');
   }
 }

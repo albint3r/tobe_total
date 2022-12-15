@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../common_widgets/headers_screens/header_screens.dart';
 
 class SettingsCardMenu extends StatelessWidget {
   SettingsCardMenu({
@@ -18,11 +19,20 @@ class SettingsCardMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      child: ListTile(
-        title: Text(title),
-        subtitle: Text(subtitle),
-        leading: Icon(leading),
-        trailing: trailing,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 2,
+          bottom: 2,
+        ),
+        child: ListTile(
+          // title: Text(title),
+          title: H6Screens(
+            header: title,
+          ),
+          subtitle: Text(subtitle),
+          leading: Icon(leading),
+          trailing: trailing,
+        ),
       ),
     );
   }

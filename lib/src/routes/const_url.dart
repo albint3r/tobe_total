@@ -1,6 +1,6 @@
 class ConstantsUrls {
   // static String home = '/';
-  static String signIn = 'sign_in';
+  static String signIn = 'sign_in_and_update';
   static String progress = 'progress';
   static String trainingPlan = 'training_plan';
   static String myMoves = 'my_moves';

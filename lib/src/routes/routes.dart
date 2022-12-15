@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import '../features/configurate_athlete_profile/presentation/settings_menu.dart';
-import '../features/sign_in/presentation/sign_in.dart';
+import '../features/sign_in_and_update//presentation/sign_in.dart';
 import '../features/progress/progress.dart';
-import '../features/sign_in/presentation/update_athlete_profile.dart';
+import '../features/sign_in_and_update/presentation/update_athlete_profile.dart';
 import 'const_url.dart';
 
 class Routes {

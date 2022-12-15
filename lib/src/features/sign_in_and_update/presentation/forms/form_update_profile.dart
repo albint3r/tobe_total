@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tobe_total/src/features/sign_in/presentation/fields/email_field.dart';
-import 'package:tobe_total/src/features/sign_in/presentation/fields/last_name_field.dart';
+import 'package:tobe_total/src/features/sign_in_and_update/presentation/fields/email_field.dart';
+import 'package:tobe_total/src/features/sign_in_and_update/presentation/fields/last_name_field.dart';
 import '../../../common_widgets/headers_screens/header_screens.dart';
 import '../fields/name_field.dart';
 import '../fields/sex_field.dart';
@@ -24,7 +24,7 @@ class UpdateProfileAthleteFormState extends State<UpdateProfileAthleteForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
+      child: ListView(
         children: [
           H1Screens(header: 'Update your profile'),
           const NameField(),

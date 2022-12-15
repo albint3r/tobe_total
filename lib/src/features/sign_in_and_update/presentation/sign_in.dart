@@ -2,7 +2,7 @@
 // Dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tobe_total/src/features/sign_in/presentation/forms/form_create_profile_athlete.dart';
+import 'package:tobe_total/src/features/sign_in_and_update/presentation/forms/form_create_profile_athlete.dart';
 // Common widgets
 
 class SignIn extends ConsumerStatefulWidget {

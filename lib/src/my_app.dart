@@ -27,7 +27,7 @@ class MyApp extends ConsumerWidget {
       // this would check if the user create already an account
       initialRoute: existUserProfile.getBoolPreference('existUserProfile')
           ? 'progress'
-          : 'sign_in',
+          : 'sign_in_and_update',
       // initialRoute: ,
       debugShowCheckedModeBanner: false,
       // debugShowMaterialGrid: true,
