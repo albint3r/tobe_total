@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../preferences_cache/preferences.dart';
-import '../common_widgets/bottom_nav_bar/controller/index_bottom_nav_provider.dart';
+import '../../providers/index_bottom_nav_provider.dart';
 import '../common_widgets/bottom_nav_bar/presentation/bottom_nav_bar2.dart';
 
 class Progress extends ConsumerStatefulWidget {

@@ -3,13 +3,9 @@
 import 'package:flutter/material.dart';
 // Riverpod
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tobe_total/src/preferences_cache/preferences.dart';
-
-// Routes
-import 'package:tobe_total/src/routes/routes.dart';
-
-// Controllers
-import 'package:tobe_total/src/theme/settings_aparience.dart';
+import 'package:tobe_total/src/providers/is_dark_mode_provider.dart';
+import 'package:tobe_total/src/providers/preferences_provider.dart';
+import 'package:tobe_total/src/providers/routes_provider.dart';
 
 class MyApp extends ConsumerWidget {
   MyApp({

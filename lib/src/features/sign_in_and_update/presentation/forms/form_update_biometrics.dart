@@ -3,22 +3,25 @@ import 'package:tobe_total/src/features/sign_in_and_update/presentation/fields/e
 import 'package:tobe_total/src/features/sign_in_and_update/presentation/fields/last_name_field.dart';
 import '../../../common_widgets/headers_screens/header_screens.dart';
 import '../fields/age_field.dart';
+import '../fields/days_checkbox_field.dart';
 import '../fields/height_field.dart';
+import '../fields/level_field.dart';
 import '../fields/name_field.dart';
 import '../fields/sex_field.dart';
 import '../fields/submit_update_profile_form_button.dart';
+import '../fields/time_to_train_field.dart';
 import '../fields/weight_field.dart';
 
-class UpdateProfileAthleteForm extends StatefulWidget {
-  const UpdateProfileAthleteForm({Key? key}) : super(key: key);
+class BiometricsForm extends StatefulWidget {
+  const BiometricsForm({Key? key}) : super(key: key);
 
   @override
-  UpdateProfileAthleteFormState createState() {
-    return UpdateProfileAthleteFormState();
+  BiometricsFormState createState() {
+    return BiometricsFormState();
   }
 }
 
-class UpdateProfileAthleteFormState extends State<UpdateProfileAthleteForm> {
+class BiometricsFormState extends State<BiometricsForm> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -28,14 +31,14 @@ class UpdateProfileAthleteFormState extends State<UpdateProfileAthleteForm> {
       child: ListView(
         children: [
           H1Screens(header: 'Update your profile'),
-          const NameField(),
-          const LastNameField(),
-          const EmailField(),
           const AgeField(),
           const WeightField(),
           const HeightField(),
           const SexFormField(),
-          SubmitUpdateClientButton(formKey: _formKey),
+          // const TimeToTrainField(),
+          // const GroupLevelCheckFields(),
+          // const GroupDaysCheckFields(),
+          SubmitUpdateClientButton(formKey: _formKey, selectedFields: const ['age', 'weight', 'height', 'sex']),
         ],
       ),
     );

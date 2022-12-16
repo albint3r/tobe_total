@@ -1,11 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../preferences_cache/preferences.dart';
-import '../../../../routes/const_url.dart';
+import '../../../../providers/is_dark_mode_provider.dart';
+import '../../../../providers/routes_provider.dart';
 import '../../../../routes/routes.dart';
-import '../../../../theme/settings_aparience.dart';
-import '../controller/index_bottom_nav_provider.dart';
+import '../../../../providers/index_bottom_nav_provider.dart';
 import 'item_bottom_nav_bar.dart';
 
 class CurveBottomNavBar extends ConsumerStatefulWidget {

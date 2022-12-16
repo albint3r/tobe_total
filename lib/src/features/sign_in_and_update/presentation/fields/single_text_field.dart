@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../data_base/model/client.dart';
+import '../../../../providers/client_provider.dart';
 
 class SingleTextField extends ConsumerWidget {
   SingleTextField({
@@ -23,8 +23,8 @@ class SingleTextField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(top: 2, bottom: 2,left: 15, right: 15, ),
+      padding: const EdgeInsets.all(2),
       child: TextFormField(
         // if the user select number type it will display another keyboard
         keyboardType: isNumberType ? TextInputType.number : TextInputType.text,
@@ -38,7 +38,7 @@ class SingleTextField extends ConsumerWidget {
           // this helps to classify the field into the form
           // to add the information later in SQLite
           client.setFieldValueInState(typeValue, value);
-          print('Values corrected Validated and added to client object!');
+          print('The name ->[$typeValue] value ->[$value] was correctly [updated] in SQLite');
           return null;
         },
       ),

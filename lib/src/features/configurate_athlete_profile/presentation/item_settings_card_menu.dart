@@ -21,8 +21,8 @@ class SettingsCardMenu extends StatelessWidget {
       elevation: 2,
       child: Padding(
         padding: const EdgeInsets.only(
-          top: 2,
-          bottom: 2,
+          top: 0,
+          bottom: 0,
         ),
         child: ListTile(
           // title: Text(title),

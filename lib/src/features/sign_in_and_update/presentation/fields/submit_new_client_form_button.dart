@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../data_base/model/client.dart';
+import '../../../../providers/client_provider.dart';
+import '../../../../providers/routes_provider.dart';
 import '../../../../routes/const_url.dart';
 import '../../../../routes/routes.dart';
 

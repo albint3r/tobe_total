@@ -5,7 +5,10 @@ class ConstantsUrls {
   static String trainingPlan = 'training_plan';
   static String myMoves = 'my_moves';
   static String settingsMenu = 'settings_menu';
-  static String updateAthleteProfile = 'update_athlete_profile';
+  static String updateGeneralInformation = 'update_general_information';
+  static String updateBiometrics = 'update_biometrics';
+  static String updateTrainingItinerary = 'update_training_itinerary';
+  static String updateAthleteGoal = 'update_athlete_goal';
 
   static String getScreenOfIndex(int index) {
     // This returns the [routName] depending of the index of the [Nav Menu]

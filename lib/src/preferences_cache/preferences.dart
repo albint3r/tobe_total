@@ -1,12 +1,11 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final preferences = _AppPreferences();
+final preferences = AppPreferences();
 // TODO -> [preferences_cache] Change RAW preferences_cache for the state in:
 // main
 // settings_apariences
 
-class _AppPreferences {
+class AppPreferences {
   late SharedPreferences prefs;
 
   // Set the init state of the preferences_cache
@@ -23,6 +22,4 @@ class _AppPreferences {
   void setBoolPreference(String mode, bool state) => prefs.setBool(mode, state);
 }
 
-final appPreferencesProvider = StateProvider<_AppPreferences>((ref) {
-  return preferences;
-});
+

@@ -2,7 +2,7 @@
 // Dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../controller/index_bottom_nav_provider.dart';
+import '../../../../providers/index_bottom_nav_provider.dart';
 import 'bottom_nav_item.dart';
 
 class BottomNavBar extends ConsumerStatefulWidget {

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../data_base/model/client.dart';
+import '../../../../providers/client_provider.dart';
+import '../../../../providers/routes_provider.dart';
 import '../../../../routes/const_url.dart';
-import '../../../../routes/routes.dart';
 
 class SubmitUpdateClientButton extends ConsumerWidget {
   const SubmitUpdateClientButton({
+    required List selectedFields,
     required GlobalKey<FormState> formKey,
     Key? key,
-  }) : _formKey = formKey, super(key: key);
-
+  })  : _formKey = formKey,
+        _selectedFields = selectedFields,
+        super(key: key);
+  final List _selectedFields;
   final GlobalKey<FormState> _formKey;
 
   @override
@@ -23,14 +26,13 @@ class SubmitUpdateClientButton extends ConsumerWidget {
           final client = ref.watch(clientProvider);
           //The [client] object have in their attributes all the
           //data textFields form. This is how it send the info.
-          client.updateUser();
+          client.updateUser(_selectedFields);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-                content:
-                Text('You create successfully your account')),
+                content: Text('You create successfully your account')),
           );
           // Navigate to -> [home]
-          ref.watch(routesProvider).navigateTo(context, ConstantsUrls.progress);
+          ref.watch(routesProvider).navigateTo(context, ConstantsUrls.settingsMenu);
         }
       },
       child: const Text('Update Profile'),

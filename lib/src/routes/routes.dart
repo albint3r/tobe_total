@@ -1,9 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:tobe_total/src/features/sign_in_and_update/presentation/update_biometrics.dart';
 import '../features/configurate_athlete_profile/presentation/settings_menu.dart';
 import '../features/sign_in_and_update//presentation/sign_in.dart';
 import '../features/progress/progress.dart';
-import '../features/sign_in_and_update/presentation/update_athlete_profile.dart';
+import '../features/sign_in_and_update/presentation/update_athlete_goal.dart';
+import '../features/sign_in_and_update/presentation/update_general_info.dart';
+import '../features/sign_in_and_update/presentation/update_training_itinerary.dart';
 import 'const_url.dart';
 
 class Routes {
@@ -17,7 +20,10 @@ class Routes {
       ConstantsUrls.progress: (context) => const Progress(),
       ConstantsUrls.signIn: (context) => const SignIn(),
       ConstantsUrls.settingsMenu: (context) => const SettingsMenu(),
-      ConstantsUrls.updateAthleteProfile: (context) => const UpdateAthleteProfile(),
+      ConstantsUrls.updateGeneralInformation: (context) => const UpdateGeneralInformation(),
+      ConstantsUrls.updateBiometrics: (context) => const UpdateBiometrics(),
+      ConstantsUrls.updateTrainingItinerary: (context) => const UpdateTrainingItinerary(),
+      ConstantsUrls.updateAthleteGoal: (context) => const UpdateAthleteGoal(),
     };
   }
 
@@ -43,6 +49,3 @@ class Routes {
   }
 }
 
-final routesProvider = Provider<Routes>((ref) {
-  return Routes();
-});

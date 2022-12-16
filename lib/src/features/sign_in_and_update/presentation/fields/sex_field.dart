@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../data_base/model/client.dart';
+import '../../../../providers/client_provider.dart';
 import '../../../common_widgets/headers_screens/header_screens.dart';
-import '../../controllers/sex_provider.dart';
+import '../../../../providers/sex_provider.dart';
 
 class SexFormField extends ConsumerWidget {
   const SexFormField({

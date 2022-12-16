@@ -139,8 +139,3 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
             ),
       );
 }
-
-final isDarkModeProviderNotifier =
-    StateNotifierProvider<IsDarkModeNotifier, bool>(
-  (ref) => IsDarkModeNotifier(),
-);

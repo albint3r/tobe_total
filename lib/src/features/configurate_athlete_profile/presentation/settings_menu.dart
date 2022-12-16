@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/features/configurate_athlete_profile/presentation/switch_dark_mode_card_menu.dart';
 import 'package:tobe_total/src/features/configurate_athlete_profile/presentation/profile_card/card_profile_menu.dart';
 import 'package:tobe_total/src/features/configurate_athlete_profile/presentation/item_settings_card_menu.dart';
+import '../../../providers/routes_provider.dart';
 import '../../../routes/const_url.dart';
 import '../../../routes/routes.dart';
 import '../../common_widgets/bottom_nav_bar/presentation/bottom_nav_bar2.dart';
@@ -22,12 +23,36 @@ class SettingsMenu extends ConsumerWidget {
           H1Screens(header: 'Settings Menu'),
           const CardProfileMenu(),
           SettingsCardMenu(
-            title: 'Update Profile',
+            title: 'Update General Information',
             subtitle: 'Update the information of your Athlete profile',
             leading: Icons.person,
             trailing: NextButtonSettingsCard(callBack: () {
               final routes = ref.watch(routesProvider);
-              routes.navigateTo(context, ConstantsUrls.updateAthleteProfile);
+              routes.navigateTo(context, ConstantsUrls.updateGeneralInformation);
+            }),
+          ), SettingsCardMenu(
+            title: 'Update Biometrics',
+            subtitle: 'Update the information of your Athlete profile',
+            leading: Icons.area_chart_outlined,
+            trailing: NextButtonSettingsCard(callBack: () {
+              final routes = ref.watch(routesProvider);
+              routes.navigateTo(context, ConstantsUrls.updateBiometrics);
+            }),
+          ),SettingsCardMenu(
+            title: 'Update Training Itinerary',
+            subtitle: 'Update the information of your Athlete profile',
+            leading: Icons.calendar_month,
+            trailing: NextButtonSettingsCard(callBack: () {
+              final routes = ref.watch(routesProvider);
+              routes.navigateTo(context, ConstantsUrls.updateTrainingItinerary);
+            }),
+          ),SettingsCardMenu(
+            title: 'Update Athlete Goal',
+            subtitle: 'Update the information of your Athlete profile',
+            leading: Icons.task,
+            trailing: NextButtonSettingsCard(callBack: () {
+              final routes = ref.watch(routesProvider);
+              routes.navigateTo(context, ConstantsUrls.updateAthleteGoal);
             }),
           ),
           const DarkModeCardSwitch()
