@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../common_widgets/headers_screens/header_screens.dart';
+import '../fields/goal_field.dart';
 import '../fields/submit_update_profile_form_button.dart';
 
 class AthleteGoalForm extends StatefulWidget {
@@ -21,6 +22,7 @@ class AthleteGoalFormState extends State<AthleteGoalForm> {
       child: ListView(
         children: [
           H1Screens(header: 'NOT IMPLEMENTED'),
+          const GroupGoalCheckFields(),
           SubmitUpdateClientButton(
               formKey: _formKey, selectedFields: const ['goal']),
         ],

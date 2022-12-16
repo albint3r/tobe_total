@@ -75,6 +75,13 @@ class Client extends LocalDataBase {
     level = indexLevel;
   }
 
+  void setGoalFieldInState(int indexGoal) {
+    // Set the level state.
+    /* The reason this get only the value of the leve is because
+    another method of the provider [levelManagerProvider] manage the parse. */
+    goal = indexGoal;
+  }
+
   void setFieldValueInState(String typeValue, String value) {
     // Set the values in the field form to their respective attributes
     // This helps to send the information to SQLite
@@ -159,6 +166,7 @@ class Client extends LocalDataBase {
       'thursday': thursday,
       'saturday': saturday,
       'sunday': sunday,
+      'goal':goal
     };
   }
 
