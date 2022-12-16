@@ -57,6 +57,27 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
 
   // Show Light Mode
   ThemeData showLight() => ThemeData(
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            elevation: 5,
+            fixedSize: const Size.fromWidth(300),
+            padding: const EdgeInsets.only(
+              bottom: 15,
+              top: 15,
+              right: 30,
+              left: 30,
+            ),
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            textStyle: const TextStyle(
+              fontFamily: 'Bebas',
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+              letterSpacing: .5,
+            ),
+          ),
+        ),
         brightness: Brightness.light,
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Palette.red,
@@ -73,69 +94,104 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
               fontSize: 30,
               fontFamily: 'Bebas',
               fontStyle: FontStyle.italic,
-              letterSpacing: 2,
+              letterSpacing: .5,
             ),
             headline3: TextStyle(
               color: Palette.black,
               fontSize: 18,
               fontFamily: 'Bebas',
               fontStyle: FontStyle.italic,
-              letterSpacing: 2,
+              letterSpacing: .5,
+            ),
+            headline5: const TextStyle(
+              color: Colors.black,
+              fontFamily: 'Bebas',
+              fontStyle: FontStyle.italic,
+              fontSize: 12.0,
+              // overflow: TextOverflow.ellipsis,
             ),
             // body text
             headline6: TextStyle(
               color: Palette.black,
-              fontSize: 20.0,
+              fontSize: 16.0,
               fontFamily: 'Bebas',
               fontStyle: FontStyle.italic,
-              letterSpacing: 2,
+              letterSpacing: .5,
             ),
-            bodyText2: TextStyle(
-              color: Palette.black,
-              fontSize: 12.0,
+            bodyText2: const TextStyle(
+              color: Colors.black,
+              fontSize: 12.0, // app bar
             ) // app bar
             ),
       );
 
   // Show Dark Mode
   ThemeData showDark() => ThemeData(
-        brightness: Brightness.dark,
-        appBarTheme: const AppBarTheme(
-          color: Colors.black12,
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          elevation: 5,
+          fixedSize: const Size.fromWidth(300),
+          padding: const EdgeInsets.only(
+            bottom: 15,
+            top: 15,
+            right: 30,
+            left: 30,
+          ),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.red,
+          textStyle: const TextStyle(
+            fontFamily: 'Bebas',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+            letterSpacing: .5,
+          ),
         ),
-        bottomNavigationBarTheme: getBottomNavSettings(
-          Colors.black12,
-          Colors.white38,
+      ),
+      brightness: Brightness.dark,
+      appBarTheme: const AppBarTheme(
+        color: Colors.black12,
+      ),
+      bottomNavigationBarTheme: getBottomNavSettings(
+        Colors.black12,
+        Colors.white38,
+      ),
+      floatingActionButtonTheme: getFloatingActionBtn(Colors.white),
+      scaffoldBackgroundColor: Colors.white12,
+      textTheme: const TextTheme(
+        headline1: TextStyle(
+          color: Colors.red,
+          fontSize: 30,
+          fontFamily: 'Bebas',
+          fontStyle: FontStyle.italic,
+          letterSpacing: .5,
         ),
-        floatingActionButtonTheme: getFloatingActionBtn(Colors.white),
-        scaffoldBackgroundColor: Colors.white12,
-        textTheme: const TextTheme(
-            headline1: TextStyle(
-              color: Colors.red,
-              fontSize: 30,
-              fontFamily: 'Bebas',
-              fontStyle: FontStyle.italic,
-              letterSpacing: 2,
-            ),
-            headline3: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontFamily: 'Bebas',
-              fontStyle: FontStyle.italic,
-              letterSpacing: 2,
-            ),
-            // body text
-            headline6: TextStyle(
-              color: Colors.white,
-              fontSize: 20.0,
-              fontFamily: 'Bebas',
-              fontStyle: FontStyle.italic,
-              letterSpacing: 2,
-            ),
-            bodyText2: TextStyle(
-              color: Colors.white,
-              fontSize: 12.0,
-            ) // app bar
-            ),
-      );
+        headline3: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontFamily: 'Bebas',
+          fontStyle: FontStyle.italic,
+          letterSpacing: .5,
+        ),
+        // this letter is for subtitles after H1
+        headline5: TextStyle(
+          color: Colors.white,
+          fontFamily: 'Bebas',
+          fontStyle: FontStyle.italic,
+          fontSize: 12.0,
+          // overflow: TextOverflow.ellipsis,
+        ),
+        // body text
+        headline6: TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+          fontFamily: 'Bebas',
+          fontStyle: FontStyle.italic,
+          letterSpacing: .5,
+        ),
+        bodyText2: TextStyle(
+          color: Colors.white,
+          fontSize: 12.0, // app bar
+        ),
+      ));
 }

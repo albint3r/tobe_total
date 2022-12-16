@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tobe_total/src/features/sign_in_and_update/presentation/fields/email_field.dart';
-import 'package:tobe_total/src/features/sign_in_and_update/presentation/fields/last_name_field.dart';
 import '../../../common_widgets/headers_screens/header_screens.dart';
 import '../fields/age_field.dart';
-import '../fields/days_checkbox_field.dart';
 import '../fields/height_field.dart';
-import '../fields/level_field.dart';
-import '../fields/name_field.dart';
 import '../fields/sex_field.dart';
 import '../fields/submit_update_profile_form_button.dart';
-import '../fields/time_to_train_field.dart';
 import '../fields/weight_field.dart';
 
 class BiometricsForm extends StatefulWidget {
@@ -28,17 +22,17 @@ class BiometricsFormState extends State<BiometricsForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: ListView(
+      child: Column(
         children: [
-          H1Screens(header: 'Update your profile'),
+          H1Screens(header: 'Biometrics Information'),
+          const SubTitleHeaderH1(subHeader: 'Update your Biometrics to get better trainings and stats'),
           const AgeField(),
           const WeightField(),
           const HeightField(),
           const SexFormField(),
-          // const TimeToTrainField(),
-          // const GroupLevelCheckFields(),
-          // const GroupDaysCheckFields(),
-          SubmitUpdateClientButton(formKey: _formKey, selectedFields: const ['age', 'weight', 'height', 'sex']),
+          SubmitUpdateClientButton(
+              formKey: _formKey,
+              selectedFields: const ['age', 'weight', 'height', 'sex']),
         ],
       ),
     );

@@ -5,7 +5,6 @@ import 'package:tobe_total/src/features/configurate_athlete_profile/presentation
 import 'package:tobe_total/src/features/configurate_athlete_profile/presentation/item_settings_card_menu.dart';
 import '../../../providers/routes_provider.dart';
 import '../../../routes/const_url.dart';
-import '../../../routes/routes.dart';
 import '../../common_widgets/bottom_nav_bar/presentation/bottom_nav_bar2.dart';
 import '../../common_widgets/headers_screens/header_screens.dart';
 
@@ -21,6 +20,8 @@ class SettingsMenu extends ConsumerWidget {
       body: ListView(
         children: <Widget>[
           H1Screens(header: 'Settings Menu'),
+          const SubTitleHeaderH1(
+              subHeader: 'Update all your Stats to create more accurate workouts'),
           const CardProfileMenu(),
           SettingsCardMenu(
             title: 'Update General Information',

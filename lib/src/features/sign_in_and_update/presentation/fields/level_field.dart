@@ -20,7 +20,7 @@ class _GroupLevelCheckFieldsState extends ConsumerState<GroupLevelCheckFields> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          H3Screens(header: 'Select your fitness level:'),
+          H3FormFieldsHeader(header: 'Select your fitness level:'),
           LevelCheckBoxField(
             levelName: 'Beginner',
             enumLevel: Level.beginner,

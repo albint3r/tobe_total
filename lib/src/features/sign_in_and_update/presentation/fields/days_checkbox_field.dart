@@ -17,40 +17,44 @@ class GroupDaysCheckFields extends ConsumerStatefulWidget {
 class _GroupDaysCheckFieldsState extends ConsumerState<GroupDaysCheckFields> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          H3Screens(header: 'Select training days:'),
-          DayCheckBoxField(
-            dayName: 'Monday',
-            currentProvider: mondayProvider,
-          ),
-          DayCheckBoxField(
-            dayName: 'Tuesday',
-            currentProvider: tuesdayProvider,
-          ),
-          DayCheckBoxField(
-            dayName: 'Wednesday',
-            currentProvider: wednesdayProvider,
-          ),
-          DayCheckBoxField(
-            dayName: 'Thursday',
-            currentProvider: thursdayProvider,
-          ),
-          DayCheckBoxField(
-            dayName: 'Friday',
-            currentProvider: fridayProvider,
-          ),
-          DayCheckBoxField(
-            dayName: 'Saturday',
-            currentProvider: saturdayProvider,
-          ),
-          DayCheckBoxField(
-            dayName: 'Sunday',
-            currentProvider: sundayProvider,
-          ),
-        ],
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      width: MediaQuery.of(context).size.width * .90,
+      child: Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            H3FormFieldsHeader(header: 'Select training days:'),
+            DayCheckBoxField(
+              dayName: 'Monday',
+              currentProvider: mondayProvider,
+            ),
+            DayCheckBoxField(
+              dayName: 'Tuesday',
+              currentProvider: tuesdayProvider,
+            ),
+            DayCheckBoxField(
+              dayName: 'Wednesday',
+              currentProvider: wednesdayProvider,
+            ),
+            DayCheckBoxField(
+              dayName: 'Thursday',
+              currentProvider: thursdayProvider,
+            ),
+            DayCheckBoxField(
+              dayName: 'Friday',
+              currentProvider: fridayProvider,
+            ),
+            DayCheckBoxField(
+              dayName: 'Saturday',
+              currentProvider: saturdayProvider,
+            ),
+            DayCheckBoxField(
+              dayName: 'Sunday',
+              currentProvider: sundayProvider,
+            ),
+          ],
+        ),
       ),
     );
   }

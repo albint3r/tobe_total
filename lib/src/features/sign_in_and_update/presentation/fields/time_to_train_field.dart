@@ -12,7 +12,7 @@ class TimeToTrainField extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SingleTextField(
       typeValue: 'Time to train',
-      icon: Icons.date_range,
+      icon: Icons.timelapse,
       hintValue: 'Example: 90 min',
       callBackFunction: FormValidators.isNotValidInteger,
       errorMsg: 'Pleas enter a valid number (No letters or ,.#)',

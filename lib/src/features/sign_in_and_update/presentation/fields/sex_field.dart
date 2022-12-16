@@ -11,22 +11,25 @@ class SexFormField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SizedBox(
-      height: 100,
-      width: MediaQuery.of(context).size.width * .90,
-      child: Card(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            H3Screens(header:'Select your sex:'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                RadarMale(),
-                RadarFemale(),
-              ],
-            ),
-          ],
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      child: SizedBox(
+        height: 100,
+        width: MediaQuery.of(context).size.width * .90,
+        child: Card(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              H3FormFieldsHeader(header:'Select your sex:'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [
+                  RadarMale(),
+                  RadarFemale(),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

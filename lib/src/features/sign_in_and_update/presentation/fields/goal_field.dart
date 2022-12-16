@@ -16,27 +16,31 @@ class GroupGoalCheckFields extends ConsumerStatefulWidget {
 class _GroupGoalCheckFieldsState extends ConsumerState<GroupGoalCheckFields> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          H3Screens(header: 'Select your fitness Goal:'),
-          GoalCheckBoxField(
-            goalName: 'Resistance',
-            enumGoals: Goals.resistance,
-            goalSpecification: 'Get More resistance and Endurance',
-          ),
-          GoalCheckBoxField(
-            goalName: 'Maintenance',
-            enumGoals: Goals.maintenance,
-            goalSpecification: 'Maintain your gains and Weight',
-          ),
-          GoalCheckBoxField(
-            goalName: 'Strength',
-            enumGoals: Goals.strength,
-            goalSpecification: 'Get More Strength and Muscle',
-          ),
-        ],
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      width: MediaQuery.of(context).size.width * .90,
+      child: Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            H3FormFieldsHeader(header: 'Select your fitness Goal:'),
+            GoalCheckBoxField(
+              goalName: 'Resistance',
+              enumGoals: Goals.resistance,
+              goalSpecification: 'Get More resistance and Endurance',
+            ),
+            GoalCheckBoxField(
+              goalName: 'Maintenance',
+              enumGoals: Goals.maintenance,
+              goalSpecification: 'Maintain your gains and Weight',
+            ),
+            GoalCheckBoxField(
+              goalName: 'Strength',
+              enumGoals: Goals.strength,
+              goalSpecification: 'Get More Strength and Muscle',
+            ),
+          ],
+        ),
       ),
     );
   }

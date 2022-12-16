@@ -19,9 +19,12 @@ class AthleteGoalFormState extends State<AthleteGoalForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: ListView(
+      child: Column(
         children: [
-          H1Screens(header: 'NOT IMPLEMENTED'),
+          H1Screens(header: 'Athlete Goal'),
+          const SubTitleHeaderH1(
+              subHeader:
+                  'Your Goal is our goal, add your objective to update your next workout'),
           const GroupGoalCheckFields(),
           SubmitUpdateClientButton(
               formKey: _formKey, selectedFields: const ['goal']),

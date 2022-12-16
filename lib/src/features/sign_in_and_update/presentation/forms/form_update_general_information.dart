@@ -21,9 +21,11 @@ class GeneralInformationFormState extends State<GeneralInformationForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: ListView(
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          H1Screens(header: 'Update your profile'),
+          H1Screens(header: 'General Information'),
+          const SubTitleHeaderH1(subHeader: 'Update your general information.'),
           const NameField(),
           const LastNameField(),
           const EmailField(),

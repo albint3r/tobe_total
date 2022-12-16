@@ -28,9 +28,12 @@ class TrainingItineraryFormState extends State<TrainingItineraryForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: ListView(
+      child: Column(
         children: [
-          H1Screens(header: 'Update your profile'),
+          H1Screens(header: 'Training Itinerary'),
+          const SubTitleHeaderH1(
+              subHeader:
+                  'Select the time and the days your are training to update the workout generator'),
           const TimeToTrainField(),
           const GroupDaysCheckFields(),
           SubmitUpdateClientButton(formKey: _formKey, selectedFields: const [

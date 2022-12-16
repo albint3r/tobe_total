@@ -5,16 +5,16 @@ import '../fields/email_field.dart';
 import '../fields/last_name_field.dart';
 import '../fields/name_field.dart';
 
-class CreateProfileAthleteForm extends StatefulWidget {
-  const CreateProfileAthleteForm({Key? key}) : super(key: key);
+class SignInForm extends StatefulWidget {
+  const SignInForm({Key? key}) : super(key: key);
 
   @override
-  CreateProfileAthleteFormState createState() {
-    return CreateProfileAthleteFormState();
+  SignInFormState createState() {
+    return SignInFormState();
   }
 }
 
-class CreateProfileAthleteFormState extends State<CreateProfileAthleteForm> {
+class SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -24,6 +24,8 @@ class CreateProfileAthleteFormState extends State<CreateProfileAthleteForm> {
       child: Column(
         children: [
           H1Screens(header: 'Create your profile'),
+          const SubTitleHeaderH1(
+              subHeader: 'Add your information to star using the app'),
           const NameField(),
           const LastNameField(),
           const EmailField(),
