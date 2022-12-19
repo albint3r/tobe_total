@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class H1Screens extends StatelessWidget {
   // This is the Main Header in all the Screens
@@ -13,8 +14,16 @@ class H1Screens extends StatelessWidget {
   final bool _isInListView;
 
   Widget addMarginIfNotListView({required Widget child}) {
+    // Add a specific [margin] in the [H1] when the Text is inside a [column] or a [listview]
     Widget parent;
+    // We added the Android and IOS because in the Windows device have error with the margin.
     if (_isInListView) {
+      parent = Container(
+        margin: const EdgeInsets.only(right: 5, left: 5, bottom: 0, top: 30),
+        child: child,
+      );
+      // Windows have their margin expected in H1
+    } else if (Platform.isWindows) {
       parent = Container(
         margin: const EdgeInsets.only(right: 5, left: 5, bottom: 0, top: 30),
         child: child,
