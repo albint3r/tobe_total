@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../common_widgets/headers_screens/header_screens.dart';
 import '../fields/goal_field.dart';
-import '../fields/submit_update_profile_form_button.dart';
+import '../submitbuttons/submit_cancel_update_profile.dart';
+import '../submitbuttons/submit_update_profile_form_button.dart';
 
 class AthleteGoalForm extends StatefulWidget {
   const AthleteGoalForm({Key? key}) : super(key: key);
@@ -21,13 +22,14 @@ class AthleteGoalFormState extends State<AthleteGoalForm> {
       key: _formKey,
       child: Column(
         children: [
-          H1Screens(header: 'Athlete Goal'),
+          const H1Screens(header: 'Athlete Goal', isInListView: false,),
           const SubTitleHeaderH1(
               subHeader:
                   'Your Goal is our goal, add your objective to update your next workout'),
           const GroupGoalCheckFields(),
           SubmitUpdateClientButton(
-              formKey: _formKey, selectedFields: const ['goal']),
+              formKey: _formKey, selectedFields: const ['goal'], isExpanded: true),
+          const SubmitCancelChanges()
         ],
       ),
     );

@@ -3,7 +3,8 @@ import '../../../common_widgets/headers_screens/header_screens.dart';
 import '../fields/age_field.dart';
 import '../fields/height_field.dart';
 import '../fields/sex_field.dart';
-import '../fields/submit_update_profile_form_button.dart';
+import '../submitbuttons/submit_cancel_update_profile.dart';
+import '../submitbuttons/submit_update_profile_form_button.dart';
 import '../fields/weight_field.dart';
 
 class BiometricsForm extends StatefulWidget {
@@ -24,15 +25,22 @@ class BiometricsFormState extends State<BiometricsForm> {
       key: _formKey,
       child: Column(
         children: [
-          H1Screens(header: 'Biometrics Information'),
-          const SubTitleHeaderH1(subHeader: 'Update your Biometrics to get better trainings and stats'),
+          const H1Screens(
+            header: 'Biometrics Information',
+            isInListView: false,
+          ),
+          const SubTitleHeaderH1(
+              subHeader:
+                  'Update your Biometrics to get better trainings and stats'),
           const AgeField(),
           const WeightField(),
           const HeightField(),
           const SexFormField(),
           SubmitUpdateClientButton(
               formKey: _formKey,
-              selectedFields: const ['age', 'weight', 'height', 'sex']),
+              selectedFields: const ['age', 'weight', 'height', 'sex'],
+              isExpanded: true),
+          const SubmitCancelChanges()
         ],
       ),
     );

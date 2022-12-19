@@ -8,7 +8,8 @@ import '../fields/height_field.dart';
 import '../fields/level_field.dart';
 import '../fields/name_field.dart';
 import '../fields/sex_field.dart';
-import '../fields/submit_update_profile_form_button.dart';
+import '../submitbuttons/submit_cancel_update_profile.dart';
+import '../submitbuttons/submit_update_profile_form_button.dart';
 import '../fields/time_to_train_field.dart';
 import '../fields/weight_field.dart';
 
@@ -28,23 +29,32 @@ class TrainingItineraryFormState extends State<TrainingItineraryForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
+      child: ListView(
         children: [
-          H1Screens(header: 'Training Itinerary'),
+          const H1Screens(
+            header: 'Training Itinerary',
+            isInListView: true,
+          ),
           const SubTitleHeaderH1(
               subHeader:
                   'Select the time and the days your are training to update the workout generator'),
           const TimeToTrainField(),
-          const GroupDaysCheckFields(),
-          SubmitUpdateClientButton(formKey: _formKey, selectedFields: const [
-            'time_to_train',
-            'monday',
-            'tuesday',
-            'wednesday',
-            'thursday',
-            'saturday',
-            'sunday'
-          ]),
+          Container(
+              margin: const EdgeInsets.only(left: 15, right: 15),
+              child: const GroupDaysCheckFields()),
+          SubmitUpdateClientButton(
+              formKey: _formKey,
+              selectedFields: const [
+                'time_to_train',
+                'monday',
+                'tuesday',
+                'wednesday',
+                'thursday',
+                'saturday',
+                'sunday'
+              ],
+              isExpanded: false),
+          const SubmitCancelChanges()
         ],
       ),
     );

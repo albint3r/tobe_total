@@ -19,9 +19,13 @@ class SettingsMenu extends ConsumerWidget {
       bottomNavigationBar: const CurveBottomNavBar(),
       body: ListView(
         children: <Widget>[
-          H1Screens(header: 'Settings Menu'),
+          const H1Screens(
+            header: 'Settings Menu',
+            isInListView: true,
+          ),
           const SubTitleHeaderH1(
-              subHeader: 'Update all your Stats to create more accurate workouts'),
+              subHeader:
+                  'Update all your Stats to create more accurate workouts'),
           const CardProfileMenu(),
           SettingsCardMenu(
             title: 'Update General Information',
@@ -29,9 +33,11 @@ class SettingsMenu extends ConsumerWidget {
             leading: Icons.person,
             trailing: NextButtonSettingsCard(callBack: () {
               final routes = ref.watch(routesProvider);
-              routes.navigateTo(context, ConstantsUrls.updateGeneralInformation);
+              routes.navigateTo(
+                  context, ConstantsUrls.updateGeneralInformation);
             }),
-          ), SettingsCardMenu(
+          ),
+          SettingsCardMenu(
             title: 'Update Biometrics',
             subtitle: 'Update the information of your Athlete profile',
             leading: Icons.area_chart_outlined,
@@ -39,7 +45,8 @@ class SettingsMenu extends ConsumerWidget {
               final routes = ref.watch(routesProvider);
               routes.navigateTo(context, ConstantsUrls.updateBiometrics);
             }),
-          ),SettingsCardMenu(
+          ),
+          SettingsCardMenu(
             title: 'Update Training Itinerary',
             subtitle: 'Update the information of your Athlete profile',
             leading: Icons.calendar_month,
@@ -47,7 +54,8 @@ class SettingsMenu extends ConsumerWidget {
               final routes = ref.watch(routesProvider);
               routes.navigateTo(context, ConstantsUrls.updateTrainingItinerary);
             }),
-          ),SettingsCardMenu(
+          ),
+          SettingsCardMenu(
             title: 'Update Athlete Goal',
             subtitle: 'Update the information of your Athlete profile',
             leading: Icons.task,

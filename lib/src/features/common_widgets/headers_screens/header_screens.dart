@@ -2,20 +2,44 @@ import 'package:flutter/material.dart';
 
 class H1Screens extends StatelessWidget {
   // This is the Main Header in all the Screens
-  H1Screens({required this.header, Key? key}) : super(key: key);
-  String header;
+  const H1Screens({
+    required String header,
+    required bool isInListView,
+    Key? key,
+  })  : _header = header,
+        _isInListView = isInListView,
+        super(key: key);
+  final String _header;
+  final bool _isInListView;
+
+  Widget addMarginIfNotListView({required Widget child}) {
+    Widget parent;
+    if (_isInListView) {
+      parent = Container(
+        margin: const EdgeInsets.only(right: 5, left: 5, bottom: 0, top: 30),
+        child: child,
+      );
+    } else {
+      parent = Container(
+        margin: const EdgeInsets.only(top: 32),
+        child: Container(
+          margin: const EdgeInsets.only(right: 5, left: 5, bottom: 0, top: 30),
+          child: child,
+        ),
+      );
+    }
+    return parent;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 5, left: 5, bottom: 0, top: 30),
-      child: Center(
-        child: Text(
-          header,
-          style: Theme.of(context).textTheme.headline1,
-        ),
+    return addMarginIfNotListView(
+        child: Center(
+      child: Text(
+        _header,
+        style: Theme.of(context).textTheme.headline1,
       ),
-    );
+    ));
   }
 }
 
