@@ -40,6 +40,7 @@ class LocalDataBase {
       await file.writeAsBytes(dbLocation.buffer
           .asUint8List(dbLocation.offsetInBytes, dbLocation.lengthInBytes));
       // check if Android copied correctly the Db
+      await LocalDataBase.notCopiedInMobil();
       if (await LocalDataBase.notCopiedInMobil()) {
         print("The DB wasn't copied to the device.");
         /* TODO THIS IF STATEMENT WAS CREATE TO CREATE THE MISSING TABLES
