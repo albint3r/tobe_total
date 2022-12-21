@@ -56,6 +56,8 @@ final selectedDayProvider = StateProvider<DateTime?>((ref) {
   return null;
 });
 
+
+
 final wodsModelProvider = StateProvider<WODs>((ref) {
   // get the WOD Class
   return WODs();

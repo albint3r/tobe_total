@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../providers/calendar_provider.dart';
+import '../../../providers/routes_provider.dart';
+import '../../../providers/wod_plan_provider.dart';
+import '../../../routes/const_url.dart';
 import '../../common_widgets/headers_screens/header_screens.dart';
 import '../../configurate_athlete_profile/presentation/settings_menu_screen.dart';
 import 'items_icons_wods.dart';
@@ -16,8 +19,8 @@ const Map<int, String> weekendNameDays = {
   7: 'Sunday',
 };
 
-class WODsInformation extends ConsumerWidget {
-  const WODsInformation({
+class WODsCardInformation extends ConsumerWidget {
+  const WODsCardInformation({
     Key? key,
     required this.selectedWodsDay,
   }) : super(key: key);
@@ -43,21 +46,19 @@ class WODsInformation extends ConsumerWidget {
                     ? Icons.list
                     : Icons.filter_list_rounded),
                 onTap: () {
-                  ref
-                      .watch(calendarControllerProvider)
-                      .unselectDayCalendar(ref);
+                  ref.watch(calendarControllerProvider).unselectDayCalendar(ref);
                   print('Display list of WODS');
                 },
               ),
             )
           ]),
-          ...getWODsInformation(ref)
+          ...getWODsInformation(context, ref)
         ],
       ),
     );
   }
 
-  List<Widget> getWODsInformation(WidgetRef ref) {
+  List<Widget> getWODsInformation(BuildContext context, WidgetRef ref) {
     List<Widget> wodsCards = [];
     if (selectedWodsDay.isNotEmpty) {
       for (Map wod in selectedWodsDay) {
@@ -68,9 +69,6 @@ class WODsInformation extends ConsumerWidget {
         Widget wodCard = Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-                margin: const EdgeInsets.only(left: 20, top: 5),
-                child: Text('Date: ${date.year}-${date.month}-${date.day}')),
             Card(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +82,7 @@ class WODsInformation extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             ItemIconWod(
-                              title: "$nameDay",
+                              title: "$nameDay ${date.day}",
                               subtitle: 'Date',
                               icon: Icons.today,
                             ),
@@ -109,10 +107,13 @@ class WODsInformation extends ConsumerWidget {
                             )
                           ]),
                     ),
-                    trailing: Container(
+                    trailing: SizedBox(
                       height: double.infinity,
                       child: NextButtonSettingsCard(callBack: () {
-                        //TODO IMPLEMENT ROUTE TO NEXT TRAINING
+                        ref.watch(wodPlanControllerProvider).setStateSelectedWodInformation(ref, wod);
+                        ref.watch(wodPlanControllerProvider).setStateWodIdProvider(ref, wod['id']);
+                        ref.watch(routesProvider).navigateTo(context, ConstantsUrls.wodPlan);
+                        print('Navigate to wod -> ${ref.watch(wodIdProvider)}');
                       }),
                     ),
                   ),

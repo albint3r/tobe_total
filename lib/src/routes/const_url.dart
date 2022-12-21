@@ -3,6 +3,8 @@ class ConstantsUrls {
   static String signIn = 'sign_in_and_update';
   static String progress = 'progress';
   static String trainingPlan = 'training_plan';
+  static String wodPlan = 'wod_plan';
+  static String blockPlan = 'block_plan';
   static String myMoves = 'my_moves';
   static String settingsMenu = 'settings_menu';
   static String updateGeneralInformation = 'update_general_information';

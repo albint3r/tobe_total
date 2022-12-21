@@ -90,6 +90,11 @@ class LocalDataBase {
     return await db.rawQuery('SELECT * FROM $tableName');
   }
 
+  Future<List<Map<String, Object?>>> getFiltered(String tableName, String column, String condition) async {
+    var db = await openDB();
+    return await db.rawQuery('SELECT * FROM $tableName WHERE $column = $condition');
+  }
+
   Future<bool> isAny(String tableName) async {
     // Return [true] if exist at least one value or more in the table.
     Database db = await openDB();
