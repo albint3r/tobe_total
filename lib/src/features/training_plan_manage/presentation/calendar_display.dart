@@ -12,17 +12,18 @@ class CalendarDisplay extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final wod = ref.watch(selectedEventsProvider);
+    final selectedEvents = ref.watch(selectedEventsProvider);
+    final allTrainingDays = ref.watch(wodsAllTrainingsProvider);
 
-    return wod.when(
+    return selectedEvents.when(
         error: (err, stack) => Text('Error: $err'),
         loading: () => const CircularProgressIndicator(),
-        data: (data) {
+        data: (wodData) {
           final calendarController = ref.watch(calendarControllerProvider);
           var selectedWodsDay = calendarController.getWODsFromDay(
-              ref.watch(selectedDayProvider), data);
-          print('-----------');
-          print(selectedWodsDay);
+              ref.watch(selectedDayProvider), wodData);
+          // print('-----------');
+          // print(selectedWodsDay);
           return Center(
             child: ListView(
               children: [
@@ -41,7 +42,7 @@ class CalendarDisplay extends ConsumerWidget {
                   startingDayOfWeek: ref.watch(startingDayOfWeekProvider),
                   calendarFormat: ref.watch(calendarFormatProvider),
                   eventLoader: (day) =>
-                      calendarController.getWODsFromDay(day, data),
+                      calendarController.getWODsFromDay(day, wodData),
                   // Selector style
                   calendarStyle: const CalendarStyle(
                       todayTextStyle: TextStyle(color: Colors.white),
@@ -73,12 +74,22 @@ class CalendarDisplay extends ConsumerWidget {
                         .setStateFocusDayProvider(ref, focusedDay);
                   },
                 ),
-                WODsInformation(selectedWodsDay: selectedWodsDay),
+                allTrainingDays.when(
+                  error: (err, stack) => Text('Error: $err'),
+                  loading: () => const CircularProgressIndicator(),
+                  data: (allWodsData) {
+                    // If not day selected it will display all training.
+                    return selectedWodsDay.isNotEmpty
+                        // This only display the selected day in the calendar.
+                        ? WODsInformation(selectedWodsDay: selectedWodsDay)
+                        // This display all days
+                        : WODsInformation(selectedWodsDay: allWodsData);
+                  },
+                )
+                // WODsInformation(selectedWodsDay: selectedWodsDay),
               ],
             ),
           );
         });
   }
 }
-
-
