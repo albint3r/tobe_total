@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'charts_wod.dart';
+import 'charts/charts_wod.dart';
 import 'general_kpis.dart';
 
 class StatsWOD extends ConsumerWidget {

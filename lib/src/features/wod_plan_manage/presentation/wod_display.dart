@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tobe_total/src/features/wod_plan_manage/presentation/stats_wod_info.dart';
+import 'package:tobe_total/src/features/wod_plan_manage/presentation/metrics_wod_info.dart';
 import '../../../providers/wod_plan_provider.dart';
 import '../../common_widgets/headers_screens/header_screens.dart';
 import '../../common_widgets/stats_main_display/stats_main_display.dart';
 import '../../configurate_athlete_profile/presentation/settings_menu_screen.dart';
 import '../../training_calendar_manage/presentation/items_icons_wods.dart';
-
+import 'charts/charts_wod.dart';
 
 class WODDisplay extends ConsumerWidget {
   const WODDisplay({
@@ -57,7 +57,7 @@ class WODDisplay extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             ItemIconWod(
-                              title: block['mode'],
+                              title: block['mode'].toUpperCase(),
                               subtitle: 'Mode',
                               icon: Icons.cached,
                             ),
@@ -96,5 +96,3 @@ class WODDisplay extends ConsumerWidget {
     return blocksList;
   }
 }
-
-

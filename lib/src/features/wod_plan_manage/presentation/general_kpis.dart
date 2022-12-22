@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../providers/wod_plan_provider.dart';
 import '../../training_calendar_manage/presentation/wods_card_information.dart';
+import 'package:string_ext/string_ext.dart';
 
 class GeneralKPIs extends ConsumerWidget {
   const GeneralKPIs({
@@ -15,6 +16,7 @@ class GeneralKPIs extends ConsumerWidget {
     final date = DateFormat("yyyy-MM-dd")
         .parse(wodInfo['expected_training_day'] as String);
     String? nameDay = weekendNameDays[date.weekday];
+    String bodyArea = wodInfo['body_area'] as String;
     return Card(
       margin: const EdgeInsets.all(10),
       elevation: 7,
@@ -34,7 +36,7 @@ class GeneralKPIs extends ConsumerWidget {
             icon: Icons.timer,
           ),
           ItemIconWodInKPI(
-              title: "${wodInfo['body_area']}",
+              title: bodyArea.firstToUpper(),
               icon: Icons.accessibility)
         ],
       ),
@@ -57,7 +59,7 @@ class ItemIconWodInKPI extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 5),
+      margin: const EdgeInsets.only(bottom: 5, top: 5),
       child: Column(
         children: [
           Text(_title),

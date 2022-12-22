@@ -90,6 +90,12 @@ class LocalDataBase {
     return await db.rawQuery('SELECT * FROM $tableName');
   }
 
+  Future<List<Map<String, Object?>>> rawQuery(String query) async {
+    // This Method is used when the Model can make a query without special conditions.
+    Database db = await openDB();
+    return await db.rawQuery(query);
+  }
+
   Future<List<Map<String, Object?>>> getFiltered(String tableName, String column, String condition) async {
     var db = await openDB();
     return await db.rawQuery('SELECT * FROM $tableName WHERE $column = $condition');
@@ -102,6 +108,8 @@ class LocalDataBase {
         await db.rawQuery('SELECT * FROM $tableName');
     return response.isNotEmpty;
   }
+
+
 
   Future<void> add(String tableName, String columns, String values) async {
     // Add Values to the table selected

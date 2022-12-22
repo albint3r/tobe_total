@@ -15,7 +15,7 @@ class StatsMainDisplay extends ConsumerWidget {
     return Card(
       elevation: 10,
       child: Container(
-        height: 220,
+        height: 320,
         margin: const EdgeInsets.only(left: 5, right: 5),
         child: _child,
       ),

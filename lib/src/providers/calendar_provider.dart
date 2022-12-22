@@ -57,7 +57,7 @@ final selectedDayProvider = StateProvider<DateTime?>((ref) {
 });
 
 
-
+// TODO MOVE THIS TO ANOTHER FILE WITH ALL THE MODELS OF THE DB
 final wodsModelProvider = StateProvider<WODs>((ref) {
   // get the WOD Class
   return WODs();

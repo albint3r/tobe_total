@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data_base/model/blocks.dart';
+import 'calendar_provider.dart';
 
 
 class WODPlanController {
@@ -17,7 +18,7 @@ class WODPlanController {
   }
 
 }
-
+// TODO MOVE THIS TO ANOTHER FILE WITH ALL THE MODELS OF THE DB
 final blocksModelProvider = StateProvider<Blocks>((ref) {
   // get the WOD Class
   return Blocks();
@@ -47,3 +48,37 @@ final blocksInWodListProvider = FutureProvider.autoDispose<List<Map<String, Obje
   final wodId = ref.watch(wodIdProvider);
   return blocks.getBlocksByWodId(wodId);
 });
+
+final fitnessMovesInWodProvider = FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
+  // This return a list of block inside the Wod Selected in calendar.
+  // The ID of the wod is provider by the [wodIdProvider].
+  final wodId = ref.watch(wodIdProvider);
+  final wodsMode = ref.watch(wodsModelProvider);
+  return wodsMode.getAllMovementsInWod(wodId);
+});
+
+final muscleGroupBySetCountProvider = FutureProvider.autoDispose<Map<String, Object?>>((ref) async {
+  // This return a list of block inside the Wod Selected in calendar.
+  // The ID of the wod is provider by the [wodIdProvider].
+  final wodId = ref.watch(wodIdProvider);
+  final wodsMode = ref.watch(wodsModelProvider);
+  List<Map<String, Object?>> fitnessMovesInWod = await wodsMode.getAllMovementsInWod(wodId);
+  // print('getBarGroup');
+  // print(fitnessMovesInWod);
+  // Check if the list is empty
+  Map<String, int> muscleGroupBySetCount = {};
+  if (fitnessMovesInWod.isNotEmpty) {
+    for (Map move in fitnessMovesInWod) {
+      String muscle = move['muscle_prota'];
+      int sets = move['sets'];
+      if(muscleGroupBySetCount[muscle] == null) {
+        muscleGroupBySetCount[muscle] = sets;
+      } else {
+        muscleGroupBySetCount[muscle] =  sets + muscleGroupBySetCount[muscle]!;
+      }
+    }
+  }
+  // print(muscleGroupBySetCount);
+  return muscleGroupBySetCount;
+});
+
