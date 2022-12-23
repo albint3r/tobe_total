@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:string_ext/string_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +15,7 @@ class _BarChart extends ConsumerWidget {
       loading: () => const CircularProgressIndicator(),
       data: (muscleGroupBySetCountData) {
         return Container(
-          margin: const EdgeInsets.only(top: 40, right: 5),
+          margin: const EdgeInsets.only(top: 20, right: 5),
           child: BarChart(
             BarChartData(
               barTouchData: barTouchData,
@@ -166,14 +165,14 @@ class _BarChart extends ConsumerWidget {
   }
 }
 
-class BarChartSample3 extends StatefulWidget {
-  const BarChartSample3({super.key});
+class BarChartMuscleSetCounter extends StatefulWidget {
+  const BarChartMuscleSetCounter({super.key});
 
   @override
-  State<StatefulWidget> createState() => BarChartSample3State();
+  State<StatefulWidget> createState() => BarChartMuscleSetCounterState();
 }
 
-class BarChartSample3State extends State<BarChartSample3> {
+class BarChartMuscleSetCounterState extends State<BarChartMuscleSetCounter> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(

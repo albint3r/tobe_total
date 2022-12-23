@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../providers/wod_plan_provider.dart';
-import '../../training_calendar_manage/presentation/wods_card_information.dart';
+import '../../training_week_calendar/presentation/wods_card_information.dart';
 import 'package:string_ext/string_ext.dart';
 
 class GeneralKPIs extends ConsumerWidget {

@@ -4,9 +4,8 @@ import 'package:tobe_total/src/features/wod_plan_manage/presentation/metrics_wod
 import '../../../providers/wod_plan_provider.dart';
 import '../../common_widgets/headers_screens/header_screens.dart';
 import '../../common_widgets/stats_main_display/stats_main_display.dart';
-import '../../configurate_athlete_profile/presentation/settings_menu_screen.dart';
-import '../../training_calendar_manage/presentation/items_icons_wods.dart';
-import 'charts/charts_wod.dart';
+import 'card_blocks_in_wod.dart';
+
 
 class WODDisplay extends ConsumerWidget {
   const WODDisplay({
@@ -28,8 +27,16 @@ class WODDisplay extends ConsumerWidget {
               const SubTitleHeaderH1(
                   subHeader: 'Manage the Blocks of the WOD information.'),
               const StatsMainDisplay(
+                // this are teh Chart displayed in the Dashboard
                 child: StatsWOD(),
               ),
+              // TODO CREATE A WIDGET TO THIS KIND OF HEADERS IN THE APP.
+              // The problem right now is We don't have a purpose for that button,
+              // but could be cool add some animations or filtering to make better de UX.
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                H3FormFieldsHeader(header: 'Blocks Information:'),
+              ]),
+              // This method crate all the blocks in the WOD.
               ...getStatsOfAllBlocksInWod(blockInData),
             ],
           );
@@ -41,58 +48,14 @@ class WODDisplay extends ConsumerWidget {
     List<Widget> blocksList = [];
     if (blockInData.isNotEmpty) {
       for (Map block in blockInData) {
-        Widget blockCard = Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Card(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListTile(
-                    contentPadding: const EdgeInsets.all(5),
-                    minLeadingWidth: 0,
-                    subtitle: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ItemIconWod(
-                              title: block['mode'].toUpperCase(),
-                              subtitle: 'Mode',
-                              icon: Icons.cached,
-                            ),
-                            ItemIconWod(
-                              title: "${block['sets']}",
-                              subtitle: 'Total Sets',
-                              icon: Icons.fitness_center,
-                            ),
-                            ItemIconWod(
-                              title: "${block['time']}",
-                              subtitle: 'Total Time',
-                              icon: Icons.timer,
-                            ),
-                            ItemIconWod(
-                                title: "${block['total_movements']}",
-                                subtitle: 'Total Exercises',
-                                icon: Icons.directions_run)
-                          ]),
-                    ),
-                    trailing: SizedBox(
-                      height: double.infinity,
-                      child: NextButtonSettingsCard(callBack: () {
-                        // TODO IMPLEMENT NEXT OR DISPLAY ANOTHER KIND OF MENU
-                        print('Click in  -> ${block['id']}');
-                      }),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
+        // Create a single Block to concatenate with all the block
+        // to create the UI.
+        Widget blockCard = CardBlockInWOD(block: block);
         blocksList.add(blockCard);
       }
     }
     return blocksList;
   }
 }
+
+

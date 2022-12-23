@@ -8,7 +8,7 @@ import '../features/progress/progress.dart';
 import '../features/sign_in_and_update/presentation/update_athlete_goal.dart';
 import '../features/sign_in_and_update/presentation/update_general_info.dart';
 import '../features/sign_in_and_update/presentation/update_training_itinerary.dart';
-import '../features/training_calendar_manage/presentation/training_calendar_screen.dart';
+import '../features/training_week_calendar/presentation/training_calendar_screen.dart';
 import '../features/wod_plan_manage/presentation/wod_plan_screen.dart';
 import 'const_url.dart';
 

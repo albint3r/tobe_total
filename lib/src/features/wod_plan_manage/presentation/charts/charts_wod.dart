@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fl_chart/fl_chart.dart';
+
 
 import 'bar_chart_wod.dart';
 
@@ -11,16 +11,13 @@ class ChartsWOD extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Row(
-      children: [
-        Container(
-          height: 200,
-          // TODO CHECK A WAY TO FIX THE LENGTH OF THE CHART AREA
-          width: MediaQuery.of(context).size.width / 1.05,
-          child: const BarChartSample3(),
-        )
-      ],
+    return Container(
+      height: 200,
+      // TODO CHECK A WAY TO FIX THE LENGTH OF THE CHART AREA
+      width: MediaQuery.of(context).size.width / 1.05,
+      child: const BarChartMuscleSetCounter(),
     );
+
   }
 }
 
