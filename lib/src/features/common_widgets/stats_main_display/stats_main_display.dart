@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class StatsMainDisplay extends ConsumerWidget {
-  const StatsMainDisplay({
+class MainDisplay extends ConsumerWidget {
+  // This class create a Container that holds possible charts.
+  //  This have the same Size that the calendar.
+  const MainDisplay({
     required Widget child,
     Key? key,
   })  : _child = child,
@@ -12,13 +14,13 @@ class StatsMainDisplay extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Card(
-      elevation: 10,
-      child: Container(
-        height: 320,
-        margin: const EdgeInsets.only(left: 5, right: 5),
-        child: _child,
-      ),
+    return Container(
+      height: 320,
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      child: _child,
     );
   }
 }
+
+
+

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../../../providers/calendar_provider.dart';
+import '../../../../providers/is_dark_mode_provider.dart';
 import '../../../../providers/wod_plan_provider.dart';
 import 'package:string_ext/string_ext.dart';
 
@@ -19,8 +20,11 @@ class GeneralKPIs extends ConsumerWidget {
     String? nameDay = calendarDayConversionMap[date.weekday];
     String bodyArea = wodInfo['body_area'] as String;
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(40),
+      ),
       margin: const EdgeInsets.all(10),
-      elevation: 7,
+      elevation: 5,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [

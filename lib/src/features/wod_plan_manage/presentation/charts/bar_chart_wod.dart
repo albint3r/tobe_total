@@ -2,10 +2,12 @@ import 'package:string_ext/string_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
+import '../../../../providers/is_dark_mode_provider.dart';
 import '../../../../providers/wod_plan_provider.dart';
+import '../../../common_widgets/headers_screens/header_screens.dart';
 
-class _BarChart extends ConsumerWidget {
-  const _BarChart();
+class _BarChartWOD extends ConsumerWidget {
+  const _BarChartWOD();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -14,53 +16,58 @@ class _BarChart extends ConsumerWidget {
       error: (err, stack) => Text('Error: $err'),
       loading: () => const CircularProgressIndicator(),
       data: (muscleGroupBySetCountData) {
-        return Container(
-          margin: const EdgeInsets.only(top: 20, right: 5),
-          child: BarChart(
-            BarChartData(
-              barTouchData: barTouchData,
-              titlesData: titlesData(muscleGroupBySetCountData.keys.toList()),
-              borderData: borderData,
-              barGroups: getBarGroups(muscleGroupBySetCountData),
-              gridData: FlGridData(show: true),
-              alignment: BarChartAlignment.spaceAround,
-              maxY: 30,
+        return BarChart(
+          BarChartData(
+            barTouchData: barTouchData(ref),
+            titlesData: titlesData(
+              muscleGroupBySetCountData.keys.toList(),
+              ref,
             ),
+            borderData: borderData,
+            barGroups: getBarGroups(muscleGroupBySetCountData),
+            gridData: FlGridData(show: true),
+            alignment: BarChartAlignment.spaceAround,
+            maxY: 30,
           ),
         );
       },
     );
   }
 
-  BarTouchData get barTouchData => BarTouchData(
-        enabled: false,
-        touchTooltipData: BarTouchTooltipData(
-          tooltipBgColor: Colors.transparent,
-          tooltipPadding: EdgeInsets.zero,
-          tooltipMargin: 5,
-          getTooltipItem: (
-            BarChartGroupData group,
-            int groupIndex,
-            BarChartRodData rod,
-            int rodIndex,
-          ) {
-            return BarTooltipItem(
-              rod.toY.round().toString(),
-              const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            );
-          },
-        ),
-      );
+  BarTouchData barTouchData(WidgetRef ref) {
+    final isDark = ref.watch(isDarkModeProviderNotifier);
+    return BarTouchData(
+      enabled: false,
+      touchTooltipData: BarTouchTooltipData(
+        tooltipBgColor: Colors.transparent,
+        tooltipPadding: EdgeInsets.zero,
+        tooltipMargin: 5,
+        getTooltipItem: (
+          BarChartGroupData group,
+          int groupIndex,
+          BarChartRodData rod,
+          int rodIndex,
+        ) {
+          return BarTooltipItem(
+            rod.toY.round().toString(),
+            TextStyle(
+              color: isDark ? Colors.white : Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          );
+        },
+      ),
+    );
+  }
 
-  Widget getTitles(double value, TitleMeta meta, List muscles) {
-    const style = TextStyle(
-      color: Colors.white,
+  Widget getTitles(double value, TitleMeta meta, List muscles, WidgetRef ref) {
+    final isDark = ref.watch(isDarkModeProviderNotifier);
+    final TextStyle style = TextStyle(
+      color: isDark ? Colors.white : Colors.black,
       fontSize: 9,
     );
-    String text = getXLabel(muscles[value.toInt()]);
+    // This create the xLabel formatted
+    String text = getXLabelSingleWord(muscles[value.toInt()]);
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 4,
@@ -68,7 +75,7 @@ class _BarChart extends ConsumerWidget {
     );
   }
 
-  String getXLabel(String muscleName) {
+  String getXLabelSingleWord(String muscleName) {
     // Split the text with two word or more. This helps to display correctly
     // the xLabels in the bottom of the bars.
     // TODO CONVERT THIS SPLIT FUNCTION TO A MAP TO SELECT THE NAME
@@ -76,36 +83,44 @@ class _BarChart extends ConsumerWidget {
     return muscleSplitName[0].firstToUpper();
   }
 
-  FlTitlesData titlesData(List muscles) => FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            getTitlesWidget: (double value, TitleMeta meta) =>
-                getTitles(value, meta, muscles),
-          ),
+  FlTitlesData titlesData(List muscles, WidgetRef ref) {
+    final isDark = ref.watch(isDarkModeProviderNotifier);
+    return FlTitlesData(
+      show: true,
+      bottomTitles: AxisTitles(
+        sideTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 30,
+          getTitlesWidget: (double value, TitleMeta meta) =>
+              getTitles(value, meta, muscles, ref),
         ),
-        leftTitles: AxisTitles(
-          axisNameWidget: const Text('Sets',
-              style: TextStyle(
-                color: Colors.white,
-              )),
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: getTitlesWidget,
-          ),
+      ),
+      leftTitles: AxisTitles(
+        axisNameWidget: Text('Sets',
+            style: TextStyle(
+              color: isDark ? Colors.white : Colors.black,
+            )),
+        sideTitles: SideTitles(
+          showTitles: true,
+          getTitlesWidget: (double value, TitleMeta meta) =>
+              getTitlesWidget(value, meta, ref),
         ),
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-      );
+      ),
+      topTitles: AxisTitles(
+        sideTitles: SideTitles(showTitles: false),
+      ),
+      rightTitles: AxisTitles(
+        sideTitles: SideTitles(showTitles: false),
+      ),
+    );
+  }
 
-  SideTitleWidget getTitlesWidget(double value, TitleMeta meta) {
-    const style = TextStyle(color: Colors.white, fontSize: 10);
+  SideTitleWidget getTitlesWidget(double value, TitleMeta meta, WidgetRef ref) {
+    final isDark = ref.watch(isDarkModeProviderNotifier);
+    final TextStyle style = TextStyle(
+      color: isDark ? Colors.white : Colors.black,
+      fontSize: 10,
+    );
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 1,
@@ -123,8 +138,8 @@ class _BarChart extends ConsumerWidget {
 
   LinearGradient get _barsGradient => const LinearGradient(
         colors: [
-          Colors.lightBlueAccent,
-          Colors.greenAccent,
+          Color.fromRGBO(255, 255, 255, 1.0),
+          Color.fromRGBO(255, 0, 0, 1.0)
         ],
         begin: Alignment.bottomCenter,
         end: Alignment.topCenter,
@@ -175,13 +190,35 @@ class BarChartMuscleSetCounter extends StatefulWidget {
 class BarChartMuscleSetCounterState extends State<BarChartMuscleSetCounter> {
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.7,
-      child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        color: const Color(0xff2c4260),
-        child: const _BarChart(),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width / 1.05,
+      child: AspectRatio(
+        aspectRatio: 1.7,
+        child: Card(
+          elevation: 5,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          child: Column(
+            children: [
+              // TODO THIS COULD BE A SINGLE WIDGET TO HOLD THE HEADER
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  H3FormFieldsHeader(
+                    header: 'Total Sets by Muscle',
+                  ),
+                ],
+              ),
+              Container(
+                height: 155,
+                // THis create a Margin inside the card
+                margin: const EdgeInsets.only(top: 20, right: 5),
+                // The Bar Chart Object
+                child: const _BarChartWOD(),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

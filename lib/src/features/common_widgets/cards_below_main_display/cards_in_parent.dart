@@ -27,6 +27,8 @@ class CardInParent extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // This is the Header with the Icon to the Right
+          // This hold all the row.
           MenuAndButtonFilterAreaBelowMainDisplay(
             header: _header,
             icon: _icon,

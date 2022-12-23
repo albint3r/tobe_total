@@ -28,14 +28,16 @@ class WODDisplay extends ConsumerWidget {
               ),
               const SubTitleHeaderH1(
                   subHeader: 'Manage the Blocks of the WOD information.'),
-              const StatsMainDisplay(
-                // this are teh Chart displayed in the Dashboard
-                child: StatsWOD(),
-              ),
+              const ParentStatsWOD(),
+              // This display the cards below the chart  or calendar
+              // this come before his parent.
               CardInParent(
                   header: 'Blocks Information:',
                   icon: Icons.list,
-                  callBackOnTap: () {},
+                  callBackOnTap: () {
+                    //TODO ADD A CALLBACK
+                    print('Not Implemented');
+                  },
                   listWidgets: getStatsOfAllBlocksInWod(blockInData))
             ],
           );
