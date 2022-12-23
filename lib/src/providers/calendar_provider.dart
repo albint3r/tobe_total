@@ -3,6 +3,18 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import '../data_base/model/wods.dart';
 
+final calendarMapConversionProvider = Provider<Map<int, String>>((ref) {
+  return {
+    1: 'Monday',
+    2: 'Tuesday',
+    3: 'Wednesday',
+    4: 'Thursday',
+    5: 'Friday',
+    6: 'Saturday',
+    7: 'Sunday',
+  };
+});
+
 class CalendarController {
   void setStateCurrentSelectedDay(WidgetRef ref, DateTime selectedDay) {
     ref.watch(selectedDayProvider.notifier).state = selectedDay;

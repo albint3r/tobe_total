@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../../providers/wod_plan_provider.dart';
-import '../../training_week_calendar/presentation/wods_card_information.dart';
+import '../../../../providers/calendar_provider.dart';
+import '../../../../providers/wod_plan_provider.dart';
 import 'package:string_ext/string_ext.dart';
 
 class GeneralKPIs extends ConsumerWidget {
@@ -15,7 +15,8 @@ class GeneralKPIs extends ConsumerWidget {
     final wodInfo = ref.watch(selectedWodInformationProvider);
     final date = DateFormat("yyyy-MM-dd")
         .parse(wodInfo['expected_training_day'] as String);
-    String? nameDay = weekendNameDays[date.weekday];
+    final calendarDayConversionMap = ref.watch(calendarMapConversionProvider);
+    String? nameDay = calendarDayConversionMap[date.weekday];
     String bodyArea = wodInfo['body_area'] as String;
     return Card(
       margin: const EdgeInsets.all(10),
@@ -36,8 +37,7 @@ class GeneralKPIs extends ConsumerWidget {
             icon: Icons.timer,
           ),
           ItemIconWodInKPI(
-              title: bodyArea.firstToUpper(),
-              icon: Icons.accessibility)
+              title: bodyArea.firstToUpper(), icon: Icons.accessibility)
         ],
       ),
     );

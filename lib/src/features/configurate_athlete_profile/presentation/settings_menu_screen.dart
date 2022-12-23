@@ -71,17 +71,21 @@ class SettingsMenu extends ConsumerWidget {
   }
 }
 
+
+// TODO DELETE THIS METHOD THE SOON AS POSIBLE
+// USE THE CARD_BELOW_MAIN_DISPLAY TO CREATE THE AREA OF THE UI.
 class NextButtonSettingsCard extends StatelessWidget {
-  NextButtonSettingsCard({
-    required this.callBack,
+  const NextButtonSettingsCard({
+    required VoidCallback callBack,
     Key? key,
-  }) : super(key: key);
-  VoidCallback callBack;
+  })  : _callBack = callBack,
+        super(key: key);
+  final VoidCallback _callBack;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: callBack,
+      onTap: _callBack,
       child: const Icon(Icons.arrow_forward_ios_outlined),
     );
   }

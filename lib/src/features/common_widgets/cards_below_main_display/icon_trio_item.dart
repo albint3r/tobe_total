@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ItemIconWod extends StatelessWidget {
-  const ItemIconWod({
+class IconTrioItems extends StatelessWidget {
+  // This is the Icon inside the Card.
+  const IconTrioItems({
     Key? key,
     required String title,
     required String subtitle,
