@@ -24,7 +24,7 @@ class _BarChartWOD extends ConsumerWidget {
               ref,
             ),
             borderData: borderData,
-            barGroups: getBarGroups(muscleGroupBySetCountData),
+            barGroups: getBarGroups(muscleGroupBySetCountData, ref),
             gridData: FlGridData(show: true),
             alignment: BarChartAlignment.spaceAround,
             maxY: 30,
@@ -136,17 +136,22 @@ class _BarChartWOD extends ConsumerWidget {
         show: false,
       );
 
-  LinearGradient get _barsGradient => const LinearGradient(
-        colors: [
-          Color.fromRGBO(255, 255, 255, 1.0),
-          Color.fromRGBO(255, 0, 0, 1.0)
-        ],
-        begin: Alignment.bottomCenter,
-        end: Alignment.topCenter,
-      );
+  LinearGradient barsGradient(WidgetRef ref) {
+    final isDark = ref.watch(isDarkModeProviderNotifier);
+    return LinearGradient(
+      colors: [
+        // This change the bottom color of the Bar chart
+        // Creating the fade illusion from the background up to the bar.
+        isDark ? const Color.fromRGBO(65, 65, 65, 1.0) : const Color.fromRGBO(255, 255, 255, 1.0),
+        const Color.fromRGBO(255, 0, 0, 1.0)
+      ],
+      begin: Alignment.bottomCenter,
+      end: Alignment.topCenter,
+    );
+  }
 
   List<BarChartGroupData> getBarGroups(
-      Map<String, Object?> muscleGroupBySetCount) {
+      Map<String, Object?> muscleGroupBySetCount, WidgetRef ref) {
     print('getBarGroup');
     print(muscleGroupBySetCount);
     // Check if the list is empty
@@ -166,7 +171,7 @@ class _BarChartWOD extends ConsumerWidget {
                 Radius.circular(1),
               ),
               toY: muscleTotal,
-              gradient: _barsGradient,
+              gradient: barsGradient(ref),
             )
           ],
           // This helps to display the number above the bar
@@ -180,16 +185,13 @@ class _BarChartWOD extends ConsumerWidget {
   }
 }
 
-class BarChartMuscleSetCounter extends StatefulWidget {
-  const BarChartMuscleSetCounter({super.key});
+class BarChartMuscleSetCounter extends ConsumerWidget {
+  const BarChartMuscleSetCounter({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => BarChartMuscleSetCounterState();
-}
-
-class BarChartMuscleSetCounterState extends State<BarChartMuscleSetCounter> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 1.05,
       child: AspectRatio(
