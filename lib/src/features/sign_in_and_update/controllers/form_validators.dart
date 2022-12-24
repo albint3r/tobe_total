@@ -11,7 +11,7 @@ class FormValidators {
   static bool isNotValidName(String? fieldValue) {
     // Check if the name is validated
     if (fieldValue != null) {
-      final nameRegExp = RegExp(r"[A-Z][a-z0-9_]{3,20}");
+      final nameRegExp = RegExp(r"[a-zA-Z0-9_]{3,20}");
       return !nameRegExp.hasMatch(fieldValue);
     }
     return false;

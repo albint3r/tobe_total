@@ -3,6 +3,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tobe_total/src/features/progress/presentation/progression_display.dart';
 
 import '../../preferences_cache/preferences.dart';
 import '../../providers/index_bottom_nav_provider.dart';
@@ -22,9 +23,8 @@ class _ProgressState extends ConsumerState<Progress> {
   Widget build(BuildContext context) {
     return const Scaffold(
       bottomNavigationBar: CurveBottomNavBar(),
-      body: Center(
-        child: Text('Progress Menu'),
-      ),
+      body: ProgressionDisplay(),
     );
   }
 }
+

@@ -15,7 +15,7 @@ class MainDisplay extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      height: 320,
+      height: 340,
       margin: const EdgeInsets.symmetric(horizontal: 5),
       child: _child,
     );

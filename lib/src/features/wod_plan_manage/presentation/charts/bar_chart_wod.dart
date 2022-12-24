@@ -212,7 +212,7 @@ class BarChartMuscleSetCounter extends ConsumerWidget {
                 ],
               ),
               Container(
-                height: 155,
+                height: 170,
                 // THis create a Margin inside the card
                 margin: const EdgeInsets.only(top: 20, right: 5),
                 // The Bar Chart Object

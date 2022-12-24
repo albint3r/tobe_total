@@ -5,6 +5,7 @@ import 'package:tobe_total/src/features/training_week_calendar/presentation/card
 import '../../../providers/calendar_provider.dart';
 import '../../../providers/is_dark_mode_provider.dart';
 import '../../common_widgets/headers_screens/header_screens.dart';
+import 'no_wods_banner.dart';
 
 class CalendarDisplay extends ConsumerWidget {
   const CalendarDisplay({
@@ -22,7 +23,9 @@ class CalendarDisplay extends ConsumerWidget {
         loading: () => const CircularProgressIndicator(),
         data: (wodData) {
           final calendarController = ref.watch(calendarControllerProvider);
-          var selectedWodsDay = calendarController.getWODsFromDay(
+          // Is a day selected in the calendar?
+          // if this is true this will be display only that WOD.
+          final selectedWodsDay = calendarController.getWODsFromDay(
               ref.watch(selectedDayProvider), wodData);
           return ListView(
             children: [
@@ -40,7 +43,8 @@ class CalendarDisplay extends ConsumerWidget {
                 focusedDay: ref.watch(focusDayProvider),
                 startingDayOfWeek: ref.watch(startingDayOfWeekProvider),
                 calendarFormat: ref.watch(calendarFormatProvider),
-                eventLoader: (day) => calendarController.getWODsFromDay(day, wodData),
+                eventLoader: (day) =>
+                    calendarController.getWODsFromDay(day, wodData),
                 // Selector style
                 calendarStyle: CalendarStyle(
                     markerDecoration: BoxDecoration(
@@ -58,27 +62,46 @@ class CalendarDisplay extends ConsumerWidget {
                 },
                 onDaySelected: (selectedDay, focusedDay) {
                   // Change the State of the States.
-                  final calendarController =  ref.watch(calendarControllerProvider);
-                  calendarController.setStateCurrentSelectedDay(ref, selectedDay);
+                  final calendarController =
+                      ref.watch(calendarControllerProvider);
+                  calendarController.setStateCurrentSelectedDay(
+                      ref, selectedDay);
                   calendarController.setStateFocusDayProvider(ref, focusedDay);
                 },
                 onFormatChanged: (format) {
-                  ref.watch(calendarControllerProvider).changeCalendarFormat(ref, format);
+                  ref
+                      .watch(calendarControllerProvider)
+                      .changeCalendarFormat(ref, format);
                 },
                 onPageChanged: (focusedDay) {
-                  ref.watch(calendarControllerProvider).setStateFocusDayProvider(ref, focusedDay);
+                  ref
+                      .watch(calendarControllerProvider)
+                      .setStateFocusDayProvider(ref, focusedDay);
                 },
               ),
-              allTrainingDays.when(
-                error: (err, stack) => Text('Error: $err'),
-                loading: () => const CircularProgressIndicator(),
+              // This provider extract return a list of MAPS
+              // with all the WODs created. If the list is empty
+              // this means there is not WODS created yet.
+              // Whe add a list in all the elements because to display a Message
+              // when the user don't have any WOD yer.
+              ...allTrainingDays.when(
+                error: (err, stack) => [Text('Error: $err')],
+                loading: () => [const CircularProgressIndicator()],
                 data: (allWodsData) {
-                  // If not day selected it will display all training.
+                  // If user don't have any WODs it will display it
+                  // a banner to show a legend -> Dont exist Yet movements
+                  if (selectedWodsDay.isEmpty & allWodsData.isEmpty) {
+                    return [
+                      WODsCardInformation(selectedWodsDay: allWodsData),
+                      // This is the Card with the msg of no wod create.
+                      const MessageNoWOD(),
+                    ];
+                  }
                   return selectedWodsDay.isNotEmpty
                       // This only display the selected day in the calendar.
-                      ? WODsCardInformation(selectedWodsDay: selectedWodsDay)
+                      ? [WODsCardInformation(selectedWodsDay: selectedWodsDay)]
                       // This display all days
-                      : WODsCardInformation(selectedWodsDay: allWodsData);
+                      : [WODsCardInformation(selectedWodsDay: allWodsData)];
                 },
               )
               // WODsInformation(selectedWodsDay: selectedWodsDay),

@@ -17,4 +17,10 @@ class WODs extends LocalDataBase {
     return rawQuery(
         'SELECT fm.id AS fm_id, w.id AS w_id, b.id AS b_id, b.mode, b.sets, fm.* FROM movement_history AS mh JOIN blocks AS b ON b.id = mh.blocks_id JOIN wods AS w ON w.id = b.wod_id JOIN fitness_moves AS fm ON fm.id = mh.fitness_move_id WHERE wod_id = $wodId');
   }
+
+  Future<List<Map<String, Object?>>> getWeekExpectedTrainingDays(String startDayOfTheWeekDate) async {
+
+    return rawQuery(
+        "SELECT * FROM wods WHERE expected_training_day >= $startDayOfTheWeekDate");
+  }
 }

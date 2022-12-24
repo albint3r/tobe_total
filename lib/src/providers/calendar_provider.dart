@@ -16,11 +16,19 @@ final calendarMapConversionProvider = Provider<Map<int, String>>((ref) {
 });
 
 class CalendarController {
+
+  DateTime parseDateStringToDateFormat(String dateToParse) {
+    // Parse a DateString to DateFormat.
+    return DateFormat("yyyy-MM-dd").parse(dateToParse);
+  }
+
+  // This controller manage the SetState of the Other providers in the File.
   void setStateCurrentSelectedDay(WidgetRef ref, DateTime selectedDay) {
     ref.watch(selectedDayProvider.notifier).state = selectedDay;
   }
 
   void setStateFocusDayProvider(WidgetRef ref, DateTime focusedDay) {
+    // Set the state of the Selected Day.
     ref.watch(focusDayProvider.notifier).state = focusedDay;
   }
 
@@ -54,7 +62,7 @@ final focusDayProvider = StateProvider.autoDispose<DateTime>((ref) {
 
 final calendarFormatProvider = StateProvider<CalendarFormat>((ref) {
   // This is the current format of the Calendar
-  return CalendarFormat.twoWeeks;
+  return CalendarFormat.month;
 });
 
 final startingDayOfWeekProvider =

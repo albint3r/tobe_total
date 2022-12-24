@@ -27,6 +27,15 @@ final wodPlanControllerProvider = Provider<WODPlanController>((ref) {
   return WODPlanController();
 });
 
+final startedDayOfTheWeekDateProvider = Provider<String>((ref) {
+  // Return the string of the Started day of the week date. This helps
+  // to create the days complete of the client in the progress section.
+  final DateTime today = DateTime.now();
+  // We rest 1  to penalize the days and have the exact start day of the week.
+  int startDayOfTheWeek = today.day - (today.weekday -1);
+  return '${today.year}-${today.month}-$startDayOfTheWeek';
+});
+
 final selectedWodInformationProvider = StateProvider<Map>((ref) {
   // This help to select the current information of the WOD Card
   return {};
@@ -56,15 +65,45 @@ final fitnessMovesInWodProvider =
   return wodsMode.getAllMovementsInWod(wodId);
 });
 
+//TODO FINISH THIS QUERY
+final completeWodsOfTheWeekProvider = FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
+  // Get a list of all the wods of the day by their status
+  String startDayOfTheWeekDate = ref.watch(startedDayOfTheWeekDateProvider);
+  final wodsModel = ref.watch(wodsModelProvider);
+  return wodsModel.getWeekExpectedTrainingDays(startDayOfTheWeekDate);
+});
+
+final listAllDayOfTheWeekProvider = StateProvider<Map>((ref) {
+
+  // 1- Get The startedDay of the week as string
+  String startDayOfTheWeekDate = ref.watch(startedDayOfTheWeekDateProvider);
+  // 2- Extract the controller to parse the string
+  final calendarController  = ref.watch(calendarControllerProvider);
+  // 3- Get the parse string in DateFormat
+  DateTime startDayDate = calendarController.parseDateStringToDateFormat(startDayOfTheWeekDate);
+  Map weekDays = {};
+  int daysCounter = 6;
+  // 4- Iterate over all the days of the week.
+  while(daysCounter >= 0) {
+    // add the DateFormat as key and a empty dict
+    // the dict will be filled in other Method. This is only a prepare.
+    weekDays['${startDayDate.year}-${startDayDate.month}-${startDayDate.day}'] = {};
+    // Add one to the current day to create the list.
+    startDayDate = DateTime.utc(startDayDate.year, startDayDate.month, startDayDate.day + 1);
+    daysCounter--;
+  }
+  return weekDays;
+});
+
 final muscleGroupBySetCountProvider =
     FutureProvider.autoDispose<Map<String, Object?>>(
   (ref) async {
     // This return a list of block inside the Wod Selected in calendar.
     // The ID of the wod is provider by the [wodIdProvider].
     final wodId = ref.watch(wodIdProvider);
-    final wodsMode = ref.watch(wodsModelProvider);
+    final wodsModel = ref.watch(wodsModelProvider);
     List<Map<String, Object?>> fitnessMovesInWod =
-        await wodsMode.getAllMovementsInWod(wodId);
+        await wodsModel.getAllMovementsInWod(wodId);
     // print('getBarGroup');
     // print(fitnessMovesInWod);
     // Check if the list is empty

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:string_ext/string_ext.dart';
 import '../../../../providers/client_provider.dart';
 import '../../../common_widgets/headers_screens/header_screens.dart';
 
@@ -17,6 +18,8 @@ class _InfoProfileAthleteState extends ConsumerState<InfoProfileAthlete> {
   Widget build(BuildContext context) {
     return ref.watch(futureClientProfileProvider).when(
       data: (dataProfile) {
+        String firstName = dataProfile['name'] as String;
+        String lastName = dataProfile['last_name'] as String;
         return Expanded(
           child: Container(
             margin: const EdgeInsets.all(10),
@@ -25,7 +28,7 @@ class _InfoProfileAthleteState extends ConsumerState<InfoProfileAthlete> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 H6Screens(header: 'Athlete Info'),
-                Text('Name:  ${dataProfile['name']} ${dataProfile['last_name']}'),
+                Text('Name:  ${firstName.firstToUpper()} ${lastName.firstToUpper()}'),
                 Text('Weight:  ${dataProfile['weight'] ?? '?'}'),
                 Text('Height:  ${dataProfile['height'] ?? '?'}'),
                 Text('Age:  ${dataProfile['age'] ?? '?'}'),
