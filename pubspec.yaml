@@ -49,6 +49,7 @@ dependencies:
   table_calendar: ^3.0.8
   fl_chart: ^0.55.2
   string_ext: ^0.2.0
+  percent_indicator: ^4.2.2
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import '../data_base/model/wods.dart';
+import 'package:tobe_total/src/providers/wod_plan_provider.dart';
 
 final calendarMapConversionProvider = Provider<Map<int, String>>((ref) {
   return {
@@ -78,10 +78,7 @@ final selectedDayProvider = StateProvider<DateTime?>((ref) {
 
 
 // TODO MOVE THIS TO ANOTHER FILE WITH ALL THE MODELS OF THE DB
-final wodsModelProvider = StateProvider<WODs>((ref) {
-  // get the WOD Class
-  return WODs();
-});
+
 
 final wodsAllTrainingsProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
   // Return a list of all the wods. This is when the user

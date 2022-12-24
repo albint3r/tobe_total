@@ -25,10 +25,12 @@ class SingleIconDayIndicator extends ConsumerWidget {
       width: (MediaQuery.of(context).size.width - 100) / 7,
       // width: 260,
       child: CircleAvatar(
+        backgroundColor: Colors.black,
         radius: 12,
         child: Icon(
           getWodIconStatus,
           size: 15,
+          color: Colors.white,
         ),
       ),
     );

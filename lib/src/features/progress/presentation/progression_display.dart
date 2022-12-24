@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'calendar/calendar_week_progress.dart';
+import 'calendar/goal_bar_progression.dart';
 import 'calendar/line_icon_complete_day_indicators.dart';
+
 
 class ProgressionDisplay extends ConsumerWidget {
   const ProgressionDisplay({
@@ -17,7 +19,8 @@ class ProgressionDisplay extends ConsumerWidget {
           child: Column(
             children: const [
               CalendarWeekProgression(),
-              LineCompleteDaysIndicators()
+              LineCompleteDaysIndicators(),
+              GoalBarProgression()
             ],
           ),
         ),

@@ -105,9 +105,6 @@ class Client extends LocalDataBase {
         break;
       case 'age':
         {
-          print('------age--------');
-          print(int.parse(value));
-          print('------age--------');
           age = int.parse(value);
         }
         break;
@@ -150,6 +147,7 @@ class Client extends LocalDataBase {
   }
 
   Map<String, Object> toMap() {
+    // Create a map of the data in the cliente.
     return {
       'name': name,
       'last_name': lastName,
@@ -182,6 +180,13 @@ class Client extends LocalDataBase {
     return resultSelectedFields;
   }
 
+  Future<List<Map<String, Object?>>> getTotalTrainingDays() async {
+    // Return a list with a Map with ONE VALUE. This is the goal of the client
+    // of the total days he wants to train.
+    String query = 'SELECT SUM(monday + tuesday + wednesday + thursday + friday + saturday) as total_training_days FROM users';
+    return rawQuery(query);
+  }
+
   Future<void> updateUser(List selectedFields) async {
     // Update the information of the User
     print('------updateUser--------');
@@ -193,4 +198,7 @@ class Client extends LocalDataBase {
     // Get the profile of the user.
     return getAll('users');
   }
+  
+  
+  
 }

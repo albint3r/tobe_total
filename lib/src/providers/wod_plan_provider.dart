@@ -1,7 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:collection';
-import '../data_base/model/blocks.dart';
+import '../data_base/model/wods.dart';
+import 'block_provider.dart';
 import 'calendar_provider.dart';
+import 'client_provider.dart';
+
+final wodsModelProvider = StateProvider<WODs>((ref) {
+  // get the WOD Class
+  return WODs();
+});
 
 class WODPlanController {
   void setStateWodIdProvider(WidgetRef ref, int wodId) {
@@ -16,10 +22,41 @@ class WODPlanController {
   }
 }
 
-// TODO MOVE THIS TO ANOTHER FILE WITH ALL THE MODELS OF THE DB
-final blocksModelProvider = StateProvider<Blocks>((ref) {
-  // get the WOD Class
-  return Blocks();
+final goalProgressDaysProvider = FutureProvider<Map>((ref) async {
+  // 1- Get the client/ WODs Model to extract the trainingDays Goal
+  final clientModel = ref.watch(clientProvider);
+  final wodsModel = ref.watch(wodsModelProvider);
+  // 2- Get the started day of the week to make the query
+  // of the days in the current week.
+  String startDayOfTheWeekDate = ref.watch(startedDayOfTheWeekDateProvider);
+  // 3 - Make call to the DB.
+  List<Map> expectedTrainingDays =
+      await wodsModel.getWeekExpectedTrainingDays(startDayOfTheWeekDate);
+  List<Map> actualTrainingDaysGoal = await clientModel.getTotalTrainingDays();
+  // Transform values to manage:
+  int goal = actualTrainingDaysGoal[0]['total_training_days'];
+  int currentTrainedDays = 0;
+  // If the day is Empty, this means he don't have any WOD this week.
+  // Also, is important to know if the user have a [goal].
+  if (expectedTrainingDays.isEmpty && goal > 0) {
+    return {
+      'goalPer': 0.0,
+      'currentTrainedDays': 0,
+      'goal': goal
+    };
+  } else {
+    for (Map wod in expectedTrainingDays) {
+      int tempDayToCount = wod['did_wod'];
+      currentTrainedDays = currentTrainedDays + tempDayToCount;
+    }
+  }
+  // This division give you a percentage that would be displayed in the barr.
+
+  return {
+    'goalPer': currentTrainedDays / goal,
+    'currentTrainedDays': currentTrainedDays,
+    'goal': goal
+  };
 });
 
 final wodPlanControllerProvider = Provider<WODPlanController>((ref) {
@@ -32,7 +69,7 @@ final startedDayOfTheWeekDateProvider = Provider<String>((ref) {
   // to create the days complete of the client in the progress section.
   final DateTime today = DateTime.now();
   // We rest 1  to penalize the days and have the exact start day of the week.
-  int startDayOfTheWeek = today.day - (today.weekday -1);
+  int startDayOfTheWeek = today.day - (today.weekday - 1);
   return '${today.year}-${today.month}-$startDayOfTheWeek';
 });
 
@@ -65,31 +102,33 @@ final fitnessMovesInWodProvider =
   return wodsMode.getAllMovementsInWod(wodId);
 });
 
-//TODO FINISH THIS QUERY
-final completeWodsOfTheWeekProvider = FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
-  // Get a list of all the wods of the day by their status
+final completeWodsOfTheWeekProvider =
+    FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
+  // Return a list of the WOD of the Current Week.
   String startDayOfTheWeekDate = ref.watch(startedDayOfTheWeekDateProvider);
   final wodsModel = ref.watch(wodsModelProvider);
   return wodsModel.getWeekExpectedTrainingDays(startDayOfTheWeekDate);
 });
 
 final listAllDayOfTheWeekProvider = StateProvider<Map>((ref) {
-
   // 1- Get The startedDay of the week as string
   String startDayOfTheWeekDate = ref.watch(startedDayOfTheWeekDateProvider);
   // 2- Extract the controller to parse the string
-  final calendarController  = ref.watch(calendarControllerProvider);
+  final calendarController = ref.watch(calendarControllerProvider);
   // 3- Get the parse string in DateFormat
-  DateTime startDayDate = calendarController.parseDateStringToDateFormat(startDayOfTheWeekDate);
+  DateTime startDayDate =
+      calendarController.parseDateStringToDateFormat(startDayOfTheWeekDate);
   Map weekDays = {};
   int daysCounter = 6;
   // 4- Iterate over all the days of the week.
-  while(daysCounter >= 0) {
+  while (daysCounter >= 0) {
     // add the DateFormat as key and a empty dict
     // the dict will be filled in other Method. This is only a prepare.
-    weekDays['${startDayDate.year}-${startDayDate.month}-${startDayDate.day}'] = {};
+    weekDays['${startDayDate.year}-${startDayDate.month}-${startDayDate.day}'] =
+        {};
     // Add one to the current day to create the list.
-    startDayDate = DateTime.utc(startDayDate.year, startDayDate.month, startDayDate.day + 1);
+    startDayDate = DateTime.utc(
+        startDayDate.year, startDayDate.month, startDayDate.day + 1);
     daysCounter--;
   }
   return weekDays;

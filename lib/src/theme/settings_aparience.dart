@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tobe_total/src/theme/pallete_colors.dart';
 import '../preferences_cache/preferences.dart';
 
 // TODO CHANGE NAME TO THE CLASS FOR SOME MORE GENERIC FOR THEME SETTINGS
@@ -40,7 +39,7 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
       backgroundColor: backgroundColor,
       elevation: 20,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Palette.red,
+      selectedItemColor: Colors.red,
       unselectedItemColor: unselectedItemColor,
       unselectedLabelStyle: const TextStyle(fontSize: 10),
       selectedLabelStyle: const TextStyle(fontSize: 12),
@@ -80,30 +79,30 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
         ),
         brightness: Brightness.light,
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Palette.red,
+          primarySwatch: Colors.red,
         ),
         bottomNavigationBarTheme: getBottomNavSettings(
-          Palette.white,
-          Palette.blueGrey,
+          Colors.white,
+          Colors.blueGrey,
         ),
-        floatingActionButtonTheme: getFloatingActionBtn(Palette.red),
-        scaffoldBackgroundColor: Palette.white,
-        textTheme: TextTheme(
+        floatingActionButtonTheme: getFloatingActionBtn(Colors.red),
+        scaffoldBackgroundColor: Colors.white,
+        textTheme: const TextTheme(
             headline1: TextStyle(
-              color: Palette.red,
+              color: Colors.red,
               fontSize: 30,
               fontFamily: 'Bebas',
               fontStyle: FontStyle.italic,
               letterSpacing: .5,
             ),
             headline3: TextStyle(
-              color: Palette.black,
+              color: Colors.black,
               fontSize: 18,
               fontFamily: 'Bebas',
               fontStyle: FontStyle.italic,
               letterSpacing: .5,
             ),
-            headline5: const TextStyle(
+            headline5: TextStyle(
               color: Colors.black,
               fontFamily: 'Bebas',
               fontStyle: FontStyle.italic,
@@ -112,13 +111,13 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
             ),
             // body text
             headline6: TextStyle(
-              color: Palette.black,
+              color: Colors.black,
               fontSize: 16.0,
               fontFamily: 'Bebas',
               fontStyle: FontStyle.italic,
               letterSpacing: .5,
             ),
-            bodyText2: const TextStyle(
+            bodyText2: TextStyle(
               color: Colors.black,
               fontSize: 12.0, // app bar
             ) // app bar
