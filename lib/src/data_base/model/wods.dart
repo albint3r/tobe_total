@@ -23,4 +23,12 @@ class WODs extends LocalDataBase {
     return rawQuery(
         "SELECT * FROM wods WHERE expected_training_day >= '$startDayOfTheWeekDate'");
   }
+
+  Future<List<Map<String, Object?>>> getTotalTrainedTime(String startDayOfTheWeekDate) async {
+    // Return a date between the started day of the week and the end of the week.
+    return rawQuery(
+        "SELECT SUM(time) AS trained_time FROM wods JOIN blocks ON blocks.wod_id = wods.id WHERE expected_training_day > '$startDayOfTheWeekDate'");
+  }
+
+
 }

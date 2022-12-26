@@ -23,6 +23,11 @@ class WODPlanController {
 }
 
 final goalProgressDaysProvider = FutureProvider<Map>((ref) async {
+  //  TODO ADD A LAST WEEK GOAL CACHE, this will help to
+  // avoid that the user change their goal and have another view of their stats
+  // example. The user create a 5 day goal, and then he change the goal to 3
+  // this will create the false illusion that the user finish all the exercises.
+
   // 1- Get the client/ WODs Model to extract the trainingDays Goal
   final clientModel = ref.watch(clientProvider);
   final wodsModel = ref.watch(wodsModelProvider);
@@ -39,11 +44,7 @@ final goalProgressDaysProvider = FutureProvider<Map>((ref) async {
   // If the day is Empty, this means he don't have any WOD this week.
   // Also, is important to know if the user have a [goal].
   if (expectedTrainingDays.isEmpty && goal > 0) {
-    return {
-      'goalPer': 0.0,
-      'currentTrainedDays': 0,
-      'goal': goal
-    };
+    return {'goalPer': 0.0, 'currentTrainedDays': 0, 'goal': goal};
   } else {
     for (Map wod in expectedTrainingDays) {
       int tempDayToCount = wod['did_wod'];
@@ -109,6 +110,26 @@ final completeWodsOfTheWeekProvider =
   final wodsModel = ref.watch(wodsModelProvider);
   return wodsModel.getWeekExpectedTrainingDays(startDayOfTheWeekDate);
 });
+
+final totalTrainedTimeProvider = FutureProvider<int>(
+  (ref) async {
+    // Return an Integer with the total days trained.
+    // TODO FOR NOW THIS FUNCTION WONT CONSIDERATE THE REAL DAYS TRAINED
+    // only the overall time of all the training week.
+    // latter it will be good idea to filter the data by the
+    // complete days.
+    String startDayOfTheWeekDate = ref.watch(startedDayOfTheWeekDateProvider);
+    final wodModel = ref.watch(wodsModelProvider);
+    final result = await wodModel.getTotalTrainedTime(startDayOfTheWeekDate);
+    if (result.isEmpty) {
+      return 0;
+    } else {
+      Map value = result[0];
+      // if the value inside is null, it will return 0
+      return value['trained_time'] ?? 0;
+    }
+  },
+);
 
 final listAllDayOfTheWeekProvider = StateProvider<Map>((ref) {
   // Return a dict with the key value as the Date and the values as a empty dict or

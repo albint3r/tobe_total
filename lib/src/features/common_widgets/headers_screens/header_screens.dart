@@ -69,6 +69,23 @@ class H3FormFieldsHeader extends StatelessWidget {
   }
 }
 
+class H4KPIHeader extends StatelessWidget {
+  // This is for the titles of the Cards and Fields
+  H4KPIHeader({required this.header, Key? key}) : super(key: key);
+  String header;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      child: Text(
+        header,
+        style: Theme.of(context).textTheme.headline4,
+      ),
+    );
+  }
+}
+
 class H6Screens extends StatelessWidget {
   H6Screens({required this.header, Key? key}) : super(key: key);
   String header;

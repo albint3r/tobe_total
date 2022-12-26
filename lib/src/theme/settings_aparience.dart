@@ -102,6 +102,14 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
               fontStyle: FontStyle.italic,
               letterSpacing: .5,
             ),
+            // this is used for the kpis
+            headline4: TextStyle(
+              color: Colors.black,
+              fontFamily: 'Anton',
+              fontStyle: FontStyle.italic,
+              fontSize: 20.0,
+              // overflow: TextOverflow.ellipsis,
+            ),
             headline5: TextStyle(
               color: Colors.black,
               fontFamily: 'Bebas',
@@ -171,6 +179,13 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
           fontFamily: 'Bebas',
           fontStyle: FontStyle.italic,
           letterSpacing: .5,
+        ),
+        headline4: TextStyle(
+          color: Colors.black,
+          fontFamily: 'Anton',
+          fontStyle: FontStyle.italic,
+          fontSize: 20.0,
+          // overflow: TextOverflow.ellipsis,
         ),
         // this letter is for subtitles after H1
         headline5: TextStyle(

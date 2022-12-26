@@ -31,12 +31,7 @@ class LineCompleteDaysIndicators extends ConsumerWidget {
       List<Map<String, Object?>> completeWods, WidgetRef ref) {
     // Return a list of [SingleIconDayIndicator] with the result of the
     // day complete added to the [IconAvatar].
-    print('---------');
-    print(completeWods);
-    print(completeWods.length);
     Map trainingDaysOfTheWeek = getDays(completeWods, ref);
-    print(trainingDaysOfTheWeek);
-    print(trainingDaysOfTheWeek.length);
     List<SingleIconDayIndicator> lineItems = [];
     for (MapEntry wod in trainingDaysOfTheWeek.entries) {
       if (wod.value.isEmpty) {

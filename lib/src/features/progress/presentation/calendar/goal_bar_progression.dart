@@ -57,7 +57,10 @@ class TextGoalIndicator extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Center(
-        child: Text('Week Goal: $textIndicator'.toUpperCase()),
+        child: Text(
+          'Week Goal: $textIndicator'.toUpperCase(),
+          style: const TextStyle(fontSize: 10),
+        ),
       ),
     );
   }
