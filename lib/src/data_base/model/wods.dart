@@ -19,8 +19,8 @@ class WODs extends LocalDataBase {
   }
 
   Future<List<Map<String, Object?>>> getWeekExpectedTrainingDays(String startDayOfTheWeekDate) async {
-
+    // Return a date between the started day of the week and the end of the week.
     return rawQuery(
-        "SELECT * FROM wods WHERE expected_training_day >= $startDayOfTheWeekDate");
+        "SELECT * FROM wods WHERE expected_training_day >= '$startDayOfTheWeekDate'");
   }
 }

@@ -14,7 +14,6 @@ class LineCompleteDaysIndicators extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get a list with all the Wods of the week and their status
     final completeWodsOfTheWeek = ref.watch(completeWodsOfTheWeekProvider);
-
     return completeWodsOfTheWeek.when(
       error: (error, stackTrace) => Text('Error $error'),
       loading: () => const CircularProgressIndicator(),
@@ -32,7 +31,12 @@ class LineCompleteDaysIndicators extends ConsumerWidget {
       List<Map<String, Object?>> completeWods, WidgetRef ref) {
     // Return a list of [SingleIconDayIndicator] with the result of the
     // day complete added to the [IconAvatar].
+    print('---------');
+    print(completeWods);
+    print(completeWods.length);
     Map trainingDaysOfTheWeek = getDays(completeWods, ref);
+    print(trainingDaysOfTheWeek);
+    print(trainingDaysOfTheWeek.length);
     List<SingleIconDayIndicator> lineItems = [];
     for (MapEntry wod in trainingDaysOfTheWeek.entries) {
       if (wod.value.isEmpty) {
@@ -51,7 +55,7 @@ class LineCompleteDaysIndicators extends ConsumerWidget {
   }
 
   Map getDays(List<Map<String, Object?>> completeWods, WidgetRef ref) {
-    // Gatter all dasy of the week and check with the day
+    // Gather all days of the week and check with the day
     // in SQL if the day WOD is in the day of the week, it will add
     // the Map to the key - value pair.
     // This will return a Map whit 7 keys and some values with empty Maps.

@@ -111,6 +111,9 @@ final completeWodsOfTheWeekProvider =
 });
 
 final listAllDayOfTheWeekProvider = StateProvider<Map>((ref) {
+  // Return a dict with the key value as the Date and the values as a empty dict or
+  // a dict with data. This data is the WODs of that day.
+
   // 1- Get The startedDay of the week as string
   String startDayOfTheWeekDate = ref.watch(startedDayOfTheWeekDateProvider);
   // 2- Extract the controller to parse the string
