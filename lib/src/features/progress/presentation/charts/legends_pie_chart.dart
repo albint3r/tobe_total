@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:string_ext/string_ext.dart';
-import '../../../../providers/pie_chart_provider.dart';
+import '../../../../providers/charts/model/pie_chart_provider.dart';
 
 class LegendsChart extends ConsumerWidget {
   const LegendsChart({

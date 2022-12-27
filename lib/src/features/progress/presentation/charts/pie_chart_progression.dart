@@ -1,8 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../providers/movement_history_provider.dart';
-import '../../../../providers/pie_chart_provider.dart';
+import '../../../../providers/charts/controllers/charts_controllers_providers.dart';
+import '../../../../providers/movement_history/controllers/movement_history_provider.dart';
+import '../../../../providers/charts/model/pie_chart_provider.dart';
 import 'legends_pie_chart.dart';
 
 Map<String, Color> palletColors = {

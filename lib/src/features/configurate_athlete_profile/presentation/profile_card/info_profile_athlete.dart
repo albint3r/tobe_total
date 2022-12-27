@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:string_ext/string_ext.dart';
-import '../../../../providers/client_provider.dart';
+import '../../../../providers/cliente/model/client_provider.dart';
 import '../../../common_widgets/headers_screens/header_screens.dart';
 
 class InfoProfileAthlete extends ConsumerStatefulWidget {

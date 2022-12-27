@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../providers/wod_plan_provider.dart';
+import '../../../providers/wod/controllers/wod_controller_provider.dart';
 import '../../common_widgets/headers_screens/header_screens.dart';
 
 class BlockTrioKPI extends ConsumerWidget {

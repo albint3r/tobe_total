@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../providers/client_provider.dart';
+import '../../../../providers/cliente/model/client_provider.dart';
+import '../../../../providers/cliente/controllers/cliente_model_provider.dart';
 
 class SingleTextField extends ConsumerWidget {
   SingleTextField({

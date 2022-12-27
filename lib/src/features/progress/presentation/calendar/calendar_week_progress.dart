@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../../../providers/calendar_provider.dart';
-import '../../../../providers/is_dark_mode_provider.dart';
+import '../../../../providers/training_week/model/calendar_provider.dart';
+import '../../../../providers/theme/is_dark_mode_provider.dart';
 
 
 class CalendarWeekProgression extends ConsumerWidget {

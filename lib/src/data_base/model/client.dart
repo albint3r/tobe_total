@@ -1,6 +1,6 @@
 // Imports
 import 'package:tobe_total/src/data_base/db.dart';
-import 'package:tobe_total/src/providers/sex_provider.dart';
+import 'package:tobe_total/src/providers/forms/sex/sex_provider.dart';
 
 class Client extends LocalDataBase {
   int id = 1;
@@ -33,36 +33,43 @@ class Client extends LocalDataBase {
       case 'monday':
         {
           monday = value;
+          print(monday);
         }
         break;
       case 'tuesday':
         {
           tuesday = value;
+          print(tuesday);
         }
         break;
       case 'wednesday':
         {
           wednesday = value;
+          print(wednesday);
         }
         break;
       case 'thursday':
         {
           thursday = value;
+          print(thursday);
         }
         break;
       case 'friday':
         {
           friday = value;
+          print(friday);
         }
         break;
       case 'saturday':
         {
           saturday = value;
+          print(saturday);
         }
         break;
       case 'sunday':
         {
           sunday = value;
+          print(sunday);
         }
         break;
     }
@@ -162,6 +169,7 @@ class Client extends LocalDataBase {
       'tuesday': tuesday,
       'wednesday': wednesday,
       'thursday': thursday,
+      'friday': friday,
       'saturday': saturday,
       'sunday': sunday,
       'goal':goal
@@ -175,8 +183,11 @@ class Client extends LocalDataBase {
     Map<String, Object> resultSelectedFields = {};
     for (var field in selectedFields) {
       // Extract the value inside the field
+      print(field);
       resultSelectedFields[field] = copiedClientMap[field]!;
     }
+    print('-----VALUES TO SUBMIT------');
+    print(resultSelectedFields);
     return resultSelectedFields;
   }
 
@@ -198,7 +209,5 @@ class Client extends LocalDataBase {
     // Get the profile of the user.
     return getAll('users');
   }
-  
-  
-  
+
 }

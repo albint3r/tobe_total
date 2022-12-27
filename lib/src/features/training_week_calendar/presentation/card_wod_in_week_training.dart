@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../providers/calendar_provider.dart';
-import '../../../providers/routes_provider.dart';
-import '../../../providers/wod_plan_provider.dart';
+import '../../../providers/training_week/controllers/training_week_controller.dart';
+import '../../../providers/training_week/model/calendar_provider.dart';
+import '../../../providers/routes/routes_provider.dart';
+import '../../../providers/wod/controllers/wod_controller_provider.dart';
+import '../../../providers/wod/model/wod_model_provider.dart';
 import '../../../routes/const_url.dart';
 import '../../common_widgets/cards_below_main_display/cards_in_parent.dart';
 import '../../common_widgets/cards_below_main_display/icon_trio_item.dart';

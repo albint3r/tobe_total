@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/features/progress/presentation/calendar/single_icon_day_indicator.dart';
+import '../../../../providers/training_week/controllers/training_week_controller.dart';
+import '../../../../providers/wod/controllers/wod_controller_provider.dart';
 
-import '../../../../providers/calendar_provider.dart';
-import '../../../../providers/wod_plan_provider.dart';
 
 class LineCompleteDaysIndicators extends ConsumerWidget {
   const LineCompleteDaysIndicators({

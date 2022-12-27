@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import '../../../../providers/wod_plan_provider.dart';
+import '../../../../providers/wod/controllers/wod_controller_provider.dart';
 
 class GoalBarProgression extends ConsumerWidget {
   const GoalBarProgression({

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../../../providers/calendar_provider.dart';
-import '../../../../providers/is_dark_mode_provider.dart';
-import '../../../../providers/wod_plan_provider.dart';
+import '../../../../providers/training_week/model/calendar_provider.dart';
+import '../../../../providers/wod/model/wod_model_provider.dart';
 import 'package:string_ext/string_ext.dart';
 
 class GeneralKPIs extends ConsumerWidget {

@@ -2,8 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:tobe_total/src/features/training_week_calendar/presentation/card_wod_in_week_training.dart';
-import '../../../providers/calendar_provider.dart';
-import '../../../providers/is_dark_mode_provider.dart';
+import '../../../providers/training_week/controllers/training_week_controller.dart';
+import '../../../providers/training_week/model/calendar_provider.dart';
+import '../../../providers/theme/is_dark_mode_provider.dart';
 import '../../common_widgets/headers_screens/header_screens.dart';
 import 'no_wods_banner.dart';
 
