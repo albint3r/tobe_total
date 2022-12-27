@@ -8,6 +8,7 @@ import 'package:tobe_total/src/features/progress/presentation/progression_displa
 import '../../preferences_cache/preferences.dart';
 import '../../providers/index_bottom_nav_provider.dart';
 import '../common_widgets/bottom_nav_bar/presentation/bottom_nav_bar2.dart';
+import '../common_widgets/floating_action_btn/float_action_bottom_btn.dart';
 
 class Progress extends ConsumerStatefulWidget {
   const Progress({
@@ -24,6 +25,7 @@ class _ProgressState extends ConsumerState<Progress> {
     return const Scaffold(
       bottomNavigationBar: CurveBottomNavBar(),
       body: ProgressionDisplay(),
+      floatingActionButton: CreateNewWeekActionBtn(),
     );
   }
 }

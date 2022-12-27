@@ -6,7 +6,8 @@ import 'body_heatmap_progression.dart';
 import 'calendar/calendar_week_progress.dart';
 import 'calendar/goal_bar_progression.dart';
 import 'calendar/line_icon_complete_day_indicators.dart';
-import 'charts/spiderweb_chart_progression.dart';
+import 'charts/pie_chart_progression.dart';
+
 
 class ProgressionDisplay extends ConsumerWidget {
   const ProgressionDisplay({

@@ -29,7 +29,7 @@ class BlockTrioKPI extends ConsumerWidget {
                     subHeader: 'No Implement',
                   ),
                   SingleBlockKPI(
-                    header: '$data',
+                    header: '$data mins',
                     subHeader: 'Trained time',
                   ),
                   SingleBlockKPI(

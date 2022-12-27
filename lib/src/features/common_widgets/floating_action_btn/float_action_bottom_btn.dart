@@ -1,25 +1,16 @@
 import 'package:flutter/material.dart';
 
-class FloatBottomBtn extends StatelessWidget {
-  const FloatBottomBtn({
+class CreateNewWeekActionBtn extends StatelessWidget {
+  const CreateNewWeekActionBtn({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      onPressed: () {},
-      tooltip: 'Create Training Week',
-      child: const SizedBox(
-        width: double.infinity,
-        child: Text('Go Training',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 9.5,
-              fontWeight: FontWeight.bold
-            )),
-      ),
+      tooltip: 'Create a new Training Week',
+      onPressed: () {  },
+      child: const Icon(Icons.add),
     );
   }
 }
