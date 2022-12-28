@@ -13,9 +13,9 @@ class HeightField extends ConsumerWidget {
     return SingleTextField(
       typeValue: 'Height',
       icon: Icons.height,
-      hintValue: 'Example: 170 cm',
-      callBackFunction: FormValidators.isNotValidInteger,
-      errorMsg: 'Pleas enter a valid number (No letters or ,.#)',
+      hintValue: 'Example: 170.0 cm',
+      callBackFunction: FormValidators.isNotValidDouble,
+      errorMsg: 'Pleas enter a number with a decimal and a number after the decimal.',
       isNumberType: true,
     );
   }

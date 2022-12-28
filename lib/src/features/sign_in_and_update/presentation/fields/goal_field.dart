@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tobe_total/src/providers/cliente/model/client_provider.dart';
-import '../../../../providers/cliente/controllers/cliente_model_provider.dart';
+import 'package:tobe_total/src/providers/cliente/controllers/client_provider.dart';
+import '../../../../providers/cliente/model/cliente_model_provider.dart';
 import '../../../../providers/forms/goal/goal_provider.dart';
 import '../../../common_widgets/headers_screens/header_screens.dart';
 

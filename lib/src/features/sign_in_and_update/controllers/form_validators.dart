@@ -25,4 +25,14 @@ class FormValidators {
     }
     return false;
   }
+
+  static bool isNotValidDouble(String? fieldValue) {
+    // Check if the Age is validated
+    if (fieldValue != null) {
+      final nameRegExp = RegExp(r'^\d*\.\d*$');
+      return !nameRegExp.hasMatch(fieldValue);
+    }
+    return false;
+  }
+
 }

@@ -38,6 +38,7 @@ class BiometricsFormState extends State<BiometricsForm> {
           const SexFormField(),
           SubmitUpdateClientButton(
               formKey: _formKey,
+              // this helps to only update this columns.
               selectedFields: const ['age', 'weight', 'height', 'sex'],
               isExpanded: true),
           const SubmitCancelChanges()

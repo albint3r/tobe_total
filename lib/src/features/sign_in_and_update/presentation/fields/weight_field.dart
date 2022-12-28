@@ -13,9 +13,9 @@ class WeightField extends ConsumerWidget {
     return SingleTextField(
       typeValue: 'Weight',
       icon: Icons.monitor_weight_outlined,
-      hintValue: 'Example: 68 kg',
-      callBackFunction: FormValidators.isNotValidInteger,
-      errorMsg: 'Pleas enter a valid number (No letters or ,.#)',
+      hintValue: 'Example: 68.0 kg',
+      callBackFunction: FormValidators.isNotValidDouble,
+      errorMsg: 'Pleas enter a number with a decimal and a number after the decimal.',
       isNumberType: true,
     );
   }

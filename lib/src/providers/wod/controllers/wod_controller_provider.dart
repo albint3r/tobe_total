@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../block/model/block_model_provider.dart';
-import '../../cliente/controllers/cliente_model_provider.dart';
+import '../../cliente/model/cliente_model_provider.dart';
 import '../../training_week/controllers/training_week_controller.dart';
 import '../model/wod_model_provider.dart';
 
@@ -73,7 +73,7 @@ final goalProgressDaysProvider = FutureProvider<Map>((ref) async {
   int currentTrainedDays = 0;
   // If the day is Empty, this means he don't have any WOD this week.
   // Also, is important to know if the user have a [goal].
-  if (expectedTrainingDays.isEmpty && goal > 0) {
+  if (expectedTrainingDays.isEmpty && goal == 0) {
     return {'goalPer': 0.0, 'currentTrainedDays': 0, 'goal': goal};
   } else {
     for (Map wod in expectedTrainingDays) {
