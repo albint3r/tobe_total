@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../cliente/model/cliente_model_provider.dart';
 
 final trainingWeekStateMachineProvider =
-    Provider<TrainingWeekStateMachine>((ref) {
+    Provider.autoDispose<TrainingWeekStateMachine>((ref) {
   return TrainingWeekStateMachine(ref: ref);
 });
 
@@ -11,15 +11,8 @@ class TrainingWeekStateMachine {
       : _ref = ref;
   final ProviderRef<TrainingWeekStateMachine> _ref;
   late final int _trainingSessionDuration;
-  late final int _trainingDays;
-  late final int _trainingTime;
-  late final int _goal;
-  late final Map<String, bool> _trainingEquipment;
-
-
-  void _initState() {
-    final client = _ref.watch(clientProvider);
-  }
+  late final Set _blocksDurationCombinations;
+  final List<int> _blocksDuration = [10, 15, 20];
 
   void getExpectedWodDuration() async {
     // Calculate the training duration of the client.
@@ -34,16 +27,13 @@ class TrainingWeekStateMachine {
     // Get the training time of the client
     // this will be converted in a time of total training.
     final client = _ref.watch(clientProvider);
-    List<Map<String, Object?>> response = await client.getTotaTrainingTime();
-    Map<String, Object?> clientTrainingTime = response[0];
-    int timeToTrain = clientTrainingTime['time_to_train'] as int ?? 0;
-    final int wasteTimeExpected = (timeToTrain ~/ 60) * 15;
+    final int wasteTimeExpected = (client.timeToTrain ~/ 60) * 15;
     // Set value in state
-    _trainingSessionDuration =
-        timeToTrain - (startStretchTime + endStretchTime + wasteTimeExpected);
+    _trainingSessionDuration = client.timeToTrain -
+        (startStretchTime + endStretchTime + wasteTimeExpected);
   }
 
-  Set getBlocksCombinationsDuration(List<int> blocksDuration, int sessionDuration) {
+  void getBlocksCombinationsDuration() {
     // Generate all possible block duration in the User Wod.
     // Parameters:
     // -----------
@@ -73,31 +63,48 @@ class TrainingWeekStateMachine {
     // [8, 8, 8, 8, 8, 15], [8, 12, 15, 20],
     // [10, 10, 15, 20], [8, 10, 10, 12, 15]}
 
-    Set blocksDurationCombinations = {} ;
+    Set blocksDurationCombinations = {};
 
     void recursion(List subset) {
-      for(int duration in blocksDuration) {
+      for (int duration in _blocksDuration) {
         // 1- Concatenate all the Duration
         // Create Concatenated list to avoid add duration to the same list.
         List<int> concatDurations = List.from(subset);
         concatDurations.addAll([duration]);
         // 2- Sum all duration in the concatenated list
-        final int totalTimeCombinations =  concatDurations.reduce((a, b) => a + b);
+        final int totalTimeCombinations =
+            concatDurations.reduce((a, b) => a + b);
         // If the [total time combination] are less than the [session duration]
         // this will let you to get another recursion.
-        if(totalTimeCombinations < sessionDuration) {
+        if (totalTimeCombinations < _trainingSessionDuration) {
           // Because subset is already combined this will be the new list input
           recursion(concatDurations);
-        } else if (totalTimeCombinations == sessionDuration) {
+        } else if (totalTimeCombinations == _trainingSessionDuration) {
           concatDurations.sort();
           blocksDurationCombinations.add(concatDurations);
         }
       }
     }
+
     recursion([]);
-    return blocksDurationCombinations;
+    _blocksDurationCombinations = blocksDurationCombinations;
   }
 
+  List<String> getTrainingWeekMuscleDistribution() {
+    // Depending on the last WOD body area trained it will Create the Week areas to train without areas coalitions.
+    //
+    //     These means that each muscle areas need to rest 24 hours. Because each result represent a day, this will
+    //     assure that the client never train the same are twice with not stop.
+    //
+    //     client_level: int:
+    //         Is the level of the client. Depending on this it will be selected the WODs of the Week.
+    //
+    //     total_training_days: int:
+    //         Is the total number of day to train. Depending on this it will be created the N numbers of WOD on the week.
+    //
+    //     Returns:
+    //     --------
+    //     list[str]
+    return ['1'];
+  }
 }
-
-

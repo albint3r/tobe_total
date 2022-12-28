@@ -66,11 +66,11 @@ class Client extends LocalDataBase {
       lastName = _user['last_name'] as String;
       email = _user['email'] as String;
       // if is 1 is true / 0 is false
-      sex = _user['sex'] == null ? true: _user['age'] as bool ;
+      sex = _user['sex'] == null ? true: _user['sex'] == 1 ? true: false;
       // if Age is Null it will -> 0
       age = _user['age'] == null ? 0 : _user['age'] as int;
-      weight = _user['weight'] == 0 ? 0.0 : _user['weight'] as double;
-      height = _user['height'] == 0 ? 0.0 : _user['height'] as double;
+      weight = _user['weight'] as double;
+      height = _user['height'] as double;
       level = _user['level'] as int;
       timeToTrain = _user['time_to_train'] as int;
       monday = _user['monday'] as int == 1 ? true: false;
