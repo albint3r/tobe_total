@@ -30,5 +30,10 @@ class WODs extends LocalDataBase {
         "SELECT SUM(time) AS trained_time FROM wods JOIN blocks ON blocks.wod_id = wods.id WHERE expected_training_day > '$startDayOfTheWeekDate'");
   }
 
+  Future<List<Map<String, Object?>>> getLastMuscleTrained() async {
+    String query = 'SELECT * FROM wods ORDER BY expected_training_day DESC LIMIT 1';
+    return rawQuery(query);
+  }
+
 
 }

@@ -3,7 +3,6 @@ import 'package:tobe_total/src/data_base/db.dart';
 import 'package:tobe_total/src/providers/forms/sex/sex_provider.dart';
 
 class Client extends LocalDataBase {
-
   Client() {
     _initState();
   }
@@ -53,34 +52,39 @@ class Client extends LocalDataBase {
   bool wall = false;
   bool pole = false;
   bool trineo = false;
-  bool rope  = false;
+  bool rope = false;
   bool wheel = false;
   bool assaultBike = false;
 
+
   Future<void> _initState() async {
     // Set the values in the DataBase in the User Object.
-    if(await isAny('users')) {
+    if (await isAny('users')) {
       final List<Map<String, Object?>> response = await getAll('users');
       final Map<String, Object?> _user = response[0];
       name = _user['name'] as String;
       lastName = _user['last_name'] as String;
       email = _user['email'] as String;
       // if is 1 is true / 0 is false
-      sex = _user['sex'] == null ? true: _user['sex'] == 1 ? true: false;
+      sex = _user['sex'] == null
+          ? true
+          : _user['sex'] == 1
+              ? true
+              : false;
       // if Age is Null it will -> 0
       age = _user['age'] == null ? 0 : _user['age'] as int;
       weight = _user['weight'] as double;
       height = _user['height'] as double;
       level = _user['level'] as int;
       timeToTrain = _user['time_to_train'] as int;
-      monday = _user['monday'] as int == 1 ? true: false;
-      tuesday = _user['tuesday'] as int == 1 ? true: false;
-      wednesday = _user['wednesday'] as int == 1 ? true: false;
-      thursday = _user['thursday'] as int == 1 ? true: false;
-      friday = _user['friday'] as int == 1 ? true: false;
-      saturday = _user['saturday'] as int == 1 ? true: false;
-      sunday = _user['sunday'] as int == 1 ? true: false;
-      haveLesion = _user['have_lesion'] as int == 1 ? true: false;
+      monday = _user['monday'] as int == 1 ? true : false;
+      tuesday = _user['tuesday'] as int == 1 ? true : false;
+      wednesday = _user['wednesday'] as int == 1 ? true : false;
+      thursday = _user['thursday'] as int == 1 ? true : false;
+      friday = _user['friday'] as int == 1 ? true : false;
+      saturday = _user['saturday'] as int == 1 ? true : false;
+      sunday = _user['sunday'] as int == 1 ? true : false;
+      haveLesion = _user['have_lesion'] as int == 1 ? true : false;
       lesionArea = _user['lesion_area'] as int;
       totalPull = _user['total_pull'] as int;
       totalPush = _user['total_push'] as int;
@@ -88,75 +92,85 @@ class Client extends LocalDataBase {
       totalSquat = _user['total_squat'] as int;
       goal = _user['goal'] as int;
       // Equipment
-      noEquipment = _user['no_equipment'] as int == 1 ? true: false;
-      dumbbells = _user['dumbbells'] as int == 1 ? true: false;
-      kettlebells = _user['kettlebells'] as int == 1 ? true: false;
-      bench = _user['bench'] as int == 1 ? true: false;
-      barbell = _user['barbell'] as int == 1 ? true: false;
-      weightMachinesSelectorized = _user['weight_machines_selectorized'] as int == 1 ? true: false;
-      resistanceBandsCables = _user['resistance_bands_cables'] as int == 1 ? true: false;
-      leggings = _user['leggings'] as int == 1 ? true: false;
-      medicineBall = _user['medicine_ball'] as int == 1 ? true: false;
-      stabilityBall = _user['stability_ball'] as int == 1 ? true: false;
-      ball = _user['ball'] as int == 1 ? true: false;
-      trx = _user['trx'] as int == 1 ? true: false;
-      raisedPlatformBox = _user['raised_platform_box'] as int == 1 ? true: false;
-      box = _user['box'] as int == 1 ? true: false;
-      rings = _user['rings'] as int == 1 ? true: false;
-      pullUpBar = _user['pull_up_bar'] as int == 1 ? true: false;
-      parallelsBar = _user['parallels_bar'] as int == 1 ? true: false;
-      wall = _user['wall'] as int == 1 ? true: false;
-      pole = _user['pole'] as int == 1 ? true: false;
-      trineo = _user['trineo'] as int == 1 ? true: false;
-      rope  = _user['rope'] as int == 1 ? true: false;
-      wheel = _user['wheel'] as int == 1 ? true: false;
-      assaultBike = _user['assault_bike'] as int == 1 ? true: false;
+      noEquipment = _user['no_equipment'] as int == 1 ? true : false;
+      dumbbells = _user['dumbbells'] as int == 1 ? true : false;
+      kettlebells = _user['kettlebells'] as int == 1 ? true : false;
+      bench = _user['bench'] as int == 1 ? true : false;
+      barbell = _user['barbell'] as int == 1 ? true : false;
+      weightMachinesSelectorized =
+          _user['weight_machines_selectorized'] as int == 1 ? true : false;
+      resistanceBandsCables =
+          _user['resistance_bands_cables'] as int == 1 ? true : false;
+      leggings = _user['leggings'] as int == 1 ? true : false;
+      medicineBall = _user['medicine_ball'] as int == 1 ? true : false;
+      stabilityBall = _user['stability_ball'] as int == 1 ? true : false;
+      ball = _user['ball'] as int == 1 ? true : false;
+      trx = _user['trx'] as int == 1 ? true : false;
+      raisedPlatformBox =
+          _user['raised_platform_box'] as int == 1 ? true : false;
+      box = _user['box'] as int == 1 ? true : false;
+      rings = _user['rings'] as int == 1 ? true : false;
+      pullUpBar = _user['pull_up_bar'] as int == 1 ? true : false;
+      parallelsBar = _user['parallels_bar'] as int == 1 ? true : false;
+      wall = _user['wall'] as int == 1 ? true : false;
+      pole = _user['pole'] as int == 1 ? true : false;
+      trineo = _user['trineo'] as int == 1 ? true : false;
+      rope = _user['rope'] as int == 1 ? true : false;
+      wheel = _user['wheel'] as int == 1 ? true : false;
+      assaultBike = _user['assault_bike'] as int == 1 ? true : false;
     }
-
   }
 
   void setTrainingDaysInState(String dayName, bool value) {
+    print('func -> [setTrainingDaysInState]');
     dayName = dayName.toLowerCase();
     switch (dayName) {
       case 'monday':
         {
           monday = value;
+          print(dayName);
           print(monday);
         }
         break;
       case 'tuesday':
         {
           tuesday = value;
+          print(dayName);
           print(tuesday);
         }
         break;
       case 'wednesday':
         {
           wednesday = value;
+          print(dayName);
           print(wednesday);
         }
         break;
       case 'thursday':
         {
           thursday = value;
+          print(dayName);
           print(thursday);
         }
         break;
       case 'friday':
         {
           friday = value;
+          print(dayName);
           print(friday);
         }
         break;
       case 'saturday':
         {
           saturday = value;
+          print(dayName);
           print(saturday);
         }
         break;
       case 'sunday':
         {
           sunday = value;
+          print(dayName);
           print(sunday);
         }
         break;
@@ -260,8 +274,14 @@ class Client extends LocalDataBase {
       'friday': friday,
       'saturday': saturday,
       'sunday': sunday,
-      'goal':goal
+      'goal': goal
     };
+  }
+
+  Future<Map<String, Object?>> trainingDayMap() async {
+      String query = 'SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM users WHERE id= 1';
+      List<Map<String, Object?>> response = await rawQuery(query);
+      return response[0];
   }
 
   Map<String, Object> selectFieldsToUpdate(List selectedFields) {
@@ -282,7 +302,8 @@ class Client extends LocalDataBase {
   Future<List<Map<String, Object?>>> getTotalTrainingDays() async {
     // Return a list with a Map with ONE VALUE. This is the goal of the client
     // of the total days he wants to train.
-    String query = 'SELECT SUM(monday + tuesday + wednesday + thursday + friday + saturday) as total_training_days FROM users';
+    String query =
+        'SELECT SUM(monday + tuesday + wednesday + thursday + friday + saturday) as total_training_days FROM users';
     return rawQuery(query);
   }
 
@@ -291,7 +312,6 @@ class Client extends LocalDataBase {
     return rawQuery(query);
   }
 
-
   Future<void> updateUser(List selectedFields) async {
     // Update the information of the User
     print('------updateUser--------');
@@ -299,9 +319,22 @@ class Client extends LocalDataBase {
     update('users', selectFieldsToUpdate(selectedFields));
   }
 
+  Future<void> updateTrainingDaysToNoobs() async {
+    // Update the training days for the noobs
+    // This client would have 3 days only to train full body.
+    update('users', {
+      'monday': true,
+      'tuesday': false,
+      'wednesday': true,
+      'thursday': false,
+      'friday': true,
+      'saturday': false,
+      'sunday': false,
+    });
+  }
+
   Future<List<Map<String, Object?>>> getProfile() async {
     // Get the profile of the user.
     return getAll('users');
   }
-
 }

@@ -63,4 +63,6 @@ class LineCompleteDaysIndicators extends ConsumerWidget {
     }
     return allDaysOfTheWek;
   }
+
+
 }

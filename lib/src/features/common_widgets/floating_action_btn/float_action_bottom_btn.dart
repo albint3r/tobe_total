@@ -11,9 +11,10 @@ class CreateNewWeekActionBtn extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
       tooltip: 'Create a new Training Week',
-      onPressed: () {
-        ref.watch(trainingWeekStateMachineProvider).getExpectedWodDuration();
-        ref.watch(trainingWeekStateMachineProvider).getBlocksCombinationsDuration();
+      onPressed: () async {
+        final trainingWeek = await ref.watch(trainingManagerProvider).initTrainingCreation();
+        print('-------------trainingWeek---');
+        print(trainingWeek);
       },
       child: const Icon(Icons.add),
     );

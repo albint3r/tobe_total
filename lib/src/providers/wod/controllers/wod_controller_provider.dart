@@ -4,6 +4,43 @@ import '../../cliente/model/cliente_model_provider.dart';
 import '../../training_week/controllers/training_week_controller.dart';
 import '../model/wod_model_provider.dart';
 
+
+class DateTimeManageController {
+
+  DateTime findFirstDateOfTheWeek(DateTime dateTime) {
+    return dateTime.subtract(Duration(days: dateTime.weekday - 1));
+  }
+
+  DateTime findLastDateOfTheWeek(DateTime dateTime) {
+    return dateTime
+        .add(Duration(days: DateTime.daysPerWeek - dateTime.weekday));
+  }
+
+  DateTime findLastDateOfTheMonth(DateTime dateTime) {
+    return DateTime(dateTime.year, dateTime.month + 1, 0);
+  }
+
+  DateTime findFirstDateOfTheMonth(DateTime dateTime) {
+    return DateTime(dateTime.year, dateTime.month, 1);
+  }
+
+  DateTime findLastDateOfTheYear(DateTime dateTime) {
+    return DateTime(dateTime.year, 12, 31);
+  }
+
+  DateTime findFirstDateOfTheYear(DateTime dateTime) {
+    return DateTime(dateTime.year, 1, 1); }
+
+  DateTime getTomorrow(date) {
+    return date.add(const Duration(days: 1));
+  }
+
+}
+
+final dateTimeManageControllerProvider = Provider<DateTimeManageController>((ref) {
+  return DateTimeManageController();
+});
+
 final wodPlanControllerProvider = Provider<WODPlanController>((ref) {
   // Gre the WOd Plan Controller
   return WODPlanController();
