@@ -7,14 +7,14 @@ import '../training_week_creator/training_week_creator.dart';
 import '../wod_creator/wod_creator.dart';
 
 final trainingManagerProvider =
-    Provider.autoDispose<TrainingManager>((ref) {
-  return TrainingManager(ref: ref);
+    Provider.autoDispose<SettingsTrainingManager>((ref) {
+  return SettingsTrainingManager(ref: ref);
 });
 
-class TrainingManager {
-  TrainingManager({required ProviderRef<TrainingManager> ref})
+class SettingsTrainingManager {
+  SettingsTrainingManager({required ProviderRef<SettingsTrainingManager> ref})
       : _ref = ref;
-  final ProviderRef<TrainingManager> _ref;
+  final ProviderRef<SettingsTrainingManager> _ref;
   late final int _sessionDuration;
   late final List<String> _musclesAreasOfTheWeek;
   late final List _blocksDurationOfTheWeek;
@@ -23,7 +23,20 @@ class TrainingManager {
   late final List<DateTime> _trainingDates;
 
 
+  // Get the total WODS of the client
+  int get sessionDuration => _sessionDuration;
+  List<String> get musclesAreas => _musclesAreasOfTheWeek;
+  List<DateTime> get trainingDates => _trainingDates;
+  List get blockModes => _blockModeOfTheWeek;
+  List get setsInBlocks => _setsInBlocksOfTheWeek;
+  List get blocksDuration => _blocksDurationOfTheWeek;
+
+  int get totalWODS => _musclesAreasOfTheWeek.length;
+  // Create a list of index of the length size of the total client WODs.
+  List<int> get listIndexWODS => Iterable<int>.generate(totalWODS).toList();
+
   Future<TrainingWeek> initTrainingCreation() {
+    // Initiate the creation of all the aspect of the Training Week
     return _initTrainingCreation();
   }
 
@@ -355,27 +368,17 @@ class TrainingManager {
   }
 
   TrainingWeek createTrainingWeek() {
-    final trainingWeek = TrainingWeek(sessionDuration: _sessionDuration);
-    final int totalWODS = _musclesAreasOfTheWeek.length;
-    List<int> indexWOD = Iterable<int>.generate(totalWODS).toList();
-
-    List<WODCreator> WODS = [];
-    for (int i in indexWOD) {
-      WODCreator wod = WODCreator(
-          context: trainingWeek,
-          index: i,
-          bodyArea: _musclesAreasOfTheWeek[i],
-          expectedTrainingDate: _trainingDates[i],
-          blocksGeneralInformation: {
-            'mode': _blockModeOfTheWeek[i],
-            'sets': _setsInBlocksOfTheWeek[i],
-            'duration': _blocksDurationOfTheWeek[i],
-          });
-      WODS.add(wod);
-    }
-    trainingWeek.setWODS(WODS);
+    // This create thw Training week Object
+    //
+    // This object helps to create all the training week of the client.
+    print('-------------trainingWeek------------------------------');
+    print('');
+    print('');
+    TrainingWeek trainingWeek = TrainingWeek(
+      context: this,
+      sessionDuration: sessionDuration,
+    );
+    // print(trainingWeek);
     return trainingWeek;
   }
 }
-
-

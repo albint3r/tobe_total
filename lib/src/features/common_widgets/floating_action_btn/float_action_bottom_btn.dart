@@ -13,8 +13,9 @@ class CreateNewWeekActionBtn extends ConsumerWidget {
       tooltip: 'Create a new Training Week',
       onPressed: () async {
         final trainingWeek = await ref.watch(trainingManagerProvider).initTrainingCreation();
-        print('-------------trainingWeek---');
-        print(trainingWeek);
+        trainingWeek.initContext();
+        trainingWeek.initWODS();
+        trainingWeek.initWODSBlocks();
       },
       child: const Icon(Icons.add),
     );
