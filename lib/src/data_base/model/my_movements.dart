@@ -7,6 +7,14 @@ class MyMovements extends LocalDataBase {
     return await isAny('my_movements');
   }
 
+  Future<void> addNew(int fitnessMoveId) async {
+    return await add(
+      'my_movements',
+      'fitness_move_id',
+      "$fitnessMoveId",
+    );
+  }
+
   Future<bool> notExistID(int moveId) async {
     // Check if the Id already exist in MyMovements
     // Return true if the ID [not exist.]
@@ -25,7 +33,6 @@ class MyMovements extends LocalDataBase {
     String query = 'SELECT * FROM my_movements WHERE learned = FALSE';
     return rawQuery(query);
   }
-
 
   // TODO PUEDE QUE LOS DOS METODOS DE ABAJO SE MUEVAN A
   // FITNESS MOVEMENTS, YA QUE AMBOS LLAMAN A ESA BASE DE DATOS Y NO A ESTA

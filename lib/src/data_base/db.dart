@@ -24,7 +24,7 @@ class LocalDataBase {
     // the value to the [preferences_cache]. So, if you have problems check that area.
     var db = await LocalDataBase.openDB();
     List<Map<String, Object?>> response =
-    await db.rawQuery('SELECT * FROM users');
+        await db.rawQuery('SELECT * FROM users');
     return response.isNotEmpty;
   }
 
@@ -96,9 +96,11 @@ class LocalDataBase {
     return await db.rawQuery(query);
   }
 
-  Future<List<Map<String, Object?>>> getFiltered(String tableName, String column, String condition) async {
+  Future<List<Map<String, Object?>>> getFiltered(
+      String tableName, String column, String condition) async {
     var db = await openDB();
-    return await db.rawQuery('SELECT * FROM $tableName WHERE $column = $condition');
+    return await db
+        .rawQuery('SELECT * FROM $tableName WHERE $column = $condition');
   }
 
   Future<bool> isAny(String tableName) async {
@@ -107,14 +109,6 @@ class LocalDataBase {
     List<Map<String, Object?>> response =
         await db.rawQuery('SELECT * FROM $tableName');
     return response.isNotEmpty;
-  }
-
-
-
-  Future<void> add(String tableName, String columns, String values) async {
-    // Add Values to the table selected
-    var db = await openDB();
-    await db.rawQuery('INSERT INTO $tableName ($columns) VALUES ($values);');
   }
 
   String createColumnInsertQuery(Map<String, Object> columnsValues) {
@@ -137,10 +131,25 @@ class LocalDataBase {
     return listQueries.join(',');
   }
 
+  Future<void> add(String tableName, String columns, String values) async {
+    // Add Values to the table selected
+    var db = await openDB();
+    await db.rawQuery('INSERT INTO $tableName ($columns) VALUES ($values); SELECT last_insert_rowid();');
+    print('----------NEW ROW ADDED--------------------');
+    print('INSERT INTO $tableName ($columns) VALUES ($values);');
+    print('ADD NEW VALUE TO DB');
+  }
+
   Future<void> update(
       String tableName, Map<String, Object> columnsValues) async {
     var db = await openDB();
     String columnsQuery = createColumnInsertQuery(columnsValues);
     await db.rawQuery('UPDATE $tableName SET $columnsQuery WHERE id = 1;');
+  }
+
+  /// Returns a `Future` that contains a list of maps, where each map represents a row in a database table.
+  /// The function executes a raw SQL `SELECT` statement using the `rawQuery()` method, which returns the last inserted row id.
+  Future<List<Map<String, Object?>>> getLastId() async {
+    return await rawQuery('SELECT last_insert_rowid()');
   }
 }

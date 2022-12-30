@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../providers/training_oracle/training_week_state_machine/training_week_state_machine_provider.dart';
+
+import '../../../providers/training_oracle/settings_manager/settings_training_manager.dart';
 
 class CreateNewWeekActionBtn extends ConsumerWidget {
   const CreateNewWeekActionBtn({
@@ -12,8 +13,8 @@ class CreateNewWeekActionBtn extends ConsumerWidget {
     return FloatingActionButton(
       tooltip: 'Create a new Training Week',
       onPressed: () async {
-        final trainingWeek = await ref.watch(trainingManagerProvider).initTrainingCreation();
-        trainingWeek.initContext();
+        final trainingWeek = await ref.watch(settingsManagerProvider).initTrainingCreation();
+        await trainingWeek.initContext();
         trainingWeek.initWODS();
         trainingWeek.initWODSBlocks();
       },

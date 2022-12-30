@@ -1,3 +1,5 @@
+import '../../block/model/block_model_provider.dart';
+import '../../cliente/model/cliente_model_provider.dart';
 import '../movements_selector/abstract_modes/emom/emom_creator.dart';
 import '../movements_selector/abstract_modes/modes.dart';
 import '../movements_selector/abstract_modes/rounds/round_creator.dart';
@@ -12,13 +14,16 @@ class BlockCreator {
     required this.mode,
     required this.sets,
   }) : _context = context;
-
+  late int _id;
   int index;
   int blockDuration;
   String mode;
   int sets;
   final WODCreator _context;
   late final List<MovementCreator> _movements = [];
+
+  int get id => _id;
+  set id(int id)=> _id=id;
 
   WODCreator get context => _context;
 
@@ -29,7 +34,7 @@ class BlockCreator {
 
   double get totalMovesInBlock => blockDuration / sets;
 
-  List<int> get listIndexMoves =>
+  List<int> get getPossibleCreateMoves =>
       Iterable<int>.generate(totalMovesInBlock.round()).toList();
 
   // Return true if the list have movements
@@ -54,7 +59,7 @@ class BlockCreator {
       ? RoundsCreator(context: this)
       : EMOMCreator(context: this);
 
-  Future<void> _initContext() async {
+  void _initContext()  {
     print('----------GENERAL DATA---------------');
     print(context.context);
     print('---------- [${context.index}] WOD DATA-------------------');
@@ -67,6 +72,16 @@ class BlockCreator {
     // This is a extension of the block Model
     Modes modeCreator = getModeCreator();
     modeCreator.create();
+  }
+
+
+  /// Saves the current block to the database.
+  ///
+  /// The block is added to the `blocks` table and its identifier is updated.
+  Future<void> save() async {
+    final blockModel = context.context.context.ref.watch(blocksModelProvider);
+    await blockModel.addNew(context.id, mode, sets, blockDuration, totalMovesInBlock.toInt());
+    id = await blockModel.getLastBlockId();
   }
 
   @override

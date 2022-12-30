@@ -1,3 +1,5 @@
+import '../../movement_history/model/movement_history_model.dart';
+import '../../my_movements/model/my_movements_model.dart';
 import '../block_creator/block_creator.dart';
 
 class MovementCreator {
@@ -117,6 +119,15 @@ class MovementCreator {
   int isCompoundMovement;
   int maxRepsExpected;
   String description;
+
+  BlockCreator get currentBlock => _context;
+
+  Future<void> save() async {
+    final myMovementsModel = currentBlock.context.context.context.ref.watch(myMovementsProvider);
+    final movementHistoryModel = currentBlock.context.context.context.ref.watch(movementHistoryModelProvider);
+    await myMovementsModel.addNew(id);
+    await movementHistoryModel.addNew(id, currentBlock.id);
+  }
 
   @override
   String toString() {

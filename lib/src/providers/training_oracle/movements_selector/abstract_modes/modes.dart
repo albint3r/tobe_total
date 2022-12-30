@@ -11,24 +11,22 @@ abstract class Modes {
 
   final BlockCreator _context;
 
-  BlockCreator get currentBlock => _context;
-
-  int get clientLevel =>
-      currentBlock.context.context.context.ref.watch(clientProvider).level;
-
-  Future<Map> get clientEquipment async =>
-      currentBlock.context.context.context.ref
-          .watch(clientProvider)
-          .getEquipment();
-
+  /// Creates a new block mode and set the movements for it.
+  ///
+  /// This method creates a new block mode and sets the movements for it.
+  /// It also checks if there are any learning movements available and adds them to the block.
+  /// The movements in the block are added iteratively, ensuring that no collision with previous movements occurs.
+  /// If the learning movements list is full, the method will only add movements that are already learned.
+  ///
+  /// @return Future A future that completes with void when the block is created and the movements are set.
   Future<void> create() async {
-    // This Method Create the Block Mode Selected.
+    /// This Method Create the Block Mode Selected.
     //
     // Because is an extension of Blocks, this class have heavy relationship
     // So, this select all the move that would have the current block.
     Map<String, Object?> movementOption;
     // Iterate in all over the moves inside the Block.
-    for (int i in currentBlock.listIndexMoves) {
+    for (int i in currentBlock.getPossibleCreateMoves) {
       //1 - First Check if We have learning Moves.
       // If the list is full this will mean that We have move to learn.
       if (!await currentBlock.learningMovesIsFull()) {
@@ -45,11 +43,16 @@ abstract class Modes {
             );
             // if the ID already exist in the Database it will skip
             // so the blocks list wont have the first Move inside.
-            if (await notExistIdInMyMovements(movement.id)) {
+            if (await notExistIdInMyMovements(movement.id) &&
+                isSelectedMuscleFreqAvailable(
+                    movement.muscleProta, currentBlock.sets)) {
               currentBlock.setMovement(movement);
+              setMuscleFreqOfTheWeek(movement.muscleProta, currentBlock.sets);
+              await movement.save();
             }
           }
         } else {
+          // is not the first move and you need to fill the rest of the block.
           bool finisProcess = false;
           // Until the process is not finish the method
           // would be iterated to get a movement
@@ -63,11 +66,25 @@ abstract class Modes {
             );
             // if the ID already exist in the Database it will skip
             // so the blocks list wont have the first Move inside.
-            print('counter -> [$counter]');
-            if (await notExistIdInMyMovements(movement.id)) {
+            if (await notExistIdInMyMovements(movement.id) &
+                isSelectedMuscleFreqAvailable(
+                    movement.muscleProta, currentBlock.sets)) {
               currentBlock.setMovement(movement);
               finisProcess = !finisProcess;
+              setMuscleFreqOfTheWeek(movement.muscleProta, currentBlock.sets);
+              resetMaxIterationCounter();
+              await movement.save();
+              // This will let the user add a move if this is not in [myMovements]
+              // and the counter is Zero. This will pass the Muscle Freq rule.
+            } else if (await notExistIdInMyMovements(movement.id) ||
+                isMaxIterCounterZero()) {
+              currentBlock.setMovement(movement);
+              finisProcess = !finisProcess;
+              setMuscleFreqOfTheWeek(movement.muscleProta, currentBlock.sets);
+              resetMaxIterationCounter();
+              await movement.save();
             }
+            restMaxIterationCounter();
           }
         }
       }
@@ -76,6 +93,61 @@ abstract class Modes {
         '***WOD(WOD_ID=${currentBlock.context.index}, blocksInWod= ${currentBlock.context.totalBlocks})*******Block(index=${currentBlock.index}, totalMoves=${currentBlock.totalMovesInBlock}, blockDuration=${currentBlock.blockDuration}, mode=${currentBlock.mode} , sets = ${currentBlock.sets})****************');
     print(currentBlock.movements);
     print('************************************************');
+    print(currentBlock.context.context.musclesMaxFreq);
+  }
+
+  BlockCreator get currentBlock => _context;
+
+  int get clientLevel =>
+      currentBlock.context.context.context.ref.watch(clientProvider).level;
+
+  /// Get the equipment of the current client.
+  ///
+  /// @return A map with the equipment of the client.
+  Future<Map> get clientEquipment async {
+    return currentBlock.context.context.context.ref
+        .watch(clientProvider)
+        .getEquipment();
+  }
+
+  /// Increase the frequency count of a muscle in the current week.
+  ///
+  /// @param muscleName Name of the muscle to update.
+  /// @param sets Number of sets to add to the current frequency count.
+  void setMuscleFreqOfTheWeek(String muscleName, int sets) {
+    // Apply the [setMuscleFreq] to increase the muscle count of the week.
+    currentBlock.context.context.setMuscleFreq(muscleName, sets);
+    print('UPDATE VALUES [setMuscleFreqOfTheWeek] -> $muscleName, $sets');
+  }
+
+  /// Check if it is possible to add a muscle frequency to the map.
+  //
+  /// @param muscleName Name of the muscle to add.
+  /// @param sets Sets of the muscle to add.
+  /// @return True if it is possible to add the muscle frequency, false otherwise
+  bool isSelectedMuscleFreqAvailable(String muscleName, int sets) {
+    return currentBlock.context.context
+        .isSelectedMuscleFreqAvailable(muscleName, sets);
+  }
+
+  /// Decrement the value of [_maxIterCounter] by 1.
+  void restMaxIterationCounter() {
+    currentBlock.context.context.restMaxIterationCounter();
+  }
+
+  /// Get the current value of [_maxIterCounter].
+  int get maxIterCounter {
+    return currentBlock.context.context.maxIterCounter;
+  }
+
+  /// Reset the value of [_maxIterCounter] to its original value (100).
+  void resetMaxIterationCounter() {
+    currentBlock.context.context.resetMaxIterationCounter();
+  }
+
+  /// Returns `true` if the maximum iteration counter is zero, `false` otherwise.
+  bool isMaxIterCounterZero() {
+    return currentBlock.context.context.isMaxIterCounterZero();
   }
 
   void restSpecification();
@@ -100,24 +172,13 @@ abstract class Modes {
     return movementOption[randomIndex];
   }
 
-  Future<bool> notExistIdInMyMovements(int moveId) {
-    // Check if the Id already exist in MyMovements
-    // Return true if the ID [not exist.]
-    final myMovementsModel =
-        currentBlock.context.context.context.ref.watch(myMovementsProvider);
-    return myMovementsModel.notExistID(moveId);
-  }
-
   Future<Map<String, Object?>> getLearningMoveNotCollidePrev() async {
-    // Create and Call a query to get all the possible movements
-    // for a new learning movement. In this case because is the first
-    // we don't need to verify if not collide the movement pattern
     String selectedQueryBodyArea = queryBodyArea();
     String selectedQueryDifficulty = queryDifficulty();
     String selectedQueryEquipment = await queryEquipment();
     final myMovementsModel =
         currentBlock.context.context.context.ref.watch(myMovementsProvider);
-    // Get previous movement pattern to avoid to have a collision.
+
     List<Map<String, Object?>> movementOption =
         await myMovementsModel.getAllPossibleMovementsNotCollidePrev(
             selectedQueryBodyArea,
@@ -129,6 +190,14 @@ abstract class Modes {
     return movementOption[randomIndex];
   }
 
+  Future<bool> notExistIdInMyMovements(int moveId) {
+    // Check if the Id already exist in MyMovements
+    // Return true if the ID [not exist.]
+    final myMovementsModel =
+        currentBlock.context.context.context.ref.watch(myMovementsProvider);
+    return myMovementsModel.notExistID(moveId);
+  }
+
   String get getLastMovementPattern {
     // Return the las movement pattern.
     MovementCreator lastMove = currentBlock.movements.last;
@@ -136,21 +205,23 @@ abstract class Modes {
   }
 
   Future<String> queryEquipment() async {
-    // Obtenemos el diccionario con el equipamiento del cliente
+    // Get the dictionary with the customer's equipment
     final response = await clientEquipment;
-    // Inicializamos la variable que almacenará la consulta
+    // Initialize the variable that will store the query
     String query = 'WHERE ';
 
-    // Recorremos cada elemento del diccionario
+    // Loop through each item in the dictionary
     for (var entry in response.entries) {
-      // Si el valor es igual a 1, añadimos la columna y su valor a la consulta
+      // If the value is equal to 1, add the column and its value to the query
       if (entry.value == 1) {
-        query += '${entry.key} = ${entry.value} AND ';
+        query += '${entry.key} = ${entry.value} OR ';
       }
     }
 
-    // Eliminamos el último AND sobrante
-    query = query.substring(0, query.length - 5);
+    // Remove the excess OR at the end
+    if (query.endsWith(" OR ")) {
+      query = query.substring(0, query.length - 4);
+    }
 
     return query;
   }

@@ -6,7 +6,7 @@ import '../../wod/model/wod_model_provider.dart';
 import '../training_week_creator/training_week_creator.dart';
 import '../wod_creator/wod_creator.dart';
 
-final trainingManagerProvider =
+final settingsManagerProvider =
     Provider.autoDispose<SettingsTrainingManager>((ref) {
   return SettingsTrainingManager(ref: ref);
 });

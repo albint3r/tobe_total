@@ -105,6 +105,8 @@ final goalProgressDaysProvider = FutureProvider<Map>((ref) async {
   List<Map> expectedTrainingDays =
   await wodsModel.getWeekExpectedTrainingDays(startDayOfTheWeekDate);
   List<Map> actualTrainingDaysGoal = await clientModel.getTotalTrainingDays();
+  print('---------------------');
+  print(actualTrainingDaysGoal);
   // Transform values to manage:
   int goal = actualTrainingDaysGoal[0]['total_training_days'];
   int currentTrainedDays = 0;

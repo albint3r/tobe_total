@@ -7,6 +7,14 @@ class MovementHistory extends LocalDataBase {
     return await isAny('movement_history');
   }
 
+  Future<void> addNew(int fitnessMoveId, int blocksId) async {
+    return await add(
+      'movement_history',
+      'fitness_move_id, blocks_id',
+      "$fitnessMoveId, $blocksId",
+    );
+  }
+
   Future<List<Map<String, Object?>>> getWODs() async {
 // Get the profile of the user.
     return getAll('movement_history');
