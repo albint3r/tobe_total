@@ -19,7 +19,7 @@ class SubmitUpdateClientButton extends ConsumerWidget {
   final bool _isExpanded;
 
   Widget selectExpandedButton({required Widget child}) {
-    // This select if if the widget use a Expanded Container or not
+    // This select if the widget use a Expanded Container or not
     // Because some form are bigger that the height of the screen
     // is necessary to add a List View, but if the list view is with a Expanded
     // this would cause errors in the app.

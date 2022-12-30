@@ -1,3 +1,4 @@
+import '../../my_movements/model/my_movements_model.dart';
 import '../training_week_state_machine/training_week_state_machine_provider.dart';
 import '../wod_creator/wod_creator.dart';
 
@@ -21,6 +22,15 @@ class TrainingWeek {
 
   // The total WODs in the training week.
   int get totalWODS => wods.length;
+
+  double get totalMoves {
+    // Return the total moves in the wod
+    double counter = 0.0;
+    for (WODCreator wod in _wods) {
+      counter = counter + wod.totalMoves;
+    }
+    return counter;
+  }
 
   // Initialize all the Wods.
   void initWODS() => _initChildContext();
@@ -78,8 +88,15 @@ class TrainingWeek {
     }
   }
 
+  Future<bool> learningMovesIsFull() async {
+    // Check if the learning moves is full with all the Movements
+    final myMovementsModel = context.ref.watch(myMovementsProvider);
+    final response = await myMovementsModel.getAllNoLearned();
+    return response.length == totalMoves;
+  }
+
   @override
   String toString() {
-    return 'TrainingWeek(sessionDuration=$sessionDuration, WODS = $wods)';
+    return 'TrainingWeek(sessionDuration=$sessionDuration, totalMoves=$totalMoves, WODS = $wods)';
   }
 }

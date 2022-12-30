@@ -32,6 +32,7 @@ class SettingsTrainingManager {
   List get blocksDuration => _blocksDurationOfTheWeek;
 
   int get totalWODS => _musclesAreasOfTheWeek.length;
+  ProviderRef<SettingsTrainingManager> get ref => _ref;
   // Create a list of index of the length size of the total client WODs.
   List<int> get listIndexWODS => Iterable<int>.generate(totalWODS).toList();
 
@@ -209,7 +210,11 @@ class SettingsTrainingManager {
         // the full body, so because that Is necessary to reduce the training days
         // to 3, or in other cases add one day.
         await updateTrainingDaysToNoobs();
-        // await client.updateTrainingDaysToNoobs();
+        print('WE UPDATE THE DATA BASE');
+        print('WE UPDATE THE DATA BASE');
+        print('WE UPDATE THE DATA BASE');
+        print('WE UPDATE THE DATA BASE');
+        print('WE UPDATE THE DATA BASE');
       } else {
         lastTrainedMuscleArea =
             getAvailableMuscleAreas(lastTrainedMuscleArea, trainingDays);

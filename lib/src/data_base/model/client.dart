@@ -122,6 +122,8 @@ class Client extends LocalDataBase {
   }
 
   void setTrainingDaysInState(String dayName, bool value) {
+    // From the [DayCheckBoxField] send the new state of the clicked button
+    // in the select list form.
     print('func -> [setTrainingDaysInState]');
     dayName = dayName.toLowerCase();
     switch (dayName) {
@@ -307,6 +309,13 @@ class Client extends LocalDataBase {
     return rawQuery(query);
   }
 
+  Future<Map<String, Object?>> getEquipment() async {
+    // Return a Dictionary with the Equipment of the Client
+    String query ="SELECT no_equipment, dumbbells, kettlebells, bench, barbell, weight_machines_selectorized, resistance_bands_cables, leggings, medicine_ball, stability_ball, ball, trx, raised_platform_box, box, rings, pull_up_bar, parallels_bar, wall, pole, trineo, rope, wheel, assault_bike FROM users WHERE id = 1;";
+    final response = await rawQuery(query);
+    return response[0];
+  }
+
   Future<List<Map<String, Object?>>> getTotaTrainingTime() async {
     String query = 'SELECT time_to_train FROM users WHERE id= 1';
     return rawQuery(query);
@@ -314,7 +323,7 @@ class Client extends LocalDataBase {
 
   Future<void> updateUser(List selectedFields) async {
     // Update the information of the User
-    print('------updateUser--------');
+    print('------TO UPDATE USER INFORMATION--------');
     print(selectFieldsToUpdate(selectedFields));
     update('users', selectFieldsToUpdate(selectedFields));
   }
