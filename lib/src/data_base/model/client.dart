@@ -306,7 +306,7 @@ class Client extends LocalDataBase {
     // Return a list with a Map with ONE VALUE. This is the goal of the client
     // of the total days he wants to train.
     String query =
-        'SELECT SUM(monday + tuesday + wednesday + thursday + friday + saturday) as total_training_days FROM users';
+        'SELECT SUM(monday + tuesday + wednesday + thursday + friday + saturday + sunday) as total_training_days FROM users';
     return rawQuery(query);
   }
 

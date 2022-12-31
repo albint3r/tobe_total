@@ -130,8 +130,11 @@ class TrainingWeek {
             'sets': context.setsInBlocks[i],
             'duration': context.blocksDuration[i],
           });
-      await wod.save();
-      WODS.add(wod);
+      // if the WOD is not expired it will be added and save it
+      if (!wod.isExpired) {
+        await wod.save();
+        WODS.add(wod);
+      }
     }
     setWODS(WODS);
   }

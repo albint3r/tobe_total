@@ -210,11 +210,6 @@ class SettingsTrainingManager {
         // the full body, so because that Is necessary to reduce the training days
         // to 3, or in other cases add one day.
         await updateTrainingDaysToNoobs();
-        print('WE UPDATE THE DATA BASE');
-        print('WE UPDATE THE DATA BASE');
-        print('WE UPDATE THE DATA BASE');
-        print('WE UPDATE THE DATA BASE');
-        print('WE UPDATE THE DATA BASE');
       } else {
         lastTrainedMuscleArea =
             getAvailableMuscleAreas(lastTrainedMuscleArea, trainingDays);
@@ -383,7 +378,6 @@ class SettingsTrainingManager {
       context: this,
       sessionDuration: sessionDuration,
     );
-    // print(trainingWeek);
     return trainingWeek;
   }
 }

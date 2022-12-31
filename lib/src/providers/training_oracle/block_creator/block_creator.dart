@@ -1,5 +1,4 @@
 import '../../block/model/block_model_provider.dart';
-import '../../cliente/model/cliente_model_provider.dart';
 import '../movements_selector/abstract_modes/emom/emom_creator.dart';
 import '../movements_selector/abstract_modes/modes.dart';
 import '../movements_selector/abstract_modes/rounds/round_creator.dart';
@@ -72,7 +71,11 @@ class BlockCreator {
     // This is a extension of the block Model
     Modes modeCreator = getModeCreator();
     modeCreator.create();
+    updateBlocksInWOD();
   }
+
+
+  void updateBlocksInWOD()=> context.updateBlocksValues();
 
 
   /// Saves the current block to the database.

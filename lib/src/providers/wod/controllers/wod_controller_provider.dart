@@ -6,35 +6,47 @@ import '../model/wod_model_provider.dart';
 
 
 class DateTimeManageController {
-
+  /// Finds the first date of the week for the given DateTime.
   DateTime findFirstDateOfTheWeek(DateTime dateTime) {
     return dateTime.subtract(Duration(days: dateTime.weekday - 1));
   }
 
+  /// Finds the last date of the week for the given DateTime.
   DateTime findLastDateOfTheWeek(DateTime dateTime) {
-    return dateTime
-        .add(Duration(days: DateTime.daysPerWeek - dateTime.weekday));
+    return dateTime.add(Duration(days: DateTime.daysPerWeek - dateTime.weekday));
   }
 
+  /// Finds the last date of the month for the given DateTime.
   DateTime findLastDateOfTheMonth(DateTime dateTime) {
     return DateTime(dateTime.year, dateTime.month + 1, 0);
   }
 
+  /// Finds the first date of the month for the given DateTime.
   DateTime findFirstDateOfTheMonth(DateTime dateTime) {
     return DateTime(dateTime.year, dateTime.month, 1);
   }
 
+  /// Finds the last date of the year for the given DateTime.
   DateTime findLastDateOfTheYear(DateTime dateTime) {
     return DateTime(dateTime.year, 12, 31);
   }
 
+  /// Finds the first date of the year for the given DateTime.
   DateTime findFirstDateOfTheYear(DateTime dateTime) {
-    return DateTime(dateTime.year, 1, 1); }
+    return DateTime(dateTime.year, 1, 1);
+  }
 
+  /// Returns the date for the next day from the given date.
   DateTime getTomorrow(date) {
     return date.add(const Duration(days: 1));
   }
 
+  /// Returns true if the given date is earlier in the week than today, false otherwise.
+  bool isExpired(DateTime date) {
+    DateTime now = DateTime.now();
+    // I added a day, because is taking the current day as expired.
+    return date.weekday < now.weekday;
+  }
 }
 
 final dateTimeManageControllerProvider = Provider<DateTimeManageController>((ref) {

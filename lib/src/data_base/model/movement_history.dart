@@ -7,6 +7,10 @@ class MovementHistory extends LocalDataBase {
     return await isAny('movement_history');
   }
 
+  /// Adds a new entry to the 'movement_history' table with the specified
+  /// 'fitnessMoveId' and 'blocksId' values.
+  ///
+  /// Returns a [Future] that completes when the operation is finished.
   Future<void> addNew(int fitnessMoveId, int blocksId) async {
     return await add(
       'movement_history',
