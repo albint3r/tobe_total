@@ -23,12 +23,16 @@ class WODsCardInformation extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDay = ref.watch(selectedDayProvider);
+    final wodsModel = ref.watch(wodsModelProvider);
+
     return CardInParent(
       header: 'WODs information:',
-      icon: selectedDay == null ? Icons.list : Icons.filter_list_rounded, callBackOnTap: () {
-      ref.watch(calendarControllerProvider).unselectDayCalendar(ref);
-      print('Display list of WODS');
-    }, listWidgets: getWODsInformation(context, ref),
+      icon: selectedDay == null ? Icons.list : Icons.filter_list_rounded,
+      callBackOnTap: () async {
+        ref.watch(calendarControllerProvider).unselectDayCalendar(ref);
+        print('Display list of WODS');
+      },
+      listWidgets: getWODsInformation(context, ref),
     );
   }
 

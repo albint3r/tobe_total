@@ -49,7 +49,7 @@ class WODCreator {
   bool get isExpired => DateTime.now().weekday > expectedTrainingDate.weekday;
 
   /// Initializes the context for the `BlockCreator` objects in the `blocks` list.
-  void initContext() => _initContext();
+  Future<void> initContext() async => await _initContext();
 
   /// Initializes the context for each `BlockCreator` object in the `blocks` list.
   void initBlocks() => _initChildContext();
@@ -60,7 +60,7 @@ class WODCreator {
   /// It then generates a list of integers from 0 to the number of blocks, inclusive.
   /// Finally, it iterates over the list of integers and creates a new `BlockCreator` object for each integer,
   /// passing in the necessary information from the `blocksGeneralInformation` map as arguments to the constructor.
-  void _initContext() {
+  Future<void> _initContext() async {
     // Create the blocks in the WOD
     int tempTotalBlocks = blocksGeneralInformation['mode']?.length ?? 1;
     List<int> indexBlock = Iterable<int>.generate(tempTotalBlocks).toList();
@@ -72,12 +72,7 @@ class WODCreator {
         mode: blocksGeneralInformation['mode']![i],
         sets: blocksGeneralInformation['sets']![i],
       );
-      block.save();
-      print('--------Aqui estoy--------------');
-      print('---------${block.id}-------------');
-      print('----------------------');
-      print('----------------------');
-      print('----------------------');
+      await block.save();
       blocks.add(block);
     }
   }
@@ -99,18 +94,7 @@ class WODCreator {
   ///
   /// The function iterates over the `blocks` list and calls the `initContext()` method on each `BlockCreator` object.
   void _initChildContext() {
-    print('-----------------------');
-    print('-------A----------------');
-    print('-----------------------');
-    print('-----------------------');
-    print('-----------------------');
-    print(blocks);
     for (BlockCreator block in blocks) {
-      print('----------B-------------');
-      print('--------B--------------');
-      print('---------B--------------');
-      print('---------B--------------');
-      print('---------B--------------');
       block.initContext();
     }
   }

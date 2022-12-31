@@ -28,7 +28,7 @@ class LocalDataBase {
     return response.isNotEmpty;
   }
 
-  static void ifNotExistCreateInitialDataBaseInDevice() async {
+  static Future<void> ifNotExistCreateInitialDataBaseInDevice() async {
     // If the Initial DataBase Don't exist it will created in the
     // client device. This [copy] the document inside the "assets/tobe_total.db"
     Directory deviceDocumentsPath = await getApplicationDocumentsDirectory();

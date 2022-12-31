@@ -3,7 +3,7 @@ import 'package:tobe_total/src/data_base/db.dart';
 
 class WODs extends LocalDataBase {
   Future<bool> isWODsExist() async {
-    // Check if exist any user in the database
+    // Check if there are any WODs in the database
     return await isAny('wods');
   }
 

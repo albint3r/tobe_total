@@ -56,7 +56,6 @@ abstract class Modes {
           bool finisProcess = false;
           // Until the process is not finish the method
           // would be iterated to get a movement
-          int counter = 0;
           while (!finisProcess) {
             movementOption = await getLearningMoveNotCollidePrev();
             MovementCreator movement = MovementCreator(
@@ -76,7 +75,7 @@ abstract class Modes {
               await movement.save();
               // This will let the user add a move if this is not in [myMovements]
               // and the counter is Zero. This will pass the Muscle Freq rule.
-            } else if (await notExistIdInMyMovements(movement.id) ||
+            } else if (await notExistIdInMyMovements(movement.id) &
                 isMaxIterCounterZero()) {
               currentBlock.setMovement(movement);
               finisProcess = !finisProcess;
@@ -190,12 +189,12 @@ abstract class Modes {
     return movementOption[randomIndex];
   }
 
-  Future<bool> notExistIdInMyMovements(int moveId) {
+  Future<bool> notExistIdInMyMovements(int moveId) async {
     // Check if the Id already exist in MyMovements
     // Return true if the ID [not exist.]
     final myMovementsModel =
         currentBlock.context.context.context.ref.watch(myMovementsProvider);
-    return myMovementsModel.notExistID(moveId);
+    return await myMovementsModel.notExistID(moveId);
   }
 
   String get getLastMovementPattern {

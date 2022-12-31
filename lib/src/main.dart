@@ -12,7 +12,7 @@ void main() async {
   // This ensure the initialization of the DB
   WidgetsFlutterBinding.ensureInitialized();
   // Check if [Not] Exist yet [tobe_total.db]
-  LocalDataBase.ifNotExistCreateInitialDataBaseInDevice();
+  await LocalDataBase.ifNotExistCreateInitialDataBaseInDevice();
   // Set the initial preference of the users.
   preferences.initPrefs();
   // Check in [SQLite] if the exit at least one [user]. And add the info th [preferences_cache]

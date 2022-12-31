@@ -102,7 +102,7 @@ class TrainingWeek {
   }
 
   // Initialize all the Wods.
-  void initWODS() => _initChildContext();
+  Future<void> initWODS() async => await _initChildContext();
 
   // Initialize the Blocks inside the WOD
   void initWODSBlocks() => _initChildChildrenContext();
@@ -136,12 +136,12 @@ class TrainingWeek {
     setWODS(WODS);
   }
 
-  void _initChildContext() {
+  Future<void> _initChildContext() async {
     // Initialize the Child Context.
     //
     // In this case it would create all the blocks inside the wod.
     for (var wod in wods) {
-      wod.initContext();
+      await wod.initContext();
     }
   }
 

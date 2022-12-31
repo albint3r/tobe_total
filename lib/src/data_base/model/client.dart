@@ -15,7 +15,8 @@ class Client extends LocalDataBase {
   int age = -1;
   double weight = -1.0;
   double height = -1.0;
-  int level = 0;
+  //TODO ESTO ESTA DE PRUEBA LUEGO SE CAMBIARA A 0 Y SE AGREGARA EL FORMULARIO
+  int level = 1;
   int timeToTrain = 0;
   bool monday = false;
   bool tuesday = false;

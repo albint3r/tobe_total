@@ -19,16 +19,16 @@ class BlockTrioKPI extends ConsumerWidget {
         return totalTrainedTime.when(
             error: (error, stackTrace) => Text('Error $error'),
             loading: () => const CircularProgressIndicator(),
-            data: (data) {
+            data: (totalTrainingTimeData) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SingleBlockKPI(
-                    header: '$data',
+                    header: '$totalTrainingTimeData',
                     subHeader: 'No Implement',
                   ),
                   SingleBlockKPI(
-                    header: '$data mins',
+                    header: '$totalTrainingTimeData mins',
                     subHeader: 'Trained time',
                   ),
                   SingleBlockKPI(

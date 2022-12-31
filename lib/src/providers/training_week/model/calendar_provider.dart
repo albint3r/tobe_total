@@ -37,7 +37,7 @@ final selectedDayProvider = StateProvider<DateTime?>((ref) {
   return null;
 });
 
-final wodsAllTrainingsProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+final wodsAllTrainingsProvider = FutureProvider.autoDispose<List<Map<String, dynamic>>>((ref) async {
   // Return a list of all the wods. This is when the user
   // hasn't select any day on the calendar. So this will display all the
   // Wods to train.

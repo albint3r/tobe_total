@@ -89,7 +89,7 @@ FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
 
 
 
-final goalProgressDaysProvider = FutureProvider<Map>((ref) async {
+final goalProgressDaysProvider = FutureProvider.autoDispose<Map>((ref) async {
   //  TODO ADD A LAST WEEK GOAL CACHE, this will help to
   // avoid that the user change their goal and have another view of their stats
   // example. The user create a 5 day goal, and then he change the goal to 3
@@ -102,11 +102,9 @@ final goalProgressDaysProvider = FutureProvider<Map>((ref) async {
   // of the days in the current week.
   String startDayOfTheWeekDate = ref.watch(startedDayOfTheWeekDateProvider);
   // 3 - Make call to the DB.
-  List<Map> expectedTrainingDays =
-  await wodsModel.getWeekExpectedTrainingDays(startDayOfTheWeekDate);
+  List<Map> expectedTrainingDays = await wodsModel.getWeekExpectedTrainingDays(startDayOfTheWeekDate);
   List<Map> actualTrainingDaysGoal = await clientModel.getTotalTrainingDays();
-  print('---------------------');
-  print(actualTrainingDaysGoal);
+
   // Transform values to manage:
   int goal = actualTrainingDaysGoal[0]['total_training_days'];
   int currentTrainedDays = 0;
@@ -116,7 +114,7 @@ final goalProgressDaysProvider = FutureProvider<Map>((ref) async {
     return {'goalPer': 0.0, 'currentTrainedDays': 0, 'goal': goal};
   } else {
     for (Map wod in expectedTrainingDays) {
-      int tempDayToCount = wod['did_wod'];
+      int tempDayToCount = wod['did_wod'] ?? 0;
       currentTrainedDays = currentTrainedDays + tempDayToCount;
     }
   }
@@ -132,12 +130,7 @@ final goalProgressDaysProvider = FutureProvider<Map>((ref) async {
 
 
 
-
-
-
-
-
-final totalTrainedTimeProvider = FutureProvider<int>(
+final totalTrainedTimeProvider = FutureProvider.autoDispose<int>(
       (ref) async {
     // Return an Integer with the total days trained.
     // TODO FOR NOW THIS FUNCTION WONT CONSIDERATE THE REAL DAYS TRAINED
