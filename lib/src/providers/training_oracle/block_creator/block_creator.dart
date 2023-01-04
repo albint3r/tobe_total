@@ -13,26 +13,47 @@ class BlockCreator {
     required this.mode,
     required this.sets,
   }) : _context = context;
+
+  /// ID of the block.
   late int _id;
+
+  /// Index of the block in the WOD.
   int index;
+
+  /// Duration of the block in seconds.
   int blockDuration;
+
+  /// Mode of the block (e.g. round, EMOM).
   String mode;
+
+  /// Number of sets in the block.
   int sets;
+
+  /// WOD context.
   final WODCreator _context;
+
+  /// List of movements in the block.
   late final List<MovementCreator> _movements = [];
 
+  /// Getter for the ID of the block.
   int get id => _id;
-  set id(int id)=> _id=id;
 
+  /// Setter for the ID of the block.
+  set id(int id) => _id = id;
+
+  /// Getter for the WOD context.
   WODCreator get context => _context;
 
+  /// Getter for the list of movements in the block.
   List<MovementCreator> get movements => _movements;
 
-  // Add the movement to the Blocks
+  /// Add a movement to the block.
   void setMovement(MovementCreator movement) => _movements.add(movement);
 
+  /// Calculate the total number of movements in the block.
   double get totalMovesInBlock => blockDuration / sets;
 
+  /// Get a list of possible numbers of movements that can be created.
   List<int> get getPossibleCreateMoves =>
       Iterable<int>.generate(totalMovesInBlock.round()).toList();
 
@@ -53,12 +74,13 @@ class BlockCreator {
   // Get the body area of the WOD
   String get bodyArea => context.bodyArea;
 
-  // Depending of the Mode it will return their constructor.
+  /// Get the `Modes` object for the block's mode.
   Modes getModeCreator() => mode == 'round'
       ? RoundsCreator(context: this)
       : EMOMCreator(context: this);
 
-  void _initContext()  {
+  /// Initialize the context of the block.
+  void _initContext() {
     print('----------GENERAL DATA---------------');
     print(context.context);
     print('---------- [${context.index}] WOD DATA-------------------');
@@ -74,16 +96,16 @@ class BlockCreator {
     updateBlocksInWOD();
   }
 
-
-  void updateBlocksInWOD()=> context.updateBlocksValues();
-
+  /// Update the blocks values in the WOD.
+  void updateBlocksInWOD() => context.updateBlocksValues();
 
   /// Saves the current block to the database.
   ///
   /// The block is added to the `blocks` table and its identifier is updated.
   Future<void> save() async {
     final blockModel = context.context.context.ref.watch(blocksModelProvider);
-    await blockModel.addNew(context.id, mode, sets, blockDuration, totalMovesInBlock.toInt());
+    await blockModel.addNew(
+        context.id, mode, sets, blockDuration, totalMovesInBlock.toInt());
     id = await blockModel.getLastBlockId();
   }
 

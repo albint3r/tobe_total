@@ -1,14 +1,28 @@
 import '../../my_movements/model/my_movements_model.dart';
 import '../settings_manager/settings_training_manager.dart';
 import '../wod_creator/wod_creator.dart';
-
+/// The `TrainingWeek` class represents a training week.
+///
+/// It has two required fields in its constructor:
+///   - `context`: a `SettingsTrainingManager` object containing all the settings for the training week.
+///   - `sessionDuration`: the duration of each session in the training week.
 class TrainingWeek {
   TrainingWeek({
     required SettingsTrainingManager context,
     required int sessionDuration,
   })  : _context = context,
         _sessionDuration = sessionDuration;
+
+  /// The `SettingsTrainingManager` instance associated with this training week.
+  final SettingsTrainingManager _context;
+
+  /// The duration of each training session in this week.
+  final int _sessionDuration;
+
+  /// A temporary variable used to store the ID of a workout of the day.
   int _tempWODID = -1;
+
+  /// A temporary variable used to store the ID of a block.
   int _tempBlockID = -1;
 
   /// Returns the value of the `tempWODID` field.
@@ -23,12 +37,6 @@ class TrainingWeek {
   /// Sets the value of the `tempBlockID` field.
   set tempBlockID(int newValue) => _tempBlockID = newValue;
 
-  /// The context of the training week, which contains all the settings
-  /// for the training week.
-  final SettingsTrainingManager _context;
-
-  /// The duration of each session in the training week.
-  final int _sessionDuration;
 
   /// A list of [WODCreator] objects representing all the WODs in the training week.
   List<WODCreator> _wods = [];
@@ -87,11 +95,13 @@ class TrainingWeek {
   // Get the Session Duration of the WOD.
   int get sessionDuration => _sessionDuration;
 
+  /// Returns the list of `WODCreator` instances associated with this training week.
   List<WODCreator> get wods => _wods;
 
   // The total WODs in the training week.
   int get totalWODS => wods.length;
 
+  /// Returns the total number of moves in all workouts of the day for this training week.
   double get totalMoves {
     // Return the total moves in the wod
     double counter = 0.0;

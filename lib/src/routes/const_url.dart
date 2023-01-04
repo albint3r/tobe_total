@@ -1,4 +1,13 @@
 class ConstantsUrls {
+  // The ConstantsUrls class is a utility class that stores the screen routes
+  // used in the application. It contains a series of constants that represent
+  // the different screen routes and a method that returns the screen route
+  // for a specific index.
+  //
+  // This class is used to provide a centralized access point to the screen
+  // routes and to facilitate the updating and maintenance of the screen
+  // routes in the application.
+
   // static String home = '/';
   static String signIn = 'sign_in_and_update';
   static String progress = 'progress';
@@ -12,8 +21,10 @@ class ConstantsUrls {
   static String updateTrainingItinerary = 'update_training_itinerary';
   static String updateAthleteGoal = 'update_athlete_goal';
 
+  /// Return the screen route of the specified index.
+  ///
+  /// This returns the [routName] depending on the index of the [Nav Menu].
   static String getScreenOfIndex(int index) {
-    // This returns the [routName] depending of the index of the [Nav Menu]
     Map<int, String> menuRoutes = {
       0: progress,
       1: trainingPlan,

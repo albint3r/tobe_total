@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tobe_total/src/features/sign_in_and_update/presentation/update_biometrics.dart';
 import '../features/block_plan_manage/presentation/block_plan_screen.dart';
 import '../features/configurate_athlete_profile/presentation/settings_menu_screen.dart';
+import '../features/my_movements/my_movements_screen.dart';
 import '../features/progress/progress_screen.dart';
 import '../features/sign_in_and_update//presentation/sign_in.dart';
 import '../features/sign_in_and_update/presentation/update_athlete_goal.dart';
@@ -12,18 +13,22 @@ import '../features/wod_plan_manage/presentation/wod_plan_screen.dart';
 import 'const_url.dart';
 
 class Routes {
+  /// Return a Map with all the Routes Screens Location.
+  ///
+  /// The map key is the route name, and the value is a function that returns
+  /// a widget.
+  ///
+  /// [context] is responsible to bind the context with the screen.
+
   Map<String, Widget Function(BuildContext)> getScreens(BuildContext context) {
-    /// Return a Map with all the Routes Screens Location.
-    /// Parameters:
-    /// ------------
-    /// BuildContext context:
-    /// Is responsible to bind the context with the Screen.
     return {
       ConstantsUrls.progress: (context) => const Progress(),
       ConstantsUrls.signIn: (context) => const SignIn(),
       ConstantsUrls.trainingPlan: (context) => const TrainingCalendarScreen(),
       ConstantsUrls.wodPlan: (context) => const WODPlanScreen(),
       ConstantsUrls.blockPlan: (context) => const BlockPlanScreen(),
+      ConstantsUrls.blockPlan: (context) => const BlockPlanScreen(),
+      ConstantsUrls.myMoves: (context) => const MyMovementsScreen(),
       ConstantsUrls.settingsMenu: (context) => const SettingsMenu(),
       ConstantsUrls.updateGeneralInformation: (context) => const UpdateGeneralInformation(),
       ConstantsUrls.updateBiometrics: (context) => const UpdateBiometrics(),
@@ -32,9 +37,12 @@ class Routes {
     };
   }
 
+  /// Navigate to the specified route.
+  ///
+  /// [context] is responsible to bind the context with the screen.
+  ///
+  /// If [urlRoute] is not provided, the default route '/' is used.
   navigateTo(BuildContext context, [String urlRoute = '/']) {
-    // Enable to navigate between screens.
-
     Map<String, Widget Function(BuildContext)> screens = getScreens(context);
     var screen = screens[urlRoute];
     Widget endPoint = screen!(context);
@@ -48,7 +56,7 @@ class Routes {
       ),
     );
   }
-
+  /// Return the screen route of the specified index in the Bottom Bar Nav
   String getScreenOfIndex(int index) {
     return ConstantsUrls.getScreenOfIndex(index);
   }
