@@ -13,6 +13,13 @@ final myMovementControllerProvider = Provider<MyMovementControllers>((ref) {
   return MyMovementControllers();
 });
 
+/// A state provider that stores a string value.
+final queryMyMovementFilteredProvider =
+StateProvider.autoDispose<String>((ref) {
+  /// Returns an initial value for the state, in this case an empty string.
+  return '';
+});
+
 /// [MyMovementControllers] is a class that provides two methods to generate
 /// progress values based on either a difficulty level or a learning level.
 ///
@@ -26,7 +33,32 @@ final myMovementControllerProvider = Provider<MyMovementControllers>((ref) {
 /// double between 0 and 1, where 0 represents no progress and 1
 /// represents maximum progress. If the learning level is greater
 /// than 10, the maximum progress value of 1 is returned.
+
 class MyMovementControllers {
+  /// Generates a search result for a list of moves.
+  ///
+  /// The search result is a map that maps the names of the moves to the maps
+  /// representing the moves. The names and maps are obtained from the
+  /// [allMyMovements] list.
+  ///
+  /// Returns the search result as a map.
+  Map<String, Map> generateMyMoveSearch(List<Map> allMyMovements) {
+    Map<String, Map> finalResult = {};
+    for (Map move in allMyMovements) {
+      finalResult[move['name']] = move;
+    }
+    return finalResult;
+  }
+
+  /// Sets the state of the `queryMyMovementFilteredProvider` state provider.
+  ///
+  /// The [moveQuery] parameter is the new value for the state. The [ref]
+  /// parameter is a reference to a widget that can be used to access the
+  /// state provider.
+  void setStateQueryMyMovementFilteredProvider(
+      String moveQuery, WidgetRef ref) {
+    ref.watch(queryMyMovementFilteredProvider.notifier).state = moveQuery;
+  }
 
   /// Generates a difficulty progress value based on the provided
   /// difficulty level.
@@ -88,3 +120,4 @@ final equipmentTranslateProvider = Provider<Map<String, String>>((ref) {
     'assaultBike': 'Assault Bike',
   };
 });
+

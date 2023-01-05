@@ -3,35 +3,58 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/features/common_widgets/movement_stats/single_card_move_stats.dart';
 import '../../../providers/my_movements/controllers/my_movements_controller.dart';
 
-
-/// A widget that displays the movement statistics for a collection of cards.
-class CardsMovementStats extends ConsumerWidget {
-  /// Creates a new instance of [CardsMovementStats].
+class CardsMovementStats extends ConsumerStatefulWidget {
   const CardsMovementStats({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => _CardsMovementStatsState();
+}
+
+class _CardsMovementStatsState extends ConsumerState<CardsMovementStats> {
+  @override
+  Widget build(BuildContext context) {
     final allMyMovements = ref.watch(allMyMovementsProvider);
     return allMyMovements.when(
-      error: (error, stackTrace) => Text('Erro $error'),
+      error: (error, stackTrace) => Text('Error $error'),
       loading: () => const CircularProgressIndicator(),
       data: (movesData) {
+        List<SingleCardMoveStats> allCards = generateCardsStats(movesData, ref);
         return Column(
-          children: generateCardsStats(movesData),
+          children: allCards,
         );
       },
     );
   }
-  /// Generates a list of [SingleCardMoveStats] widgets based on the provided
-  /// [movesData].
+
+  /// [SingleCardMoveStats] objects.
+  ///
+  /// The list of moves is filtered using the [filteredMove] string obtained from
+  /// the [ref] object and the [queryMyMovementFilteredProvider] method. If the
+  /// [filteredMove] string is not empty, the search result is obtained from the
+  /// [myMovementController] object also obtained from the [ref] object using the
+  /// [generateMyMoveSearch] method and the [movesData] list is updated with the
+  /// result.
+  ///
+  /// Then, a [SingleCardMoveStats] object is created for each map in the
+  /// [movesData] list and added to the [allCards] list. The [allCards] list is
+  /// returned at the end of the function.
   List<SingleCardMoveStats> generateCardsStats(
-      List<Map<String, Object?>> movesData) {
+      List<Map<String, Object?>> movesData, WidgetRef ref) {
+    final filteredMove = ref.watch(queryMyMovementFilteredProvider);
+    final myMovementController = ref.watch(myMovementControllerProvider);
     List<SingleCardMoveStats> allCards = [];
+    // If the user click the search option this will filter all the
+    // card and only show the one that clicked.
+    if (filteredMove != '') {
+      var moveResult = myMovementController.generateMyMoveSearch(movesData);
+      Map<String, Object?> result =
+          moveResult[filteredMove] as Map<String, Object?>;
+      movesData = [result];
+    }
+
     for (Map<String, Object?> move in movesData) {
-      print('------------');
-      print(move);
       final SingleCardMoveStats cardMoveStat = SingleCardMoveStats(
         moveStats: move,
       );
@@ -40,6 +63,3 @@ class CardsMovementStats extends ConsumerWidget {
     return allCards;
   }
 }
-
-
-
