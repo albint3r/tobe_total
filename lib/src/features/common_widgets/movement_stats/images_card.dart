@@ -15,7 +15,7 @@ class ImageCardMoveStat extends ConsumerWidget {
       top: 10,
       right: 10,
       child: Container(
-        height: 220,
+        height: 230,
         width: 150,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(

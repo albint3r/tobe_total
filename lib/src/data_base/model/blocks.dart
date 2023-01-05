@@ -50,4 +50,14 @@ class Blocks extends LocalDataBase {
     List<Map<String, Object?>> response = await getLastId();
     return response[0]['last_insert_rowid()'] as int;
   }
+  /// This method [JOIN] several tables to return only the [movements] inside
+  /// the [Block] ID selected.
+  /// This method was created here, because have more sense that
+  ///
+  /// the own [block] call all the [movements] inside.
+  Future<List<Map<String, Object?>>> getBlocksMovementsById(int blockId) {
+    String query = 'SELECT * FROM movement_history AS mh JOIN blocks as b ON b.id = mh.blocks_id JOIN wods as w ON w.id = b.wod_id JOIN fitness_moves AS fm ON fm.id = mh.fitness_move_id JOIN my_movements AS mm ON mm.fitness_move_id = fm.id WHERE blocks_id = $blockId';
+    return rawQuery(query);
+  }
+
 }

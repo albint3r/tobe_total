@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tobe_total/src/features/my_movements/presentation/search_filter.dart';
 import '../../common_widgets/headers_screens/header_screens.dart';
 import '../../common_widgets/movement_stats/card_movement_stats.dart';
+import 'search_filter.dart';
 
 class MyMovementsDisplay extends ConsumerStatefulWidget {
   const MyMovementsDisplay({

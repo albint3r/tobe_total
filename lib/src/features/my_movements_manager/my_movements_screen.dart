@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tobe_total/src/features/my_movements/presentation/movements_display.dart';
+import 'package:tobe_total/src/features/my_movements_manager/presentation/movements_display.dart';
 import '../common_widgets/bottom_nav_bar/presentation/bottom_nav_bar2.dart';
 
 // The [MyMovementsScreen] class is a widget class that is used to display a

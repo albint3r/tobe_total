@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tobe_total/src/features/my_movements/presentation/search_logic.dart';
+import 'package:tobe_total/src/features/my_movements_manager/presentation/search_logic.dart';
+
+import '../../common_widgets/headers_screens/header_screens.dart';
 
 class SearchFilter extends ConsumerStatefulWidget {
   const SearchFilter({
@@ -28,7 +30,7 @@ class _SearchFilterState extends ConsumerState<SearchFilter> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text('Search Movement'),
+          H6Screens(header: 'Search Movement'),
           Card(
             elevation: 2,
             shape:

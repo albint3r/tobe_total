@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tobe_total/src/features/sign_in_and_update/presentation/update_biometrics.dart';
 import '../features/block_plan_manage/presentation/block_plan_screen.dart';
 import '../features/configurate_athlete_profile/presentation/settings_menu_screen.dart';
-import '../features/my_movements/my_movements_screen.dart';
+import '../features/my_movements_manager/my_movements_screen.dart';
 import '../features/progress/progress_screen.dart';
 import '../features/sign_in_and_update//presentation/sign_in.dart';
 import '../features/sign_in_and_update/presentation/update_athlete_goal.dart';
@@ -26,7 +26,6 @@ class Routes {
       ConstantsUrls.signIn: (context) => const SignIn(),
       ConstantsUrls.trainingPlan: (context) => const TrainingCalendarScreen(),
       ConstantsUrls.wodPlan: (context) => const WODPlanScreen(),
-      ConstantsUrls.blockPlan: (context) => const BlockPlanScreen(),
       ConstantsUrls.blockPlan: (context) => const BlockPlanScreen(),
       ConstantsUrls.myMoves: (context) => const MyMovementsScreen(),
       ConstantsUrls.settingsMenu: (context) => const SettingsMenu(),

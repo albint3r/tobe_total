@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/features/common_widgets/cards_below_main_display/cards_in_parent.dart';
 import 'package:tobe_total/src/features/wod_plan_manage/presentation/stats_wod.dart';
+import '../../../providers/block/controllers/block_controller_provider.dart';
+import '../../../providers/block/model/block_model_provider.dart';
+import '../../../providers/routes/routes_provider.dart';
 import '../../../providers/wod/controllers/wod_controller_provider.dart';
 import '../../../providers/wod/model/wod_model_provider.dart';
+import '../../../routes/const_url.dart';
 import '../../common_widgets/cards_below_main_display/icon_trio_item.dart';
 import '../../common_widgets/cards_below_main_display/next_screen_button.dart';
 import '../../common_widgets/cards_below_main_display/single_card_item.dart';
 import '../../common_widgets/headers_screens/header_screens.dart';
-import '../../common_widgets/stats_main_display/stats_main_display.dart';
 
 class WODDisplay extends ConsumerWidget {
   const WODDisplay({
@@ -39,14 +42,15 @@ class WODDisplay extends ConsumerWidget {
                     //TODO ADD A CALLBACK
                     print('Not Implemented');
                   },
-                  listWidgets: getStatsOfAllBlocksInWod(blockInData))
+                  listWidgets:
+                      getStatsOfAllBlocksInWod(blockInData, context, ref))
             ],
           );
         });
   }
 
-  List<Widget> getStatsOfAllBlocksInWod(
-      List<Map<String, Object?>> blockInData) {
+  List<Widget> getStatsOfAllBlocksInWod(List<Map<String, Object?>> blockInData,
+      BuildContext context, WidgetRef ref) {
     List<Widget> blocksList = [];
     if (blockInData.isNotEmpty) {
       for (Map block in blockInData) {
@@ -77,9 +81,13 @@ class WODDisplay extends ConsumerWidget {
           ],
           buttonNextScreen: NextScreenButton(
             callBack: () {
-              // TODO IMPLEMENT NEXT OR DISPLAY ANOTHER KIND OF MENU
-              print('NOT IMPLEMENTED BUTTON');
-              print('Click in  -> ${block['id']}');
+              // Create and setState of Block Id
+              final blockController = ref.watch(blockControllerProvider);
+              blockController.setStateClickedBlockIDProvider(block['id'], ref);
+              // Create Routes Object to navigate to the block Id
+              final routes = ref.watch(routesProvider);
+              print('Click in  -> ${ref.watch(clickedBlockIDProvider)}');
+              routes.navigateTo(context, ConstantsUrls.blockPlan);
             },
           ),
         );

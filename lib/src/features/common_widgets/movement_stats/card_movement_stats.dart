@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/features/common_widgets/movement_stats/single_card_move_stats.dart';
+import '../../../providers/block/controllers/block_controller_provider.dart';
+import '../../../providers/block/model/block_model_provider.dart';
 import '../../../providers/my_movements/controllers/my_movements_controller.dart';
 
 class CardsMovementStats extends ConsumerStatefulWidget {
@@ -15,8 +17,30 @@ class CardsMovementStats extends ConsumerStatefulWidget {
 class _CardsMovementStatsState extends ConsumerState<CardsMovementStats> {
   @override
   Widget build(BuildContext context) {
-    final allMyMovements = ref.watch(allMyMovementsProvider);
-    return allMyMovements.when(
+    final clickedBlockId = ref.watch(clickedBlockIDProvider);
+    // When the BlockId is less than zero, it means that the is not set id
+    if (clickedBlockId <= 0) {
+      /// Depending if the MyMove Cards is selected from myMovements
+      /// or by clicking the block moves information, this is the difference
+      /// that would change the behavior of the Cards creation.
+      final allMyMovements = ref.watch(allMyMovementsProvider);
+      return generateAllCards(context, allMyMovements);
+    } else {
+      // This is by Block creation
+      final movesInBlockId = ref.watch(blockMovesInsideProvider);
+      return generateAllCards(context, movesInBlockId);
+    }
+  }
+
+  /// Generates a list of cards using the data from the given [selectedProvider].
+  ///
+  /// The list is displayed using a `ListView.builder` widget.
+  ///
+  /// [context] is the current build context.
+  /// [selectedProvider] is an `AsyncValue` object representing
+  /// the selected provider.
+  dynamic generateAllCards(BuildContext context, AsyncValue selectedProvider) {
+    return selectedProvider.when(
       error: (error, stackTrace) => Text('Error $error'),
       loading: () => const CircularProgressIndicator(),
       data: (movesData) {
@@ -24,6 +48,8 @@ class _CardsMovementStatsState extends ConsumerState<CardsMovementStats> {
         return ListView.builder(
           shrinkWrap: true,
           itemCount: allCards.length,
+          // physics: const AlwaysScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
             return allCards[index];
           },
