@@ -15,9 +15,9 @@ final myMovementControllerProvider = Provider<MyMovementControllers>((ref) {
 
 /// A state provider that stores a string value.
 final queryMyMovementFilteredProvider =
-StateProvider.autoDispose<String>((ref) {
+StateProvider.autoDispose<List<String>>((ref) {
   /// Returns an initial value for the state, in this case an empty string.
-  return '';
+  return [''];
 });
 
 /// [MyMovementControllers] is a class that provides two methods to generate
@@ -57,7 +57,7 @@ class MyMovementControllers {
   /// state provider.
   void setStateQueryMyMovementFilteredProvider(
       String moveQuery, WidgetRef ref) {
-    ref.watch(queryMyMovementFilteredProvider.notifier).state = moveQuery;
+    ref.watch(queryMyMovementFilteredProvider.notifier).state = [moveQuery];
   }
 
   /// Generates a difficulty progress value based on the provided

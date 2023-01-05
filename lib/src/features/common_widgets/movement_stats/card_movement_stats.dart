@@ -21,8 +21,12 @@ class _CardsMovementStatsState extends ConsumerState<CardsMovementStats> {
       loading: () => const CircularProgressIndicator(),
       data: (movesData) {
         List<SingleCardMoveStats> allCards = generateCardsStats(movesData, ref);
-        return Column(
-          children: allCards,
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: allCards.length,
+          itemBuilder: (BuildContext context, int index) {
+            return allCards[index];
+          },
         );
       },
     );
@@ -47,10 +51,10 @@ class _CardsMovementStatsState extends ConsumerState<CardsMovementStats> {
     List<SingleCardMoveStats> allCards = [];
     // If the user click the search option this will filter all the
     // card and only show the one that clicked.
-    if (filteredMove != '') {
+    if (filteredMove[0] != '') {
       var moveResult = myMovementController.generateMyMoveSearch(movesData);
       Map<String, Object?> result =
-          moveResult[filteredMove] as Map<String, Object?>;
+          moveResult[filteredMove[0]] as Map<String, Object?>;
       movesData = [result];
     }
 

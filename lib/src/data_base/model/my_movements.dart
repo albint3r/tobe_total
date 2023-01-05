@@ -35,7 +35,7 @@ class MyMovements extends LocalDataBase {
 
   /// Gets all rows from the `my_movements` table.
   Future<List<Map<String, Object?>>> getAllMovesStats() async {
-    String query = 'SELECT * FROM my_movements AS mm JOIN fitness_moves AS fm ON fm.id = mm.fitness_move_id';
+    String query = 'SELECT * FROM my_movements AS mm JOIN fitness_moves AS fm ON fm.id = mm.fitness_move_id ORDER BY difficulty, name';
     return rawQuery(query);
   }
 
