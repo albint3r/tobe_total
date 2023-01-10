@@ -128,7 +128,7 @@ class WODCreator {
   ///
   /// @return A `Future` that completes with the result of
   /// the initialization operation.
-  Future<void> initContext() async => await _initContext();
+  Future<void>  initContext() async => await _initContext();
 
   /// Initializes the child context of the current Workout of the Day (WOD)
   /// by creating the moves in the blocks of the WOD.
@@ -138,7 +138,7 @@ class WODCreator {
   ///
   /// @return A `Future` that completes with the result of
   /// the initialization operation.
-  void initBlocks() => _initChildContext();
+  Future<void> initBlocks() async => await _initChildContext();
 
   /// Initializes the context of the current Workout of the Day (WOD)
   /// by creating the blocks in the WOD and saving them to the local database.
@@ -175,9 +175,9 @@ class WODCreator {
   ///
   /// The function iterates over the `blocks` list and calls the `initContext()`
   /// method on each `BlockCreator` object.
-  void _initChildContext() {
+  Future<void> _initChildContext() async {
     for (BlockCreator block in blocks) {
-      block.initContext();
+      await block.initContext();
     }
   }
 

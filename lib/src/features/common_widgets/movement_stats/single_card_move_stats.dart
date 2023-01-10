@@ -220,7 +220,7 @@ class SingleCardMoveStats extends ConsumerWidget {
     wheel = attributes['wheel'];
     assaultBike = attributes['assault_bike'];
     isCompoundMovement = attributes['is_compound_movement'];
-    maxRepsExpected = attributes['max_reps_expected'];
+    maxRepsExpected = attributes['max_reps_expected'] ?? 0;
     description = attributes['description'];
   }
 }

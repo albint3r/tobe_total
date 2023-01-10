@@ -10,14 +10,18 @@ class TrainingWeek {
   TrainingWeek({
     required SettingsTrainingManager context,
     required int sessionDuration,
+    required int totalMoves,
   })  : _context = context,
-        _sessionDuration = sessionDuration;
+        _sessionDuration = sessionDuration,
+        _totalMoves = totalMoves;
 
   /// The `SettingsTrainingManager` instance associated with this training week.
   final SettingsTrainingManager _context;
 
   /// The duration of each training session in this week.
   final int _sessionDuration;
+
+  final int _totalMoves;
 
   /// A temporary variable used to store the ID of a workout of the day.
   int _tempWODID = -1;
@@ -58,7 +62,7 @@ class TrainingWeek {
 
   /// Return `true` if the value of [_maxIterCounter] is zero, `false` otherwise.
   bool isMaxIterCounterZero() {
-    return _maxIterCounter == 0;
+    return _maxIterCounter <= 0;
   }
 
   // Get the context of the object
@@ -101,21 +105,16 @@ class TrainingWeek {
   // The total WODs in the training week.
   int get totalWODS => wods.length;
 
-  /// Returns the total number of moves in all workouts of the day for this training week.
-  double get totalMoves {
-    // Return the total moves in the wod
-    double counter = 0.0;
-    for (WODCreator wod in _wods) {
-      counter = counter + wod.totalMoves;
-    }
-    return counter;
-  }
+  // Is the total Move in the Training Week.
+  // This tribute is create at the beginning because
+  // this helps to avoid to duplicate move or have errors.
+  int get totalMoves => _totalMoves;
 
   // Initialize all the Wods.
   Future<void> initWODS() async => await _initChildContext();
 
   // Initialize the Blocks inside the WOD
-  void initWODSBlocks() => _initChildChildrenContext();
+  Future<void> initWODSBlocks() async => await _initChildChildrenContext();
 
   // Extract the context of the Setting Manger
   Future<void> initContext() async => await _initContext();
@@ -158,12 +157,12 @@ class TrainingWeek {
     }
   }
 
-  void _initChildChildrenContext() {
+  Future<void> _initChildChildrenContext() async {
     // Initialize the Child children objects.
     //
     // In this case initialize the Blocks inside the WOD.
     for (var wod in wods) {
-      wod.initBlocks();
+      await wod.initBlocks();
     }
   }
 
@@ -171,6 +170,7 @@ class TrainingWeek {
     // Check if the learning moves is full with all the Movements
     final myMovementsModel = context.ref.watch(myMovementsProvider);
     final response = await myMovementsModel.getAllNoLearned();
+    print('totalMoves -> $totalMoves');
     return response.length == totalMoves;
   }
 

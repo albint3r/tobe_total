@@ -67,9 +67,9 @@ class BlockCreator {
   // that the next move is the first.
   bool get isFirstMoveToAdd => _movements.isEmpty;
 
-  void initContext() => _initContext();
+  Future<void> initContext() async => await _initContext();
 
-  Future<bool> learningMovesIsFull() => context.context.learningMovesIsFull();
+  Future<bool> learningMovesIsFull() async => await context.context.learningMovesIsFull();
 
   // Get the body area of the WOD
   String get bodyArea => context.bodyArea;
@@ -80,7 +80,7 @@ class BlockCreator {
       : EMOMCreator(context: this);
 
   /// Initialize the context of the block.
-  void _initContext() {
+  Future<void> _initContext() async {
     print('----------GENERAL DATA---------------');
     print(context.context);
     print('---------- [${context.index}] WOD DATA-------------------');
@@ -92,7 +92,7 @@ class BlockCreator {
     // Select the ModeCreator to create the moves
     // This is a extension of the block Model
     Modes modeCreator = getModeCreator();
-    modeCreator.create();
+    await modeCreator.create();
     updateBlocksInWOD();
   }
 

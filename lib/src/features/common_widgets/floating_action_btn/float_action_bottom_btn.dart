@@ -16,7 +16,7 @@ class CreateNewWeekActionBtn extends ConsumerWidget {
         final trainingWeek = await ref.watch(settingsManagerProvider).initTrainingCreation();
         await trainingWeek.initContext();
         await trainingWeek.initWODS();
-        trainingWeek.initWODSBlocks();
+        await trainingWeek.initWODSBlocks();
       },
       child: const Icon(Icons.add),
     );

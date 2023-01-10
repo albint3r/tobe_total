@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../common_widgets/stats_main_display/stats_main_display.dart';
+import '../../common_widgets/movement_stats/stats_main_display/stats_main_display.dart';
 import 'charts/bar_chart_wod.dart';
 import 'charts/general_kpis.dart';
 

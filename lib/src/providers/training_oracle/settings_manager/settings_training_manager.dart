@@ -46,6 +46,8 @@ class SettingsTrainingManager {
   /// A list of the training dates for each training session of the week.
   late final List<DateTime> _trainingDates;
 
+  int totalMovesInWeek = 0;
+
   int get sessionDuration => _sessionDuration;
 
   List<String> get musclesAreas => _musclesAreasOfTheWeek;
@@ -119,6 +121,8 @@ class SettingsTrainingManager {
     // Call the getSetsInBlocks() method to set the number of sets
     // for each block of each training session of the week
     getSetsInBlocks();
+    // Get all the total moves in the week
+    getTotalMoves();
     // Return the resulting TrainingWeek object
     return createTrainingWeek();
   }
@@ -422,6 +426,17 @@ class SettingsTrainingManager {
     return allDatesOfTheCurrentWeek;
   }
 
+  void getTotalMoves() {
+    // Create forward the totalMoves in the Training Week.
+    for(List<int> block in blocksDuration) {
+      for(int duration in block) {
+        // Always divide by Zero
+        double result = duration / 5;
+        totalMovesInWeek = (result + totalMovesInWeek).toInt();
+      }
+    }
+  }
+
   /// Returns a list of the dates on which the user will train in
   /// the current week.
   ///
@@ -471,7 +486,9 @@ class SettingsTrainingManager {
     TrainingWeek trainingWeek = TrainingWeek(
       context: this,
       sessionDuration: sessionDuration,
+      totalMoves: totalMovesInWeek,
     );
     return trainingWeek;
   }
+
 }

@@ -122,10 +122,23 @@ class MovementCreator {
 
   BlockCreator get currentBlock => _context;
 
+  /// Saves the current movement in my_movements and movement_history.
+  /// If the movement is already in my_movements, it will only be added to movement_history.
+  /// Throws an exception in case of error.
   Future<void> save() async {
+    // Save in my_movements and history_movement
     final myMovementsModel = currentBlock.context.context.context.ref.watch(myMovementsProvider);
     final movementHistoryModel = currentBlock.context.context.context.ref.watch(movementHistoryModelProvider);
-    await myMovementsModel.addNew(id);
+    try {
+      await myMovementsModel.addNew(id);
+    } catch(e) {
+      print('************************************');
+      print('The Movement is Already in MyMovements');
+      print('This would be added to my MovementHistory only');
+      print(e);
+      print('************************************');
+      print('');
+    }
     await movementHistoryModel.addNew(id, currentBlock.id);
   }
 
