@@ -1,5 +1,5 @@
 // Imports
-import 'package:tobe_total/src/data_base/db.dart';
+import '../data/db.dart';
 
 class Blocks extends LocalDataBase {
   /// Checks if there are any Workouts of the Day (WODs) in the database.

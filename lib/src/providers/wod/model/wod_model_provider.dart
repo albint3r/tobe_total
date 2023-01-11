@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../data_base/model/wods.dart';
+import '../../../repositories/wods_repository_repository.dart';
 import '../controllers/wod_controller_provider.dart';
 
 

@@ -1,6 +1,6 @@
 // Imports
-import 'package:tobe_total/src/data_base/db.dart';
 import 'package:tobe_total/src/providers/forms/sex/sex_provider.dart';
+import '../data/db.dart';
 
 class Client extends LocalDataBase {
   Client() {

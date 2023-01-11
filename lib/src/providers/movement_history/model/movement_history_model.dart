@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../data_base/model/movement_history.dart';
+import '../../../repositories/movement_history_repository.dart';
 
 
 final movementHistoryModelProvider = Provider<MovementHistory>((ref) {

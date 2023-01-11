@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../data_base/model/blocks.dart';
+import '../../../repositories/blocks_repository.dart';
 
 /// A `StateProvider` that returns an instance of the `Blocks` class.
 final blocksModelProvider = StateProvider<Blocks>((ref) {

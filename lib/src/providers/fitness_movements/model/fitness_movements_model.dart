@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../data_base/model/fitness_movements.dart';
+import '../../../repositories/fitness_movements_repository.dart';
 
 final fitnessMovementsProvider = Provider<FitnessMovements>((ref) {
   return FitnessMovements();

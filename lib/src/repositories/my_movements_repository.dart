@@ -1,5 +1,5 @@
 // Imports
-import 'package:tobe_total/src/data_base/db.dart';
+import '../data/db.dart';
 
 /// A class that manages the `my_movements` table in the database.
 class MyMovements extends LocalDataBase {

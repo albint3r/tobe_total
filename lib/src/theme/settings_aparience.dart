@@ -8,10 +8,13 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
     _init();
   }
 
+  ///  return the Dark theme mode
   get darkMode => ThemeMode.dark;
 
+  ///  return the Light theme mode
   get lightMode => ThemeMode.light;
 
+  /// initializes the theme mode based on the saved preference.
   Future _init() async {
     // Initialize the Theme Mode Client Preferences.
     // TODO HOW TO DO THIS WITH THE STATE ONLY?
@@ -19,6 +22,7 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
     state = preferences.getBoolPreference("darkMode");
   }
 
+  /// Toggles the theme mode and save it to the preference.
   void toggle() {
     // Change state if the switch is off
     state = !state;
@@ -28,9 +32,10 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
     preferences.setBoolPreference("darkMode", state);
   }
 
-  // Show the Current Theme Mode Depending in the Switch On /Off
+  /// returns the current theme mode based on the preference.
   ThemeMode showCurrentMode(bool isDark) => isDark ? darkMode : lightMode;
 
+  ///  return the BottomNavigationBarThemeData with the given colors.
   BottomNavigationBarThemeData getBottomNavSettings(
     Color backgroundColor,
     Color unselectedItemColor,
@@ -45,7 +50,7 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
       selectedLabelStyle: const TextStyle(fontSize: 12),
     );
   }
-
+  /// return the FloatingActionButtonThemeData with the given color.
   FloatingActionButtonThemeData getFloatingActionBtn(Color backColor) {
     // Return an ActionButton Theme Data to Configure there aparience
     return FloatingActionButtonThemeData(
@@ -54,7 +59,7 @@ class IsDarkModeNotifier extends StateNotifier<bool> {
     );
   }
 
-  // Show Light Mode
+  /// returns the light theme
   ThemeData showLight() => ThemeData(
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(

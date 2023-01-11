@@ -9,6 +9,8 @@ import 'package:sqflite/sqflite.dart'; //Smart phones
 import 'package:sqflite_common_ffi/sqflite_ffi.dart'; // Linux & Windows
 
 class LocalDataBase {
+  /// Check if the device is a smartphone
+  /// Returns true if the device is running Android or iOS, false otherwise.
   static bool isDeviceSmartPhone() {
     // If the device is [Android] or [IOS] return True
     if (Platform.isAndroid || Platform.isIOS) {
@@ -18,32 +20,34 @@ class LocalDataBase {
     return false;
   }
 
+  // Verify if exist a [user] in the [DataBase].
+  // Also, this is a patch to solve the main form. This helps to add
+  // the value to the [preferences_cache]. So, if you have
+  // problems check that area.
   static Future<bool> existUserProfile() async {
-    // Verify if exist a [user] in the [DataBase].
-    // Also, this is a patch to solve the main form. This helps to add
-    // the value to the [preferences_cache]. So, if you have problems check that area.
     var db = await LocalDataBase.openDB();
     List<Map<String, Object?>> response =
         await db.rawQuery('SELECT * FROM users');
     return response.isNotEmpty;
   }
 
-
-  // When the program start check if exist WODS in the client profile
-  // and if their exist it will be expired.
+  /// Check if there are any wods in the table and sets the 'expired'
+  /// column to true for those
+  /// where the 'expected_training_day' is less than the current date
   static Future<void> setExpiredTrainings() async {
     var db = await LocalDataBase.openDB();
-      //check if exist wods
+    //check if exist wods
     final wods = await db.rawQuery('SELECT * FROM wods');
-    if(wods.isNotEmpty) {
+    if (wods.isNotEmpty) {
       DateTime now = DateTime.now();
-      await db.rawQuery("UPDATE wods SET expired = TRUE WHERE expected_training_day < '${now.toString().substring(0, 10)}'");
+      await db.rawQuery(
+          "UPDATE wods SET expired = TRUE WHERE expected_training_day < '${now.toString().substring(0, 10)}'");
     }
   }
 
+  // If the Initial DataBase Don't exist it will created in the
+  // client device. This [copy] the document inside the "assets/tobe_total.db"
   static Future<void> ifNotExistCreateInitialDataBaseInDevice() async {
-    // If the Initial DataBase Don't exist it will created in the
-    // client device. This [copy] the document inside the "assets/tobe_total.db"
     Directory deviceDocumentsPath = await getApplicationDocumentsDirectory();
     File file = File('${deviceDocumentsPath.path}/tobe_total.db');
     if (!await file.exists()) {
@@ -56,11 +60,6 @@ class LocalDataBase {
       await LocalDataBase.notCopiedInMobil();
       if (await LocalDataBase.notCopiedInMobil()) {
         print("The DB wasn't copied to the device.");
-        /* TODO THIS IF STATEMENT WAS CREATE TO CREATE THE MISSING TABLES
-        but after create this if statement the problem solves.
-        apparently load the db before end the process helps to create the tables.
-        If the problem persist in the future it will be good idea to
-        create manually the tables and load all the [fitness_moves]*/
       }
       print('[Local] DataBase Copied to [device Documents] successfully');
     } else {
@@ -68,17 +67,21 @@ class LocalDataBase {
     }
   }
 
+  /// Check if Android create correctly copied the [LocalDataBase]
+  /// if this is correct it will trow a list with dict with all the tables.
+  /// Otherwise it will trow -> [{name: android_metadata}]
+  /// This is the expected -> [{name: fitness_moves}, {name: my_movements}, ... },
+  /// This just have one element or a empty list of tables.
   static Future<bool> notCopiedInMobil() async {
-    // Check if Android create correctly copied the [LocalDataBase]
-    // if this is correct it will trow a list with dict with all the tables.
-    // Otherwise it will trow -> [{name: android_metadata}]
-    // This is the expected -> [{name: fitness_moves}, {name: my_movements}, ... },
-    // This just have one element or a empty list of tables.
     Database db = await LocalDataBase.openDB();
     List<Map> response = await db.rawQuery("SELECT name FROM sqlite_master");
     return response.length > 2;
   }
 
+  /// Opens an existing database or creates a new one if it doesn't exist.
+  /// It also checks if the device is a smartphone
+  /// and initializes the database accordingly.
+  /// Returns a future that completes with a database instance.
   static Future<Database> openDB() async {
     // Open the DataBase or Create if the user don't have it.
     // Check if the [device] is [NOT] a [smart phone].
@@ -96,8 +99,9 @@ class LocalDataBase {
         .openDatabase('${deviceDocumentsPath.path}/tobe_total.db');
   }
 
-  // TODO THIS METHOD IS AN EXAMPLE OF HOW WORKS, BUT THIS MUST BE IMPLEMENTED
-  // IN THE MODELS FOLDER WHIT THE STATE MACHINE.
+  /// Retrieves all records from the provided table name
+  /// and returns a Future that completes with a list of maps
+  /// containing the retrieved data
   Future<List<Map<String, Object?>>> getAll(String tableName) async {
     var db = await openDB();
     return await db.rawQuery('SELECT * FROM $tableName');
@@ -109,6 +113,9 @@ class LocalDataBase {
     return await db.rawQuery(query);
   }
 
+  /// Executes a raw query on the database and returns the results
+  /// as a list of maps.
+  /// This method should be used when a complex query needs to be executed.
   Future<List<Map<String, Object?>>> getFiltered(
       String tableName, String column, String condition) async {
     var db = await openDB();
@@ -116,6 +123,9 @@ class LocalDataBase {
         .rawQuery('SELECT * FROM $tableName WHERE $column = $condition');
   }
 
+  /// Check if a table contains any records and return
+  /// a Future that completes with a boolean indicating
+  /// if the table is empty or not.
   Future<bool> isAny(String tableName) async {
     // Return [true] if exist at least one value or more in the table.
     Database db = await openDB();
@@ -144,15 +154,21 @@ class LocalDataBase {
     return listQueries.join(',');
   }
 
+  /// Creates a query string for inserting columns and their values into a table
+  /// Takes a Map where the keys are the column names and the
+  /// values are the values to insert.
   Future<void> add(String tableName, String columns, String values) async {
     // Add Values to the table selected
     var db = await openDB();
-    await db.rawQuery('INSERT INTO $tableName ($columns) VALUES ($values); SELECT last_insert_rowid();');
+    await db.rawQuery(
+        'INSERT INTO $tableName ($columns) VALUES ($values); SELECT last_insert_rowid();');
     print('----------NEW ROW ADDED--------------------');
     print('INSERT INTO $tableName ($columns) VALUES ($values);');
     print('ADD NEW VALUE TO DB');
   }
 
+  /// Update a row in a table by passing a map with the columns and their new values.
+  /// The column named 'id' is used as the identifier for the row to update
   Future<void> update(
       String tableName, Map<String, Object> columnsValues) async {
     var db = await openDB();
@@ -160,8 +176,10 @@ class LocalDataBase {
     await db.rawQuery('UPDATE $tableName SET $columnsQuery WHERE id = 1;');
   }
 
-  /// Returns a `Future` that contains a list of maps, where each map represents a row in a database table.
-  /// The function executes a raw SQL `SELECT` statement using the `rawQuery()` method, which returns the last inserted row id.
+  /// Returns a `Future` that contains a list of maps, where each map
+  /// represents a row in a database table.
+  /// The function executes a raw SQL `SELECT` statement using the `rawQuery()`
+  /// method, which returns the last inserted row id.
   Future<List<Map<String, Object?>>> getLastId() async {
     return await rawQuery('SELECT last_insert_rowid()');
   }

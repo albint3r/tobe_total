@@ -1,4 +1,4 @@
-import 'package:tobe_total/src/data_base/model/client.dart';
+import 'package:tobe_total/src/repositories/client_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../model/cliente_model_provider.dart';
 

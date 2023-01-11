@@ -1,5 +1,5 @@
 // Imports
-import 'package:tobe_total/src/data_base/db.dart';
+import '../data/db.dart';
 
 class WODs extends LocalDataBase {
   /// Checks if there are any WODs in the database.
