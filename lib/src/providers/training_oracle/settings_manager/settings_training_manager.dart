@@ -107,6 +107,9 @@ class SettingsTrainingManager {
     // Call the getTrainingDatesOfTheWeek() method to set the
     // training dates for each training session of the week
     await getTrainingDatesOfTheWeek();
+    print('-------------------------');
+    print(trainingDates);
+    print('-------------------------');
     // Call the getExpectedWodDuration() method to set the
     // duration for each training session
     getExpectedWodDuration(
@@ -417,6 +420,7 @@ class SettingsTrainingManager {
         DateTime nextDay = _ref
             .watch(dateTimeManageControllerProvider)
             .getTomorrow(startDayOfTheWeek);
+        // print(nextDay);
         allDatesOfTheCurrentWeek.add(nextDay);
         // Only for convenience I use the [startDayOfTheWeek] variable name
         // to follow the iteration, and not create another variable name.
@@ -454,6 +458,7 @@ class SettingsTrainingManager {
     // Get a list of DateTime objects representing all the dates
     // of the current week.
     List<DateTime> allDatesOfTheCurrentWeek = getAllDatesOfTheCurrentWeek();
+    print('allDatesOfTheCurrentWeek-> $allDatesOfTheCurrentWeek');
     // Get the client object and the map of training days.
     final client = _ref.watch(clientProvider);
     Map trainingDays = await client.trainingDayMap();

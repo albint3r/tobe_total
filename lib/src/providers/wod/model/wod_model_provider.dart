@@ -14,7 +14,23 @@ final startedDayOfTheWeekDateProvider = Provider<String>((ref) {
   final DateTime today = DateTime.now();
   final DateTime startDayOfTheWeek = ref.watch(dateTimeManageControllerProvider).findFirstDateOfTheWeek(today);
   // We rest 1  to penalize the days and have the exact start day of the week.
-  return '${startDayOfTheWeek.year}-${startDayOfTheWeek.month}-${startDayOfTheWeek.day}';
+  return startDayOfTheWeek.toString().substring(0,10);
+});
+
+
+/// A [FutureProvider] that automatically disposes along with its subtree,
+/// which provides a boolean value indicating if there are any scheduled training
+/// for a specific week.
+final existWodsOfTheWeekProvider = FutureProvider.autoDispose<bool>((ref) async {
+  /// Get the current value of the "startDayOfTheWeekDateProvider" provider.
+  String startDayOfTheWeekDate = ref.watch(startedDayOfTheWeekDateProvider);
+  /// Get the "wodsModel" object associated with the "wodsModelProvider" provider.
+  final wodsModel = ref.watch(wodsModelProvider);
+  /// Get the expected training days for the specific week using the
+  /// start day of the week date.
+  List<Map> wodsOfTheWeek =  await wodsModel.getWeekExpectedTrainingDays(startDayOfTheWeekDate);
+  /// Return true if there are any expected training days, otherwise false.
+  return wodsOfTheWeek.isNotEmpty;
 });
 
 final selectedWodInformationProvider = StateProvider<Map>((ref) {

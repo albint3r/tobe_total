@@ -3,25 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../providers/training_oracle/settings_manager/settings_training_manager.dart';
 
-class CreateNewWeekActionBtn extends ConsumerWidget {
-  const CreateNewWeekActionBtn({
+class GoToNextTrainingOFTheWeek extends ConsumerWidget {
+  const GoToNextTrainingOFTheWeek({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
-      tooltip: 'Create a new Training Week',
+      tooltip: 'Go to your next Training of the week',
       onPressed: () async {
-        final trainingWeek = await ref.watch(settingsManagerProvider).initTrainingCreation();
-        await trainingWeek.initContext();
-        await trainingWeek.initWODS();
-        await trainingWeek.initWODSBlocks();
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content:
-        Text('Your training was created'), elevation: 5,
+        Text('Go to your next training'), elevation: 5,
         ));
       },
-      child: const Icon(Icons.add),
+      child: const Icon(Icons.navigate_next),
     );
   }
 }

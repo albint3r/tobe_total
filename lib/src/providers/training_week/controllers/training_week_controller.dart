@@ -43,7 +43,8 @@ class CalendarController {
 }
 
 final selectedEventsProvider = FutureProvider.autoDispose<Map<DateTime, List<dynamic>>>((ref) async {
-  /// Return a Map Date List with the Date as Key. This helps to the calendar to display a single day after a user click for more info.
+  /// Return a Map Date List with the Date as Key. This helps to the calendar
+  /// to display a single day after a user click for more info.
   final wods = await ref.watch(wodsModelProvider).getWODs();
   Map<DateTime, List<dynamic>> calendarWods = {};
   for (var wod in wods) {

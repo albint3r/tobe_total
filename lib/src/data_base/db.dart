@@ -28,6 +28,19 @@ class LocalDataBase {
     return response.isNotEmpty;
   }
 
+
+  // When the program start check if exist WODS in the client profile
+  // and if their exist it will be expired.
+  static Future<void> setExpiredTrainings() async {
+    var db = await LocalDataBase.openDB();
+      //check if exist wods
+    final wods = await db.rawQuery('SELECT * FROM wods');
+    if(wods.isNotEmpty) {
+      DateTime now = DateTime.now();
+      await db.rawQuery("UPDATE wods SET expired = TRUE WHERE expected_training_day < '${now.toString().substring(0, 10)}'");
+    }
+  }
+
   static Future<void> ifNotExistCreateInitialDataBaseInDevice() async {
     // If the Initial DataBase Don't exist it will created in the
     // client device. This [copy] the document inside the "assets/tobe_total.db"
