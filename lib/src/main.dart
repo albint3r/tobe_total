@@ -21,7 +21,6 @@ void main() async {
   // Check in [SQLite] if the exit at least one [user].
   // And add the info th [preferences_cache]
   preferences.initExistUserProfile(await LocalDataBase.existUserProfile());
-
   runApp(ProviderScope(
     child: MyApp(),
   ));

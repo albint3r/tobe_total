@@ -4,7 +4,6 @@ import '../../cliente/model/cliente_model_provider.dart';
 import '../../training_week/controllers/training_week_controller.dart';
 import '../model/wod_model_provider.dart';
 
-
 class DateTimeManageController {
   /// Finds the first date of the week for the given DateTime.
   DateTime findFirstDateOfTheWeek(DateTime dateTime) {
@@ -13,7 +12,8 @@ class DateTimeManageController {
 
   /// Finds the last date of the week for the given DateTime.
   DateTime findLastDateOfTheWeek(DateTime dateTime) {
-    return dateTime.add(Duration(days: DateTime.daysPerWeek - dateTime.weekday));
+    return dateTime
+        .add(Duration(days: DateTime.daysPerWeek - dateTime.weekday));
   }
 
   /// Finds the last date of the month for the given DateTime.
@@ -49,7 +49,8 @@ class DateTimeManageController {
   }
 }
 
-final dateTimeManageControllerProvider = Provider<DateTimeManageController>((ref) {
+final dateTimeManageControllerProvider =
+    Provider<DateTimeManageController>((ref) {
   return DateTimeManageController();
 });
 
@@ -61,6 +62,7 @@ final wodPlanControllerProvider = Provider<WODPlanController>((ref) {
 class WODPlanController {
   void setStateWodIdProvider(WidgetRef ref, int wodId) {
     // Change the state of the [wodIdProvider] for the Id of the WOD selected.
+    // help to change of screen between WODs using the Id.
     ref.watch(wodIdProvider.notifier).state = wodId;
   }
 
@@ -71,9 +73,8 @@ class WODPlanController {
   }
 }
 
-
 final blocksInWodListProvider =
-FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
+    FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
   // This return a list of block inside the Wod Selected in calendar.
   // The ID of the wod is provider by the [wodIdProvider].
   final blocks = ref.watch(blocksModelProvider);
@@ -82,7 +83,7 @@ FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
 });
 
 final fitnessMovesInWodProvider =
-FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
+    FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
   // This return a list of block inside the Wod Selected in calendar.
   // The ID of the wod is provider by the [wodIdProvider].
   final wodId = ref.watch(wodIdProvider);
@@ -91,15 +92,12 @@ FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
 });
 
 final completeWodsOfTheWeekProvider =
-FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
+    FutureProvider.autoDispose<List<Map<String, Object?>>>((ref) async {
   // Return a list of the WOD of the Current Week.
   String startDayOfTheWeekDate = ref.watch(startedDayOfTheWeekDateProvider);
   final wodsModel = ref.watch(wodsModelProvider);
   return wodsModel.getWeekExpectedTrainingDays(startDayOfTheWeekDate);
 });
-
-
-
 
 final goalProgressDaysProvider = FutureProvider.autoDispose<Map>((ref) async {
   //  TODO ADD A LAST WEEK GOAL CACHE, this will help to
@@ -114,7 +112,8 @@ final goalProgressDaysProvider = FutureProvider.autoDispose<Map>((ref) async {
   // of the days in the current week.
   String startDayOfTheWeekDate = ref.watch(startedDayOfTheWeekDateProvider);
   // 3 - Make call to the DB.
-  List<Map> expectedTrainingDays = await wodsModel.getWeekExpectedTrainingDays(startDayOfTheWeekDate);
+  List<Map> expectedTrainingDays =
+      await wodsModel.getWeekExpectedTrainingDays(startDayOfTheWeekDate);
   List<Map> actualTrainingDaysGoal = await clientModel.getTotalTrainingDays();
 
   // Transform values to manage:
@@ -139,11 +138,8 @@ final goalProgressDaysProvider = FutureProvider.autoDispose<Map>((ref) async {
   };
 });
 
-
-
-
 final totalTrainedTimeProvider = FutureProvider.autoDispose<int>(
-      (ref) async {
+  (ref) async {
     // Return an Integer with the total days trained.
     // TODO FOR NOW THIS FUNCTION WONT CONSIDERATE THE REAL DAYS TRAINED
     // only the overall time of all the training week.
@@ -172,7 +168,7 @@ final listAllDayOfTheWeekProvider = StateProvider<Map>((ref) {
   final calendarController = ref.watch(calendarControllerProvider);
   // 3- Get the parse string in DateFormat
   DateTime startDayDate =
-  calendarController.parseDateStringToDateFormat(startDayOfTheWeekDate);
+      calendarController.parseDateStringToDateFormat(startDayOfTheWeekDate);
   Map weekDays = {};
   int daysCounter = 6;
   // 4- Iterate over all the days of the week.
@@ -180,7 +176,7 @@ final listAllDayOfTheWeekProvider = StateProvider<Map>((ref) {
     // add the DateFormat as key and a empty dict
     // the dict will be filled in other Method. This is only a prepare.
     weekDays['${startDayDate.year}-${startDayDate.month}-${startDayDate.day}'] =
-    {};
+        {};
     // Add one to the current day to create the list.
     startDayDate = DateTime.utc(
         startDayDate.year, startDayDate.month, startDayDate.day + 1);
@@ -190,16 +186,14 @@ final listAllDayOfTheWeekProvider = StateProvider<Map>((ref) {
 });
 
 final muscleGroupBySetCountProvider =
-FutureProvider.autoDispose<Map<String, Object?>>(
-      (ref) async {
+    FutureProvider.autoDispose<Map<String, Object?>>(
+  (ref) async {
     // This return a list of block inside the Wod Selected in calendar.
     // The ID of the wod is provider by the [wodIdProvider].
     final wodId = ref.watch(wodIdProvider);
     final wodsModel = ref.watch(wodsModelProvider);
     List<Map<String, Object?>> fitnessMovesInWod =
-    await wodsModel.getAllMovementsInWod(wodId);
-    // print('getBarGroup');
-    // print(fitnessMovesInWod);
+        await wodsModel.getAllMovementsInWod(wodId);
     // Check if the list is empty
     Map<String, int> muscleGroupBySetCount = {};
     if (fitnessMovesInWod.isNotEmpty) {
@@ -213,7 +207,6 @@ FutureProvider.autoDispose<Map<String, Object?>>(
         }
       }
     }
-    // print(muscleGroupBySetCount);
     sortMapValues(muscleGroupBySetCount);
     return sortMapValues(muscleGroupBySetCount);
   },
@@ -231,5 +224,3 @@ Map<String, int> sortMapValues(Map<String, int> mapToSort) {
   }
   return sortedMap;
 }
-
-

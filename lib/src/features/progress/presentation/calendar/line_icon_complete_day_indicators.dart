@@ -18,7 +18,6 @@ class LineCompleteDaysIndicators extends ConsumerWidget {
       error: (error, stackTrace) => Text('Error $error'),
       loading: () => const CircularProgressIndicator(),
       data: (completeWodsData) {
-        print(completeWodsData);
         getDays(completeWodsData, ref);
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,7 +55,6 @@ class LineCompleteDaysIndicators extends ConsumerWidget {
     // the Map to the key - value pair.
     // This will return a Map whit 7 keys and some values with empty Maps.
     final allDaysOfTheWek = ref.watch(listAllDayOfTheWeekProvider);
-    print('allDaysOfTheWek -> $allDaysOfTheWek');
     final calendarController = ref.watch(calendarControllerProvider);
     for (Map wod in completeWods) {
       DateTime date = calendarController

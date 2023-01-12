@@ -180,20 +180,21 @@ class Client extends LocalDataBase {
     }
   }
 
+  /// Set the level field in the client's state
   void setLevelFieldInState(int indexLevel) {
-    // Set the level state.
-    /* The reason this get only the value of the leve is because
-    another method of the provider [levelManagerProvider] manage the parse. */
+    // The reason this get only the value of the leve is because
+    // another method of the provider [levelManagerProvider] manage the parse.
     level = indexLevel;
   }
 
+  /// Set the goal field in the client's state
   void setGoalFieldInState(int indexGoal) {
-    // Set the level state.
-    /* The reason this get only the value of the leve is because
-    another method of the provider [levelManagerProvider] manage the parse. */
+    // The reason this get only the value of the leve is because
+    // another method of the provider [levelManagerProvider] manage the parse.
     goal = indexGoal;
   }
 
+  /// Set the value of the specified field in the client's state
   void setFieldValueInState(String typeValue, String value) {
     // Set the values in the field form to their respective attributes
     // This helps to send the information to SQLite
@@ -238,28 +239,17 @@ class Client extends LocalDataBase {
     }
   }
 
+  /// Set the client's sex in the state
   void setSex(Sex value) {
     if (value == Sex.male) {
       sex = true;
     } else {
       sex = false;
     }
-    print(sex);
   }
 
-  Future<bool> isUserExist() async {
-    // Check if exist any user in the database
-    return await isAny('users');
-  }
-
-  Future<void> createNewUser() async {
-    // Create a new User in the SQLite
-    add('users', 'name, last_name, email', "'$name', '$lastName', '$email'");
-    // change the user status existences
-  }
-
+  /// Return a map of the client's data
   Map<String, Object> toMap() {
-    // Create a map of the data in the client.
     return {
       'name': name,
       'last_name': lastName,
@@ -281,27 +271,42 @@ class Client extends LocalDataBase {
     };
   }
 
+  /// Select the fields that should be updated in the database
+  Map<String, Object> selectFieldsToUpdate(List selectedFields) {
+    // Select just the values that would be updated
+    // The field name must be exactly.
+    final copiedClientMap = toMap();
+    Map<String, Object> resultSelectedFields = {};
+    print('-----------------------------------');
+    print('Next Information Would be Update:');
+    print('-----------------------------------');
+    for (var field in selectedFields) {
+      // Extract the value inside the field
+      print('To Update -> $field');
+      resultSelectedFields[field] = copiedClientMap[field]!;
+    }
+    print('-----------------------------------');
+    return resultSelectedFields;
+  }
+
+  /// Check if a user already exists in the database
+  Future<bool> isUserExist() async {
+    return await isAny('users');
+  }
+
+  /// Create a new user in the SQLite database
+  Future<void> createNewUser() async {
+    add('users', 'name, last_name, email', "'$name', '$lastName', '$email'");
+  }
+
+  /// Return a map of the client's selected training days
   Future<Map<String, Object?>> trainingDayMap() async {
       String query = 'SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM users WHERE id= 1';
       List<Map<String, Object?>> response = await rawQuery(query);
       return response[0];
   }
 
-  Map<String, Object> selectFieldsToUpdate(List selectedFields) {
-    // Select just the values that would be updated
-    // The field name must be exactly.
-    final copiedClientMap = toMap();
-    Map<String, Object> resultSelectedFields = {};
-    for (var field in selectedFields) {
-      // Extract the value inside the field
-      print(field);
-      resultSelectedFields[field] = copiedClientMap[field]!;
-    }
-    print('-----VALUES TO SUBMIT------');
-    print(resultSelectedFields);
-    return resultSelectedFields;
-  }
-
+  /// Return the total training days desired by the client
   Future<List<Map<String, Object?>>> getTotalTrainingDays() async {
     // Return a list with a Map with ONE VALUE. This is the goal of the client
     // of the total days he wants to train.
@@ -310,6 +315,7 @@ class Client extends LocalDataBase {
     return rawQuery(query);
   }
 
+  /// Return the equipments of the client
   Future<Map<String, Object?>> getEquipment() async {
     // Return a Dictionary with the Equipment of the Client
     String query ="SELECT no_equipment, dumbbells, kettlebells, bench, barbell, weight_machines_selectorized, resistance_bands_cables, leggings, medicine_ball, stability_ball, ball, trx, raised_platform_box, box, rings, pull_up_bar, parallels_bar, wall, pole, trineo, rope, wheel, assault_bike FROM users WHERE id = 1;";
@@ -317,20 +323,24 @@ class Client extends LocalDataBase {
     return response[0];
   }
 
+  /// Return if exists a profile or not
+  Future<bool> existProfile() async {
+    return isAny('users');
+  }
+
+  /// Return the total training time desired by the client
   Future<List<Map<String, Object?>>> getTotaTrainingTime() async {
     String query = 'SELECT time_to_train FROM users WHERE id= 1';
     return rawQuery(query);
   }
 
+  /// Update the user information
   Future<void> updateUser(List selectedFields) async {
-    // Update the information of the User
-    print('------TO UPDATE USER INFORMATION--------');
-    print(selectFieldsToUpdate(selectedFields));
     update('users', selectFieldsToUpdate(selectedFields));
   }
 
+  /// Update the training days for the noobs
   Future<void> updateTrainingDaysToNoobs() async {
-    // Update the training days for the noobs
     // This client would have 3 days only to train full body.
     update('users', {
       'monday': true,
@@ -343,8 +353,11 @@ class Client extends LocalDataBase {
     });
   }
 
+  // Get the profile of the user.
   Future<List<Map<String, Object?>>> getProfile() async {
-    // Get the profile of the user.
+    // This will be used in the controller, and only would select
+    // the first user (or row). Because the only user in the DB is the
+    // owner of the device.
     return getAll('users');
   }
 }

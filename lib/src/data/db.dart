@@ -173,7 +173,18 @@ class LocalDataBase {
       String tableName, Map<String, Object> columnsValues) async {
     var db = await openDB();
     String columnsQuery = createColumnInsertQuery(columnsValues);
-    await db.rawQuery('UPDATE $tableName SET $columnsQuery WHERE id = 1;');
+    try {
+      await db.rawQuery('UPDATE $tableName SET $columnsQuery WHERE id = 1;');
+      print('-----------------------------------');
+      print('Updated Values Successfully');
+      print('-----------------------------------');
+    } catch (error) {
+      print('-----------------------------------');
+      print('NOT UPDATED VALUES, THERE WAS AN ERROR');
+      print('-----------------------------------');
+      print('$error');
+      print('-----------------------------------');
+    }
   }
 
   /// Returns a `Future` that contains a list of maps, where each map
