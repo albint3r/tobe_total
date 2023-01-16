@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../controllers/form_validators.dart';
+import '../../../../providers/forms/controllers/validators.dart';
 import 'single_text_field.dart';
 
 class TimeToTrainField extends ConsumerWidget {
@@ -10,11 +10,12 @@ class TimeToTrainField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final validator = ref.watch(formValidatorsProvider);
     return SingleTextField(
       typeValue: 'Time to train',
       icon: Icons.timelapse,
       hintValue: 'Example: 90 min',
-      callBackFunction: FormValidators.isNotValidInteger,
+      callBackFunction: validator.isNotValidInteger,
       errorMsg: 'Pleas enter a valid number (No letters or ,.#)',
       isNumberType: true,
     );

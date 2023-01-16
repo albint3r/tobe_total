@@ -35,6 +35,7 @@ class WODCreator {
       required this.blocksGeneralInformation})
       : _context = context;
 
+
   /// The `TrainingWeek` object that is the context for the current
   /// Workout of the Day (WOD).
   late final TrainingWeek _context;

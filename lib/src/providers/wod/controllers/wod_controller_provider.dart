@@ -41,7 +41,8 @@ class DateTimeManageController {
     return date.add(const Duration(days: 1));
   }
 
-  /// Returns true if the given date is earlier in the week than today, false otherwise.
+  /// Returns true if the given date is earlier in the week than today,
+  /// false otherwise.
   bool isExpired(DateTime date) {
     DateTime now = DateTime.now();
     // I added a day, because is taking the current day as expired.

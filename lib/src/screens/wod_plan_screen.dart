@@ -1,18 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import '../../common_widgets/bottom_nav_bar/presentation/bottom_nav_bar2.dart';
-import 'calendar_display.dart';
+import 'package:tobe_total/src/features/wod_plan_manage/presentation/wod_display.dart';
+import '../features/common_widgets/bottom_nav_bar/presentation/bottom_nav_bar2.dart';
 
-class TrainingCalendarScreen extends ConsumerWidget {
-  const TrainingCalendarScreen({
+
+class WODPlanScreen extends ConsumerWidget {
+  const WODPlanScreen({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     return const Scaffold(
       bottomNavigationBar: CurveBottomNavBar(),
-      body: CalendarDisplay(),
+      body: WODDisplay(),
     );
   }
 }
+
+

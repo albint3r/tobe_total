@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../controllers/form_validators.dart';
+import '../../../../providers/forms/controllers/validators.dart';
 import 'single_text_field.dart';
 
 class WeightField extends ConsumerWidget {
@@ -10,11 +10,12 @@ class WeightField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final validator = ref.watch(formValidatorsProvider);
     return SingleTextField(
       typeValue: 'Weight',
       icon: Icons.monitor_weight_outlined,
       hintValue: 'Example: 68.0 kg',
-      callBackFunction: FormValidators.isNotValidDouble,
+      callBackFunction: validator.isNotValidDouble,
       errorMsg: 'Pleas enter a number with a decimal and a number after the decimal.',
       isNumberType: true,
     );

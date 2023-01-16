@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../controllers/form_validators.dart';
+import '../../../../providers/forms/controllers/validators.dart';
 import 'single_text_field.dart';
 
 class AgeField extends ConsumerWidget {
@@ -10,11 +10,12 @@ class AgeField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final validator = ref.watch(formValidatorsProvider);
     return SingleTextField(
       typeValue: 'Age',
       icon: Icons.date_range,
       hintValue: 'Example: 37',
-      callBackFunction: FormValidators.isNotValidInteger,
+      callBackFunction: validator.isNotValidInteger,
       errorMsg: 'Pleas enter a valid number (No letters or ,.#)',
       isNumberType: true,
     );

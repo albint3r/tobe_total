@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/features/configurate_athlete_profile/presentation/switch_dark_mode_card_menu.dart';
 import 'package:tobe_total/src/features/configurate_athlete_profile/presentation/profile_card/card_profile_menu.dart';
 import 'package:tobe_total/src/features/configurate_athlete_profile/presentation/item_settings_card_menu.dart';
-import '../../../providers/routes/routes_provider.dart';
-import '../../../routes/const_url.dart';
-import '../../common_widgets/bottom_nav_bar/presentation/bottom_nav_bar2.dart';
-import '../../common_widgets/headers_screens/header_screens.dart';
+import '../providers/routes/routes_provider.dart';
+import '../routes/const_url.dart';
+import '../features/common_widgets/bottom_nav_bar/presentation/bottom_nav_bar2.dart';
+import '../features/common_widgets/headers_screens/header_screens.dart';
 
 class SettingsMenu extends ConsumerWidget {
   const SettingsMenu({

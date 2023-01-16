@@ -22,7 +22,7 @@ class WODs extends LocalDataBase {
     return await add(
         'wods',
         'expected_training_day, day, body_area, total_blocks, total_time_work_out, expired',
-        "'${expectedTrainingDate.toString().substring(0,10)}', $day, '$bodyArea', $totalBlocks, $totalTimeWorkOut, $isExpired");
+        "'${expectedTrainingDate.toString().substring(0, 10)}', $day, '$bodyArea', $totalBlocks, $totalTimeWorkOut, $isExpired");
   }
 
   /// Gets the last Workout of the Day (WOD) identifier from the database.
@@ -43,8 +43,10 @@ class WODs extends LocalDataBase {
   /// @param [totalBlocks] The new total number of blocks for the WOD.
   /// @param [WODId] The ID of the WOD to update.
   /// @return A `Future` that completes with the result of the update operation.
-  Future<void> updateBlocksInWodAfterCreateMoves(int totalBlocks,int WODId) async {
-    String query = 'UPDATE wods SET total_blocks = $totalBlocks WHERE id= $WODId';
+  Future<void> updateBlocksInWodAfterCreateMoves(
+      int totalBlocks, int WODId) async {
+    String query =
+        'UPDATE wods SET total_blocks = $totalBlocks WHERE id= $WODId';
     await rawQuery(query);
     print('[updateBlocksInWodAfterCreateMoves]-> values of $WODId');
   }
@@ -131,4 +133,12 @@ class WODs extends LocalDataBase {
         'SELECT * FROM wods ORDER BY expected_training_day DESC LIMIT 1';
     return rawQuery(query);
   }
+
+  Future<List<Map<String, Object?>>> getTodayTraining() async {
+    DateTime today = DateTime.now();
+    String query = 'SELECT * FROM wods WHERE expected_training_day = "${today.toString().substring(0, 10)}"';
+    List<Map<String, Object?>> todayWod = await rawQuery(query);
+    return todayWod;
+  }
+
 }

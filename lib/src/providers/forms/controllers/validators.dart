@@ -1,5 +1,11 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final formValidatorsProvider = Provider<FormValidators>((ref) {
+  return FormValidators();
+});
+
 class FormValidators {
-  static bool isNotValidEmail(String? fieldValue) {
+  bool isNotValidEmail(String? fieldValue) {
     // Return true if the user don't have a correct email
     if (fieldValue != null) {
       final emailRegExp = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
@@ -8,7 +14,7 @@ class FormValidators {
     return false;
   }
 
-  static bool isNotValidName(String? fieldValue) {
+  bool isNotValidName(String? fieldValue) {
     // Check if the name is validated
     if (fieldValue != null) {
       final nameRegExp = RegExp(r"[a-zA-Z0-9_]{3,20}");
@@ -17,16 +23,16 @@ class FormValidators {
     return false;
   }
 
-  static bool isNotValidInteger(String? fieldValue) {
+  bool isNotValidInteger(String? fieldValue) {
     // Check if the Age is validated
     if (fieldValue != null) {
-      final nameRegExp = RegExp(r"[0-9]{1,2}");
-      return !nameRegExp.hasMatch(fieldValue);
+      final nameRegExp = RegExp(r"[^-0-9\/]+");
+      return nameRegExp.hasMatch(fieldValue);
     }
     return false;
   }
 
-  static bool isNotValidDouble(String? fieldValue) {
+  bool isNotValidDouble(String? fieldValue) {
     // Check if the Age is validated
     if (fieldValue != null) {
       final nameRegExp = RegExp(r'^\d*\.\d*$');
@@ -34,5 +40,4 @@ class FormValidators {
     }
     return false;
   }
-
 }

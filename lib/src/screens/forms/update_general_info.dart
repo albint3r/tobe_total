@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'forms/form_update_general_information.dart';
+import '../../features/sign_in_and_update/presentation/forms/form_update_general_information.dart';
 
 class UpdateGeneralInformation extends StatelessWidget {
   const UpdateGeneralInformation({Key? key}) : super(key: key);

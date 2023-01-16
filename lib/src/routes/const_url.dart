@@ -7,7 +7,6 @@ class ConstantsUrls {
   // This class is used to provide a centralized access point to the screen
   // routes and to facilitate the updating and maintenance of the screen
   // routes in the application.
-
   // static String home = '/';
   static String signIn = 'sign_in_and_update';
   static String progress = 'progress';
@@ -15,6 +14,7 @@ class ConstantsUrls {
   static String wodPlan = 'wod_plan';
   static String blockPlan = 'block_plan';
   static String myMoves = 'my_moves';
+  static String trainingTimer = 'training_timer';
   static String settingsMenu = 'settings_menu';
   static String updateGeneralInformation = 'update_general_information';
   static String updateBiometrics = 'update_biometrics';

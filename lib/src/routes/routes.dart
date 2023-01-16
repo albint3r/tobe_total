@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:tobe_total/src/features/sign_in_and_update/presentation/update_biometrics.dart';
-import '../features/block_plan_manage/presentation/block_plan_screen.dart';
-import '../features/configurate_athlete_profile/presentation/settings_menu_screen.dart';
-import '../features/my_movements_manager/my_movements_screen.dart';
-import '../features/progress/progress_screen.dart';
-import '../features/sign_in_and_update//presentation/sign_in.dart';
-import '../features/sign_in_and_update/presentation/update_athlete_goal.dart';
-import '../features/sign_in_and_update/presentation/update_general_info.dart';
-import '../features/sign_in_and_update/presentation/update_training_itinerary.dart';
-import '../features/training_week_calendar/presentation/training_calendar_screen.dart';
-import '../features/wod_plan_manage/presentation/wod_plan_screen.dart';
+import 'package:tobe_total/src/screens/forms/update_biometrics.dart';
+import '../screens/block_plan_screen.dart';
+import '../screens/settings_menu_screen.dart';
+import '../screens/my_movements_screen.dart';
+import '../screens/progress_screen.dart';
+import '../screens/forms/sign_in.dart';
+import '../screens/forms/update_athlete_goal.dart';
+import '../screens/forms/update_general_info.dart';
+import '../screens/forms/update_training_itinerary.dart';
+import '../screens/training_calendar_screen.dart';
+import '../screens/training_timer_screen.dart';
+import '../screens/wod_plan_screen.dart';
 import 'const_url.dart';
 
 class Routes {
@@ -28,6 +29,7 @@ class Routes {
       ConstantsUrls.wodPlan: (context) => const WODPlanScreen(),
       ConstantsUrls.blockPlan: (context) => const BlockPlanScreen(),
       ConstantsUrls.myMoves: (context) => const MyMovementsScreen(),
+      ConstantsUrls.trainingTimer: (context) => const TrainingTimerScreen(),
       ConstantsUrls.settingsMenu: (context) => const SettingsMenu(),
       ConstantsUrls.updateGeneralInformation: (context) => const UpdateGeneralInformation(),
       ConstantsUrls.updateBiometrics: (context) => const UpdateBiometrics(),

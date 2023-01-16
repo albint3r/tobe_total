@@ -38,4 +38,11 @@ class MovementHistory extends LocalDataBase {
         'SELECT fm.difficulty AS name,COUNT(fm.difficulty) AS difficulty_count FROM movement_history AS mh JOIN blocks AS b ON b.id = mh.blocks_id JOIN wods AS w ON w.id = b.wod_id JOIN fitness_moves AS fm ON fm.id = mh.fitness_move_id WHERE expected_training_day >= "$startDayOfTheWeek" GROUP BY fm.difficulty';
     return rawQuery(query);
   }
+
+  Future<List<Map<String, Object?>>> getWodMovements(
+      {required int wodId}) {
+    String query =
+        'SELECT mh. create_date ,mh.id, mh.fitness_move_id, mh.blocks_id, mh.reps, mh.rest_time, mh.weight, mh.created_manual, mh.edited, mh.did_exercise, mh.did_all_train_work, mh.why_cant_do_all_work, mh.can_do_more, fm.name, fm.yt_url, fm.muscle_prota, fm.body_area, fm.difficulty, fm.movement_pattern, fm.dynamic FROM movement_history as mh JOIN fitness_moves as fm ON mh.fitness_move_id = fm.id JOIN blocks as b ON b.id = mh.blocks_id    WHERE wod_id = $wodId';
+    return rawQuery(query);
+  }
 }
