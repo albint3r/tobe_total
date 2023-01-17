@@ -5,7 +5,6 @@ import 'package:tobe_total/src/features/timer/presentation/timer/button_style_ti
 import 'package:tobe_total/src/features/timer/presentation/timer/main_clock.dart';
 import 'package:tobe_total/src/features/timer/presentation/timer/movement_display.dart';
 import 'package:tobe_total/src/features/timer/presentation/timer/movement_in_block_counter.dart';
-import '../../../providers/proxies/block_proxy.dart';
 import '../../../providers/proxies/movement_proxy.dart';
 import '../../../providers/timer/model/training_timer.dart';
 
@@ -85,13 +84,6 @@ class ButtonsTimeArea extends ConsumerWidget {
         ButtonStyleTimer(
           child: ElevatedButton(
               onPressed: () {
-                timer.stopTimer();
-              },
-              child: const Text('Stop')),
-        ),
-        ButtonStyleTimer(
-          child: ElevatedButton(
-              onPressed: () {
                 showDialog(
                   context: context,
                   builder: (context) {
@@ -111,7 +103,14 @@ class ButtonsTimeArea extends ConsumerWidget {
                 );
               },
               child: const Text('Show Moves')),
-        )
+        ),
+        ButtonStyleTimer(
+          child: ElevatedButton(
+              onPressed: () {
+                timer.stopTimer();
+              },
+              child: const Text('Stop')),
+        ),
       ],
     );
   }

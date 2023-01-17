@@ -18,14 +18,20 @@ class _MainClockState extends ConsumerState<MainClock> {
   Widget build(BuildContext context) {
     final timer = ref.watch(trainingTimerProvider);
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 25),
+      margin: const EdgeInsets.symmetric(vertical: 30),
       child: CircularPercentIndicator(
-        radius: 90.0,
+        radius: 100.0,
         lineWidth: 15.0,
         percent: getTimePercent(timer.seconds, timer.currentState),
         // center: Text(getTimeText(timer.seconds, timer.currentState),
-        center: Text(whatToShowCenter(timer.seconds, timer),
-            style: const TextStyle(fontSize: 50, fontWeight: FontWeight.bold)),
+        center: Text(
+          textAlign: TextAlign.center,
+          whatToShowCenter(timer.seconds, timer),
+          style: const TextStyle(
+            fontSize: 45,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         // progressColor: Colors.green,
         progressColor:
             getColorTimer(getTimePercent(timer.seconds, timer.currentState)),
@@ -64,7 +70,7 @@ class _MainClockState extends ConsumerState<MainClock> {
         return 'Pause';
         break;
       case TimerState.stop:
-        return '';
+        return 'Go \nNext';
         break;
       case TimerState.rateTraining:
         return '';
@@ -74,6 +80,4 @@ class _MainClockState extends ConsumerState<MainClock> {
         break;
     }
   }
-
 }
-

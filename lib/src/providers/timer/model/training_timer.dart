@@ -111,7 +111,7 @@ class TrainingTimerModel extends ChangeNotifier {
       _timer?.cancel();
       _seconds = 0;
       // TODO CHANGE THE STATE TO EVALUATE THE BLOCK
-      _currentState = TimerState.waitBlock;
+      _currentState = TimerState.stop;
       notifyListeners();
     }
   }
@@ -190,7 +190,9 @@ class TrainingTimerModel extends ChangeNotifier {
         );
         break;
       case TimerState.stop:
-      // TODO: Handle this case.
+        _currentState = TimerState.waitBlock;
+        notifyListeners();
+        startTimer();
         break;
       case TimerState.rateTraining:
       // TODO: Handle this case.
@@ -261,7 +263,7 @@ class TrainingTimerModel extends ChangeNotifier {
     if (currentState == TimerState.pause || currentState == TimerState.play) {
       _timer?.cancel();
       _seconds = 0;
-      _currentState = TimerState.waitBlock;
+      _currentState = TimerState.stop;
       notifyListeners();
     }
   }
