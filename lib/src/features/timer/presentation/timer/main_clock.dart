@@ -18,15 +18,17 @@ class _MainClockState extends ConsumerState<MainClock> {
   Widget build(BuildContext context) {
     final timer = ref.watch(trainingTimerProvider);
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.symmetric(vertical: 25),
       child: CircularPercentIndicator(
-        radius: 80.0,
+        radius: 90.0,
         lineWidth: 15.0,
         percent: getTimePercent(timer.seconds, timer.currentState),
-        center: Text(getTimeText(timer.seconds, timer.currentState),
+        // center: Text(getTimeText(timer.seconds, timer.currentState),
+        center: Text(whatToShowCenter(timer.seconds, timer),
             style: const TextStyle(fontSize: 50, fontWeight: FontWeight.bold)),
         // progressColor: Colors.green,
-        progressColor: getColorTimer(getTimePercent(timer.seconds, timer.currentState)),
+        progressColor:
+            getColorTimer(getTimePercent(timer.seconds, timer.currentState)),
       ),
     );
   }
@@ -46,32 +48,32 @@ class _MainClockState extends ConsumerState<MainClock> {
       return "${60 - seconds}";
     }
   }
-}
 
-class StartedTimer extends ConsumerStatefulWidget {
-  const StartedTimer({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  ConsumerState createState() => _StartedTimerState();
-}
-
-class _StartedTimerState extends ConsumerState<StartedTimer> {
-  @override
-  Widget build(BuildContext context) {
-    final timer = ref.watch(trainingTimerProvider);
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20),
-      child: CircularPercentIndicator(
-        radius: 80.0,
-        lineWidth: 15.0,
-        percent: timer.seconds / 5,
-        center: Text("${5 - timer.seconds}",
-            style: const TextStyle(fontSize: 50, fontWeight: FontWeight.bold)),
-        // progressColor: Colors.green,
-        progressColor: getColorTimer(timer.seconds / 5),
-      ),
-    );
+  String whatToShowCenter(int seconds, TrainingTimerModel timer) {
+    switch (timer.currentState) {
+      case TimerState.unStarted:
+        return 'Start';
+        break;
+      case TimerState.waitBlock:
+        return "${5 - seconds}";
+        break;
+      case TimerState.play:
+        return "${60 - seconds}";
+        break;
+      case TimerState.pause:
+        return 'Pause';
+        break;
+      case TimerState.stop:
+        return '';
+        break;
+      case TimerState.rateTraining:
+        return '';
+        break;
+      case TimerState.finishWorkOut:
+        return 'End';
+        break;
+    }
   }
+
 }
+

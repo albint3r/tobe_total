@@ -111,7 +111,7 @@ class TrainingTimerModel extends ChangeNotifier {
       _timer?.cancel();
       _seconds = 0;
       // TODO CHANGE THE STATE TO EVALUATE THE BLOCK
-      _currentState = TimerState.stop;
+      _currentState = TimerState.waitBlock;
       notifyListeners();
     }
   }
@@ -145,44 +145,101 @@ class TrainingTimerModel extends ChangeNotifier {
   /// The [currentState] should be of type [TimerState],
   /// otherwise, it will not perform any action.
   void startTimer() {
+    switch(currentState) {
+      case TimerState.unStarted:
+        _currentState = TimerState.waitBlock;
+        notifyListeners();
+        startTimer();
+        break;
+      case TimerState.waitBlock:
+        getNextBlock();
+        getNameCurrentMovement();
+        _seconds = _seconds;
+        _timer = Timer.periodic(
+          const Duration(seconds: 1),
+              (timer) {
+            // this is the 5 second timer, it will be use if the other timer is not required yet.
+            getGetReadyTimer();
+          },
+        );
+        break;
+      case TimerState.play:
+      // Get the information of the next block to do.
+        // this help for the pause option, if the value is zero still zero,
+        // but if came after a pause, this will continue in the number it stop.
+        _seconds = _seconds == 0 ? 0: _seconds;
+        _timer = Timer.periodic(
+          const Duration(seconds: 1),
+              (timer) {
+            getTimeAndSets();
+          },
+        );
+        break;
+      case TimerState.pause:
+        _timer = Timer.periodic(
+          const Duration(seconds: 1),
+              (timer) {
+            if (_seconds != 12) {
+              _seconds = _seconds + 1;
+              _currentState = TimerState.play;
+              notifyListeners();
+              _timer?.cancel();
+              startTimer();
+            }
+          },
+        );
+        break;
+      case TimerState.stop:
+      // TODO: Handle this case.
+        break;
+      case TimerState.rateTraining:
+      // TODO: Handle this case.
+        break;
+      case TimerState.finishWorkOut:
+      // TODO: Handle this case.
+        break;
+    }
+
 
     // When the block isn't started it will change to waitBlock Data
-    if (currentState == TimerState.unStarted) {
-      _currentState = TimerState.waitBlock;
-      notifyListeners();
-      startTimer();
-    } else if(currentState == TimerState.waitBlock) {
-      getNextBlock();
-      getNameCurrentMovement();
-      _seconds = 0;
-      _timer = Timer.periodic(
-        const Duration(seconds: 1),
-            (timer) {
-          getGetReadyTimer();
-        },
-      );
-    } else if (currentState == TimerState.play) {
-      // Get the information of the next block to do.
-      _seconds = 0;
-      _timer = Timer.periodic(
-        const Duration(seconds: 1),
-        (timer) {
-          getTimeAndSets();
-        },
-      );
-    } else if (currentState == TimerState.pause) {
-      _timer = Timer.periodic(
-        const Duration(seconds: 1),
-        (timer) {
-          if (_seconds != maxSeconds) {
-            _seconds = _seconds + 1;
-            _currentState = TimerState.play;
-            notifyListeners();
-          }
-        },
-      );
+    // if (currentState == TimerState.unStarted) {
+    //   _currentState = TimerState.waitBlock;
+    //   notifyListeners();
+    //   startTimer();
+    // } else if(currentState == TimerState.waitBlock) {
+    //   getNextBlock();
+    //   getNameCurrentMovement();
+    //   _seconds = 0;
+    //   _timer = Timer.periodic(
+    //     const Duration(seconds: 1),
+    //         (timer) {
+    //       getGetReadyTimer();
+    //     },
+    //   );
+    // } else if (currentState == TimerState.play) {
+    //   // Get the information of the next block to do.
+    //   _seconds = 0;
+    //   _timer = Timer.periodic(
+    //     const Duration(seconds: 1),
+    //     (timer) {
+    //       getTimeAndSets();
+    //     },
+    //   );
+    // } else if (currentState == TimerState.pause) {
+    //   _timer = Timer.periodic(
+    //     const Duration(seconds: 1),
+    //     (timer) {
+    //       if (_seconds != maxSeconds) {
+    //         _seconds = _seconds + 1;
+    //         _currentState = TimerState.play;
+    //         notifyListeners();
+    //       }
+    //     },
+    //   );
+    // }
+
+
     }
-  }
 
   /// Pauses the timer.
   ///
@@ -222,7 +279,7 @@ class TrainingTimerModel extends ChangeNotifier {
       // this is a ref to save the total rounds and the remaining
       currentBlockTotalMovements = currentRoundsBlock;
       if (currentBlockIndex == null) {
-        currentBlockIndex = 1;
+        currentBlockIndex = 0;
       } else {
         currentBlockIndex = currentBlockIndex! + 1;
       }
