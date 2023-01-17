@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/providers/proxies/proxies.dart';
 
 class ProxyMovement extends ProxiesTraining {

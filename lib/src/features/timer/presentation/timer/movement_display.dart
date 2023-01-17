@@ -28,7 +28,7 @@ class MovementDisplay extends ConsumerWidget {
                   child: Text('Name: ${timer.currentMovement?.name ?? ''}')),
               TextInMovementDisplay(
                   child: Text(
-                      'Repetitions: ${timer.currentMovement?.reps ?? '0'}')),
+                      'Repetitions: ${timer.currentMovement?.reps ?? ''}')),
             ],
           ),
         ),

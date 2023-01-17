@@ -23,14 +23,14 @@ class _MovementInBlockCounterState
       child: CircularPercentIndicator(
         radius: 40.0,
         lineWidth: 5.0,
-        percent: timer.roundsCurrentBlock == null
+        percent: timer.currentRoundsBlock == null
             ? 0
-            : 1 - timer.roundsCurrentBlock! / timer.currentBlockTotalMovements!,
-        center: Text("${timer.roundsCurrentBlock ?? '0'}",
+            : 1 - timer.currentRoundsBlock! / timer.currentBlockTotalMovements!,
+        center: Text("${timer.currentRoundsBlock ?? '0'}",
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        progressColor: getColorTimer(timer.roundsCurrentBlock == null
+        progressColor: getColorTimer(timer.currentRoundsBlock == null
             ? 0
-            : 1 - timer.roundsCurrentBlock! / timer.currentBlockTotalMovements!),
+            : 1 - timer.currentRoundsBlock! / timer.currentBlockTotalMovements!),
       ),
     );
   }

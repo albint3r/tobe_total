@@ -17,8 +17,7 @@ class _TrainingTimerLogicState extends ConsumerState<TrainingTimerLogic> {
   @override
   Widget build(BuildContext context) {
     final timer = ref.watch(trainingTimerProvider);
-    return Container(
-        child: TrainingTimer());
+    return const TrainingTimer();
   }
 
 

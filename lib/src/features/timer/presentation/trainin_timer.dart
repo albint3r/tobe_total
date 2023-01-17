@@ -5,8 +5,9 @@ import 'package:tobe_total/src/features/timer/presentation/timer/button_style_ti
 import 'package:tobe_total/src/features/timer/presentation/timer/main_clock.dart';
 import 'package:tobe_total/src/features/timer/presentation/timer/movement_display.dart';
 import 'package:tobe_total/src/features/timer/presentation/timer/movement_in_block_counter.dart';
+import '../../../providers/proxies/block_proxy.dart';
+import '../../../providers/proxies/movement_proxy.dart';
 import '../../../providers/timer/model/training_timer.dart';
-import '../../common_widgets/headers_screens/header_screens.dart';
 
 class TrainingTimer extends ConsumerStatefulWidget {
   const TrainingTimer({
@@ -20,6 +21,7 @@ class TrainingTimer extends ConsumerStatefulWidget {
 class _TrainingTimerState extends ConsumerState<TrainingTimer> {
   @override
   Widget build(BuildContext context) {
+    // final timer = ref.watch(trainingTimerProvider);
     return Container(
       width: double.infinity,
       child: Column(
@@ -58,24 +60,82 @@ class ButtonsTimeArea extends ConsumerWidget {
           child: ElevatedButton(
               onPressed: () {
                 timer.startTimer();
+                // TODO ACTIVIATE THIS METHOD TO EVALUATE ALL THE TRAINING
+                // if(timer.currentState == TimerState.rateTraining) {
+                //   showDialog(context: context, builder: (context) => AlertDialog(
+                //     title: Text('algo bonito'),
+                //     content: Text('This is just a test'),
+                //     actions: [
+                //       TextButton(onPressed: () => Navigator.pop(context), child: Text('Close'))
+                //     ],
+                //   ));
+                // } else  {
+                //   timer.startTimer();
+                // }
               },
-              child: const Text('play')),
-        ),
-        ButtonStyleTimer(
-          child: ElevatedButton(
-              onPressed: () {
-                timer.stopTimer();
-              },
-              child: const Text('stop')),
+              child: const Text('Play')),
         ),
         ButtonStyleTimer(
           child: ElevatedButton(
               onPressed: () {
                 timer.pauseTime();
               },
-              child: const Text('pause Time')),
+              child: const Text('Pause')),
+        ),
+        ButtonStyleTimer(
+          child: ElevatedButton(
+              onPressed: () {
+                timer.stopTimer();
+              },
+              child: const Text('Stop')),
+        ),
+        ButtonStyleTimer(
+          child: ElevatedButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    selectBlockMoveToShow(timer);
+                    return AlertDialog(
+                      title: Text('Moves in the block'),
+                      content: Column(
+                        children: selectBlockMoveToShow(timer),
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text('Close'))
+                      ],
+                    );
+                  },
+                );
+              },
+              child: const Text('Show Moves')),
         )
       ],
     );
+  }
+
+  List<MoveToShow> selectBlockMoveToShow(TrainingTimerModel timer) {
+    var block = timer.selectBlockMoveToShow();
+    return [
+      for (var move in block.movements.values)
+        MoveToShow(
+          movement: move,
+        )
+    ];
+  }
+}
+
+class MoveToShow extends ConsumerWidget {
+  const MoveToShow({
+    required this.movement,
+    Key? key,
+  }) : super(key: key);
+  final ProxyMovement movement;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Text('${movement.name}');
   }
 }

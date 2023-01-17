@@ -1,11 +1,19 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-
+import '../../proxies/block_proxy.dart';
 import '../../proxies/movement_proxy.dart';
 import '../../proxies/wod_proxy.dart';
 
-enum TimerState { play, pause, stop, finish }
+enum TimerState {
+  unStarted,
+  waitBlock,
+  play,
+  pause,
+  stop,
+  rateTraining,
+  finishWorkOut
+}
 
 class TrainingTimerModel extends ChangeNotifier {
   // Initial state of the timer
@@ -13,9 +21,9 @@ class TrainingTimerModel extends ChangeNotifier {
   late final ProxyWOD proxyWod;
 
   final int _maxSeconds = 60;
-
+  bool isBeepSound = false;
   int? currentBlockIndex;
-  int? roundsCurrentBlock;
+  int? currentRoundsBlock;
   int? currentBlockTotalMovements;
   ProxyMovement? currentMovement;
 
@@ -28,7 +36,7 @@ class TrainingTimerModel extends ChangeNotifier {
   int _seconds = 0;
 
   // Is the timer State
-  TimerState _currentState = TimerState.stop;
+  TimerState _currentState = TimerState.unStarted;
 
   // Getter that returns the current state of the timer
   int get seconds => _seconds;
@@ -68,6 +76,60 @@ class TrainingTimerModel extends ChangeNotifier {
     }
   }
 
+  ProxyBlock selectBlockMoveToShow() {
+    ProxyBlock blockToShow;
+    if(currentBlockIndex == null) {
+      var blockToShowIndex = proxyWod.blocks!.keys.toList()[0];
+      // TODO PUEDE SER PROBABLE QUE AL FINALIZAR EL ENTRENAMIENTO
+      // EL INDEX SE MUEVA Y GENERE ERROR, ES IMPORTANTE MONITOREAR ESTO
+      // PARA EVITAR QUE PASE CUANDO SE MUESTRAN LOS MOVIMIENTOS A HACER
+      blockToShow = proxyWod.blocks![blockToShowIndex]!;
+    } else {
+      var blockToShowIndex = proxyWod.blocks!.keys.toList()[currentBlockIndex!];
+      blockToShow = proxyWod.blocks![blockToShowIndex]!;
+    }
+    return blockToShow;
+  }
+
+
+  /// Get the time and Set of the current block.
+  /// It decide if the timer go, stop or pause.
+  void getTimeAndSets() {
+    if (_seconds != maxSeconds && currentRoundsBlock != 0) {
+      _seconds = _seconds + 1;
+      _currentState = TimerState.play;
+      notifyListeners();
+      // Change Round State and reset time
+    } else if (_seconds == maxSeconds && currentRoundsBlock != 0) {
+      _seconds = 0;
+      currentRoundsBlock = currentRoundsBlock! - 1;
+      popMovementToDo();
+      getNameCurrentMovement();
+      notifyListeners();
+      // Round finalize
+    } else if (currentRoundsBlock == 0) {
+      _timer?.cancel();
+      _seconds = 0;
+      // TODO CHANGE THE STATE TO EVALUATE THE BLOCK
+      _currentState = TimerState.stop;
+      notifyListeners();
+    }
+  }
+
+  void getGetReadyTimer() {
+    if (_seconds != 5) {
+      _seconds = _seconds + 1;
+      notifyListeners();
+      // Change Round State and reset time
+    } else {
+      _seconds = 0;
+      _currentState = TimerState.play;
+      _timer?.cancel();
+      notifyListeners();
+      startTimer();
+    }
+  }
+
   /// Starts the timer.
   ///
   /// If the current state of the timer is [TimerState.stop],
@@ -83,35 +145,29 @@ class TrainingTimerModel extends ChangeNotifier {
   /// The [currentState] should be of type [TimerState],
   /// otherwise, it will not perform any action.
   void startTimer() {
-    if (currentState == TimerState.stop) {
-      // Get the information of the next block to do.
+
+    // When the block isn't started it will change to waitBlock Data
+    if (currentState == TimerState.unStarted) {
+      _currentState = TimerState.waitBlock;
+      notifyListeners();
+      startTimer();
+    } else if(currentState == TimerState.waitBlock) {
       getNextBlock();
       getNameCurrentMovement();
       _seconds = 0;
       _timer = Timer.periodic(
         const Duration(seconds: 1),
+            (timer) {
+          getGetReadyTimer();
+        },
+      );
+    } else if (currentState == TimerState.play) {
+      // Get the information of the next block to do.
+      _seconds = 0;
+      _timer = Timer.periodic(
+        const Duration(seconds: 1),
         (timer) {
-          // Normal
-          if (_seconds != maxSeconds && roundsCurrentBlock != 0) {
-            _seconds = _seconds + 1;
-            _currentState = TimerState.play;
-            notifyListeners();
-          } else if (_seconds == maxSeconds && roundsCurrentBlock != 0) {
-            _seconds = 0;
-            roundsCurrentBlock = roundsCurrentBlock! - 1;
-            popMovementToDo();
-            getNameCurrentMovement();
-            notifyListeners();
-          } else if (roundsCurrentBlock == 0) {
-            print('ya acabe');
-            print('ya acabe');
-            print('ya acabe');
-            print('ya acabe');
-            _timer?.cancel();
-            _seconds = 0;
-            _currentState = TimerState.stop;
-            notifyListeners();
-          }
+          getTimeAndSets();
         },
       );
     } else if (currentState == TimerState.pause) {
@@ -136,17 +192,25 @@ class TrainingTimerModel extends ChangeNotifier {
   /// The [currentState] should be of type [TimerState], otherwise,
   /// it will not perform any action.
   void pauseTime() {
-    _currentState = TimerState.pause;
-    _timer?.cancel();
-    notifyListeners();
+    if (currentState == TimerState.play || currentState == TimerState.stop) {
+      _currentState = TimerState.pause;
+      _timer?.cancel();
+      notifyListeners();
+    }
   }
 
   //Method that stops the timer
   void stopTimer() {
-    _timer?.cancel();
-    _seconds = 0;
-    _currentState = TimerState.stop;
-    notifyListeners();
+    if (currentState == TimerState.pause || currentState == TimerState.play) {
+      _timer?.cancel();
+      _seconds = 0;
+      _currentState = TimerState.waitBlock;
+      notifyListeners();
+    }
+  }
+
+  void setBeepSound(){
+    isBeepSound = true;
   }
 
   void getNextBlock() {
@@ -154,9 +218,9 @@ class TrainingTimerModel extends ChangeNotifier {
     proxyWod.getNextBlock();
     proxyWod.getMovementToDo();
     if (proxyWod.movementToDo != null) {
-      roundsCurrentBlock = proxyWod.movementToDo?.length;
+      currentRoundsBlock = proxyWod.movementToDo?.length;
       // this is a ref to save the total rounds and the remaining
-      currentBlockTotalMovements = roundsCurrentBlock;
+      currentBlockTotalMovements = currentRoundsBlock;
       if (currentBlockIndex == null) {
         currentBlockIndex = 1;
       } else {
@@ -172,7 +236,7 @@ class TrainingTimerModel extends ChangeNotifier {
 
 final trainingTimerProvider = ChangeNotifierProvider<TrainingTimerModel>((ref) {
   final proxyWod = ref.watch(proxyWodProvider);
-  final t = TrainingTimerModel();
-  t.proxyWod = proxyWod;
-  return t;
+  final timeModel = TrainingTimerModel();
+  timeModel.proxyWod = proxyWod;
+  return timeModel;
 });
