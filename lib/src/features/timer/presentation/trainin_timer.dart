@@ -20,7 +20,6 @@ class TrainingTimer extends ConsumerStatefulWidget {
 class _TrainingTimerState extends ConsumerState<TrainingTimer> {
   @override
   Widget build(BuildContext context) {
-    // final timer = ref.watch(trainingTimerProvider);
     return Container(
       width: double.infinity,
       child: Column(
@@ -32,9 +31,19 @@ class _TrainingTimerState extends ConsumerState<TrainingTimer> {
               const MainClock(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  BlocksInWodCounter(),
-                  MovementInBlockCounter(),
+                children: [
+                  Column(
+                    children: const [
+                      BlocksInWodCounter(),
+                      Text('Blocks')
+                    ],
+                  ),
+                  Column(
+                    children: const [
+                      MovementInBlockCounter(),
+                      Text('Rounds')
+                    ],
+                  ),
                 ],
               ),
             ],
@@ -87,18 +96,43 @@ class ButtonsTimeArea extends ConsumerWidget {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    selectBlockMoveToShow(timer);
-                    return AlertDialog(
-                      title: Text('Moves in the block'),
-                      content: Column(
-                        children: selectBlockMoveToShow(timer),
-                      ),
-                      actions: [
-                        TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text('Close'))
-                      ],
-                    );
+                    if(timer.currentState != TimerState.finishWorkOut) {
+                      selectBlockMoveToShow(timer);
+                      return AlertDialog(
+                        title: Text('Moves in the block'),
+                        content: Column(
+                          children: selectBlockMoveToShow(timer),
+                        ),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text('Close'))
+                        ],
+                      );
+
+                    } else {
+                      return AlertDialog(
+                        title: Text('You finish!'),
+                        content: Text('Go to evaluate your training'),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text('Close'))
+                        ],
+                      );
+                    }
+                    // selectBlockMoveToShow(timer);
+                    // return AlertDialog(
+                    //   title: Text('Moves in the block'),
+                    //   content: Column(
+                    //     children: selectBlockMoveToShow(timer),
+                    //   ),
+                    //   actions: [
+                    //     TextButton(
+                    //         onPressed: () => Navigator.pop(context),
+                    //         child: Text('Close'))
+                    //   ],
+                    // );
                   },
                 );
               },

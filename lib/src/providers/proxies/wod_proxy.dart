@@ -64,13 +64,17 @@ class ProxyWOD extends ProxiesTraining {
   void getNextBlock() {
     // if not selected block
     int? tempId;
+    print('[getNextBlock]-----------------------');
     // Not exist next block, select first
     if(currentBlockProcessing == null) {
+
       tempId = blocks?.keys.first;
+      print('tempId-> $tempId');
       currentBlockProcessing = blocks![tempId];
     // Select next until is the last.
     } else {
       tempId = (currentBlockProcessing!.id! + 1);
+      print('tempId-> $tempId');
       // validate exist next Element in the Map
       if(blocks![tempId] != null) {
         currentBlockProcessing = blocks![tempId];

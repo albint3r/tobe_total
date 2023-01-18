@@ -20,8 +20,7 @@ class TrainingTimerModel extends ChangeNotifier {
   // Maximum duration of the timer in seconds
   late final ProxyWOD proxyWod;
 
-  final int _maxSeconds = 60;
-  bool isBeepSound = false;
+  final int _maxSeconds = 1;
   int? currentBlockIndex;
   int? currentRoundsBlock;
   int? currentBlockTotalMovements;
@@ -78,7 +77,7 @@ class TrainingTimerModel extends ChangeNotifier {
 
   ProxyBlock selectBlockMoveToShow() {
     ProxyBlock blockToShow;
-    if(currentBlockIndex == null) {
+    if (currentBlockIndex == null) {
       var blockToShowIndex = proxyWod.blocks!.keys.toList()[0];
       // TODO PUEDE SER PROBABLE QUE AL FINALIZAR EL ENTRENAMIENTO
       // EL INDEX SE MUEVA Y GENERE ERROR, ES IMPORTANTE MONITOREAR ESTO
@@ -90,7 +89,6 @@ class TrainingTimerModel extends ChangeNotifier {
     }
     return blockToShow;
   }
-
 
   /// Get the time and Set of the current block.
   /// It decide if the timer go, stop or pause.
@@ -110,9 +108,8 @@ class TrainingTimerModel extends ChangeNotifier {
     } else if (currentRoundsBlock == 0) {
       _timer?.cancel();
       _seconds = 0;
-      // TODO CHANGE THE STATE TO EVALUATE THE BLOCK
-      _currentState = TimerState.stop;
       notifyListeners();
+      stopTimer();
     }
   }
 
@@ -145,32 +142,36 @@ class TrainingTimerModel extends ChangeNotifier {
   /// The [currentState] should be of type [TimerState],
   /// otherwise, it will not perform any action.
   void startTimer() {
-    switch(currentState) {
+    switch (currentState) {
       case TimerState.unStarted:
-        _currentState = TimerState.waitBlock;
-        notifyListeners();
-        startTimer();
+        stopTimer();
         break;
       case TimerState.waitBlock:
-        getNextBlock();
-        getNameCurrentMovement();
         _seconds = _seconds;
         _timer = Timer.periodic(
           const Duration(seconds: 1),
-              (timer) {
+          (timer) {
             // this is the 5 second timer, it will be use if the other timer is not required yet.
             getGetReadyTimer();
           },
         );
         break;
       case TimerState.play:
-      // Get the information of the next block to do.
+        // Get the information of the next block to do.
         // this help for the pause option, if the value is zero still zero,
         // but if came after a pause, this will continue in the number it stop.
-        _seconds = _seconds == 0 ? 0: _seconds;
+
+        //***********************************************************************
+        // CANCEL THE TIMER BEFORE STARTING IS TO AVOID THE TIMER DUPLICATION
+        // THIS DUPLICATION HAPPEN WHEN THE TIMER IN THE PLAY STATE AND
+        // YOU CLICK AGAIN TO START, THIS CREATE ANOTHER TIMER, BUT THE LAST
+        // IS STILL RUNNING, THIS IS WHY I CANCEL ONLY IF EXIST BEFORE.
+        //***********************************************************************
+        _timer?.cancel();
+        _seconds = _seconds == 0 ? 0 : _seconds;
         _timer = Timer.periodic(
           const Duration(seconds: 1),
-              (timer) {
+          (timer) {
             getTimeAndSets();
           },
         );
@@ -178,7 +179,7 @@ class TrainingTimerModel extends ChangeNotifier {
       case TimerState.pause:
         _timer = Timer.periodic(
           const Duration(seconds: 1),
-              (timer) {
+          (timer) {
             if (_seconds != 12) {
               _seconds = _seconds + 1;
               _currentState = TimerState.play;
@@ -195,53 +196,13 @@ class TrainingTimerModel extends ChangeNotifier {
         startTimer();
         break;
       case TimerState.rateTraining:
-      // TODO: Handle this case.
+        // TODO: Handle this case.
         break;
       case TimerState.finishWorkOut:
-      // TODO: Handle this case.
+        // TODO: Handle this case.
         break;
     }
-
-
-    // When the block isn't started it will change to waitBlock Data
-    // if (currentState == TimerState.unStarted) {
-    //   _currentState = TimerState.waitBlock;
-    //   notifyListeners();
-    //   startTimer();
-    // } else if(currentState == TimerState.waitBlock) {
-    //   getNextBlock();
-    //   getNameCurrentMovement();
-    //   _seconds = 0;
-    //   _timer = Timer.periodic(
-    //     const Duration(seconds: 1),
-    //         (timer) {
-    //       getGetReadyTimer();
-    //     },
-    //   );
-    // } else if (currentState == TimerState.play) {
-    //   // Get the information of the next block to do.
-    //   _seconds = 0;
-    //   _timer = Timer.periodic(
-    //     const Duration(seconds: 1),
-    //     (timer) {
-    //       getTimeAndSets();
-    //     },
-    //   );
-    // } else if (currentState == TimerState.pause) {
-    //   _timer = Timer.periodic(
-    //     const Duration(seconds: 1),
-    //     (timer) {
-    //       if (_seconds != maxSeconds) {
-    //         _seconds = _seconds + 1;
-    //         _currentState = TimerState.play;
-    //         notifyListeners();
-    //       }
-    //     },
-    //   );
-    // }
-
-
-    }
+  }
 
   /// Pauses the timer.
   ///
@@ -260,16 +221,22 @@ class TrainingTimerModel extends ChangeNotifier {
 
   //Method that stops the timer
   void stopTimer() {
-    if (currentState == TimerState.pause || currentState == TimerState.play) {
+    if (currentState == TimerState.pause || currentState == TimerState.play || currentState == TimerState.unStarted) {
+      getNextBlock();
+      getNameCurrentMovement();
       _timer?.cancel();
       _seconds = 0;
-      _currentState = TimerState.stop;
+      print('stopTimer-----------------------');
+      print('currentBlockIndex $currentBlockIndex and totalBlocksInWod $totalBlocksInWod');
+      if(currentBlockIndex != totalBlocksInWod) {
+        _currentState = TimerState.stop;
+      } else {
+        _currentState = TimerState.finishWorkOut;
+      }
+      print('_currentState-> $_currentState');
       notifyListeners();
-    }
-  }
 
-  void setBeepSound(){
-    isBeepSound = true;
+    }
   }
 
   void getNextBlock() {

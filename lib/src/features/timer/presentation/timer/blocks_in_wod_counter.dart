@@ -17,22 +17,49 @@ class _BlocksInWodCounterState extends ConsumerState<BlocksInWodCounter> {
   @override
   Widget build(BuildContext context) {
     final timer = ref.watch(trainingTimerProvider);
+    print('[timer.currentBlockIndex]-----------------------');
+    print(timer.currentBlockIndex);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
       child: CircularPercentIndicator(
         radius: 40.0,
-        lineWidth: 5.0,
+        lineWidth: 7.0,
         percent: timer.currentBlockIndex == null
             ? 0
             : timer.currentBlockIndex! / timer.totalBlocksInWod!,
-        center: Text(
-            "${timer.currentBlockIndex ?? 1}/${timer.totalBlocksInWod}",
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        // progressColor: Colors.green,
+        center: Text(whatToShowCenter(timer),
+             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
         progressColor: getColorTimer(timer.currentBlockIndex == null
             ? 0
             : timer.currentBlockIndex! / timer.totalBlocksInWod!),
       ),
     );
   }
+
+  String whatToShowCenter(TrainingTimerModel timer) {
+    switch (timer.currentState) {
+      case TimerState.unStarted:
+        return '${timer.currentBlockIndex ?? 0}/${timer.totalBlocksInWod}';
+        break;
+      case TimerState.waitBlock:
+        return '${timer.currentBlockIndex ?? 0}/${timer.totalBlocksInWod}';
+        break;
+      case TimerState.play:
+        return "${timer.currentBlockIndex ?? 0}/${timer.totalBlocksInWod}";
+        break;
+      case TimerState.pause:
+        return '${timer.currentBlockIndex ?? 0}/${timer.totalBlocksInWod}';
+        break;
+      case TimerState.stop:
+        return '${timer.currentBlockIndex ?? 0}/${timer.totalBlocksInWod}';
+        break;
+      case TimerState.rateTraining:
+        return '${timer.currentBlockIndex ?? 0}/${timer.totalBlocksInWod}';
+        break;
+      case TimerState.finishWorkOut:
+        return '${timer.currentBlockIndex ?? 0}/${timer.totalBlocksInWod}';
+        break;
+    }
+  }
+
 }

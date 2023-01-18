@@ -18,7 +18,7 @@ class _MainClockState extends ConsumerState<MainClock> {
   Widget build(BuildContext context) {
     final timer = ref.watch(trainingTimerProvider);
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 30),
+      margin: const EdgeInsets.only(top: 30, bottom: 5),
       child: CircularPercentIndicator(
         radius: 100.0,
         lineWidth: 15.0,
@@ -47,13 +47,6 @@ class _MainClockState extends ConsumerState<MainClock> {
     }
   }
 
-  String getTimeText(int seconds, TimerState timeState) {
-    if (timeState == TimerState.waitBlock) {
-      return "${5 - seconds}";
-    } else {
-      return "${60 - seconds}";
-    }
-  }
 
   String whatToShowCenter(int seconds, TrainingTimerModel timer) {
     switch (timer.currentState) {
@@ -76,7 +69,7 @@ class _MainClockState extends ConsumerState<MainClock> {
         return '';
         break;
       case TimerState.finishWorkOut:
-        return 'End';
+        return 'Finish';
         break;
     }
   }

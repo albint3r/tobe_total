@@ -22,16 +22,42 @@ class _MovementInBlockCounterState
       margin: const EdgeInsets.symmetric(horizontal: 5),
       child: CircularPercentIndicator(
         radius: 40.0,
-        lineWidth: 5.0,
+        lineWidth: 7.0,
         percent: timer.currentRoundsBlock == null
             ? 0
             : 1 - timer.currentRoundsBlock! / timer.currentBlockTotalMovements!,
-        center: Text("${timer.currentRoundsBlock ?? '0'}",
+        center: Text(whatToShowCenter(timer),
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         progressColor: getColorTimer(timer.currentRoundsBlock == null
             ? 0
             : 1 - timer.currentRoundsBlock! / timer.currentBlockTotalMovements!),
       ),
     );
+  }
+
+  String whatToShowCenter(TrainingTimerModel timer) {
+    switch (timer.currentState) {
+      case TimerState.unStarted:
+        return "${timer.currentRoundsBlock ?? '0'}";
+        break;
+      case TimerState.waitBlock:
+        return "${timer.currentRoundsBlock ?? '0'}";
+        break;
+      case TimerState.play:
+        return "${timer.currentRoundsBlock ?? '0'}";
+        break;
+      case TimerState.pause:
+        return "${timer.currentRoundsBlock ?? '0'}";
+        break;
+      case TimerState.stop:
+        return "${timer.currentRoundsBlock ?? '0'}";
+        break;
+      case TimerState.rateTraining:
+        return "${timer.currentRoundsBlock ?? '0'}";
+        break;
+      case TimerState.finishWorkOut:
+        return "0";
+        break;
+    }
   }
 }
