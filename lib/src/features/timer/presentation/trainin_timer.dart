@@ -68,18 +68,6 @@ class ButtonsTimeArea extends ConsumerWidget {
           child: ElevatedButton(
               onPressed: () {
                 timer.startTimer();
-                // TODO ACTIVIATE THIS METHOD TO EVALUATE ALL THE TRAINING
-                // if(timer.currentState == TimerState.rateTraining) {
-                //   showDialog(context: context, builder: (context) => AlertDialog(
-                //     title: Text('algo bonito'),
-                //     content: Text('This is just a test'),
-                //     actions: [
-                //       TextButton(onPressed: () => Navigator.pop(context), child: Text('Close'))
-                //     ],
-                //   ));
-                // } else  {
-                //   timer.startTimer();
-                // }
               },
               child: const Text('Play')),
         ),

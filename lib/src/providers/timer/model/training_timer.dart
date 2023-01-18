@@ -177,18 +177,9 @@ class TrainingTimerModel extends ChangeNotifier {
         );
         break;
       case TimerState.pause:
-        _timer = Timer.periodic(
-          const Duration(seconds: 1),
-          (timer) {
-            if (_seconds != 12) {
-              _seconds = _seconds + 1;
-              _currentState = TimerState.play;
-              notifyListeners();
-              _timer?.cancel();
-              startTimer();
-            }
-          },
-        );
+        _currentState = TimerState.play;
+        notifyListeners();
+        startTimer();
         break;
       case TimerState.stop:
         _currentState = TimerState.waitBlock;
