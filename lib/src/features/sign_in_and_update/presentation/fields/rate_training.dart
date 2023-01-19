@@ -37,7 +37,6 @@ class RateTrainingCheckFields extends ConsumerWidget {
                 },
               ),
             )
-
           ],
         ),
       ),

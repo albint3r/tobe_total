@@ -100,11 +100,14 @@ class TrainingTimerModel extends ChangeNotifier {
       // Change Round State and reset time
     } else if (_seconds == maxSeconds && currentRoundsBlock != 0) {
       _seconds = 0;
+      // Change the state o the Blocks Clock
       currentRoundsBlock = currentRoundsBlock! - 1;
+      // Delete the movement of the last block.
       popMovementToDo();
+      // Obtain the name of the new movements to display in [show moves]
       getNameCurrentMovement();
       notifyListeners();
-      // Round finalize
+      // Block is finished
     } else if (currentRoundsBlock == 0) {
       _timer?.cancel();
       _seconds = 0;
@@ -121,7 +124,6 @@ class TrainingTimerModel extends ChangeNotifier {
     } else {
       _seconds = 0;
       _currentState = TimerState.play;
-      _timer?.cancel();
       notifyListeners();
       startTimer();
     }
@@ -147,7 +149,6 @@ class TrainingTimerModel extends ChangeNotifier {
         stopTimer();
         break;
       case TimerState.waitBlock:
-        _seconds = _seconds;
         _timer = Timer.periodic(
           const Duration(seconds: 1),
           (timer) {
@@ -212,21 +213,24 @@ class TrainingTimerModel extends ChangeNotifier {
 
   //Method that stops the timer
   void stopTimer() {
-    if (currentState == TimerState.pause || currentState == TimerState.play || currentState == TimerState.unStarted) {
+    if (currentState == TimerState.pause ||
+        currentState == TimerState.play ||
+        currentState == TimerState.unStarted) {
       getNextBlock();
       getNameCurrentMovement();
       _timer?.cancel();
       _seconds = 0;
-      print('stopTimer-----------------------');
-      print('currentBlockIndex $currentBlockIndex and totalBlocksInWod $totalBlocksInWod');
-      if(currentBlockIndex != totalBlocksInWod) {
-        _currentState = TimerState.stop;
-      } else {
-        _currentState = TimerState.finishWorkOut;
-      }
-      print('_currentState-> $_currentState');
+      _currentState = isFinishedOrStop();
       notifyListeners();
+    }
+  }
 
+  /// Return is Finished if the Training don't have more Blocks in the Wod
+  TimerState isFinishedOrStop() {
+    if (currentBlockIndex != totalBlocksInWod) {
+      return TimerState.stop;
+    } else {
+      return TimerState.finishWorkOut;
     }
   }
 
