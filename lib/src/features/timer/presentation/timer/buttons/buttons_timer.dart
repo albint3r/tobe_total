@@ -5,6 +5,7 @@ import 'package:tobe_total/src/features/timer/presentation/timer/buttons/play.da
 import 'package:tobe_total/src/features/timer/presentation/timer/buttons/show_moves.dart';
 import 'package:tobe_total/src/features/timer/presentation/timer/buttons/stop.dart';
 import '../../../../../providers/timer/model/training_timer.dart';
+import '../dialogos/movementsToDoDialog.dart';
 
 
 class ButtonsTimeArea extends ConsumerWidget {

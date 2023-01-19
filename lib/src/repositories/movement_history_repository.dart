@@ -1,4 +1,6 @@
 // Imports
+import 'package:tobe_total/src/providers/proxies/movement_proxy.dart';
+
 import '../data/db.dart';
 
 class MovementHistory extends LocalDataBase {
@@ -45,4 +47,13 @@ class MovementHistory extends LocalDataBase {
         'SELECT mh. create_date ,mh.id, mh.fitness_move_id, mh.blocks_id, mh.reps, mh.rest_time, mh.weight, mh.created_manual, mh.edited, mh.did_exercise, mh.did_all_train_work, mh.why_cant_do_all_work, mh.can_do_more, fm.name, fm.yt_url, fm.muscle_prota, fm.body_area, fm.difficulty, fm.movement_pattern, fm.dynamic FROM movement_history as mh JOIN fitness_moves as fm ON mh.fitness_move_id = fm.id JOIN blocks as b ON b.id = mh.blocks_id    WHERE wod_id = $wodId';
     return rawQuery(query);
   }
+
+  Future<List<Map<String, Object?>>> updateRateMovement(
+      {required ProxyMovement move}) {
+    String query = 'UPDATE movement_history SET did_exercise = ${move.didExercise ?? 'FALSE'}, did_all_train_work = ${move.didAllReps ?? 'FALSE'}, can_do_more = ${move.canDoMore ?? 'FALSE'} WHERE id = ${move.id};';
+    return rawQuery(query);
+  }
+
+
+
 }

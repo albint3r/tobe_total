@@ -12,6 +12,7 @@ class ProxyMovement extends ProxiesTraining {
   bool? isCreatedManual;
   bool? isEdited;
   bool? didExercise;
+  bool? didAllReps;
   bool? whyCantDoAllWork;
   bool? canDoMore;
   // Info move
@@ -83,6 +84,25 @@ class ProxyMovement extends ProxiesTraining {
     difficulty= context['difficulty'] as String;
     movementPattern= context['movement_pattern'] as String;
     dynamic= context['dynamic'] as int;
+  }
+
+  void updateDidMove(bool newValue) {
+    didExercise = newValue;
+    print('$name [didExercise]-> $didExercise');
+  }
+
+  void updateDidAllReps(bool newValue) {
+    didAllReps = newValue;
+    print('$name [didAllReps]-> $didAllReps');
+  }
+
+  void updateCanDoMoreReps(bool newValue) {
+    canDoMore = newValue;
+    print('$name [canDoMore]-> $canDoMore');
+  }
+
+  void save() {
+
   }
 
   //

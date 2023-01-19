@@ -38,10 +38,6 @@ class GoToNextTrainingOFTheWeek extends ConsumerWidget {
           ref.watch(blocksInWodProxyProvider.notifier).state = blocksInWod;
           ref.watch(movementInBlockWodProxyProvider.notifier).state = movesInBlocks;
           route.navigateTo(context, ConstantsUrls.trainingTimer);
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Go to your next training'),
-            elevation: 5,
-          ));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("You don't have trainings today"),

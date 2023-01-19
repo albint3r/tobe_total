@@ -66,7 +66,7 @@ class _MainClockState extends ConsumerState<MainClock> {
         return 'Go \nNext';
         break;
       case TimerState.rateTraining:
-        return '';
+        return 'Rate Time';
         break;
       case TimerState.finishWorkOut:
         return 'Finish';

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import '../../../repositories/movement_history_repository.dart';
+import '../../movement_history/model/movement_history_model.dart';
 import '../../proxies/block_proxy.dart';
 import '../../proxies/movement_proxy.dart';
 import '../../proxies/wod_proxy.dart';
@@ -19,6 +21,7 @@ class TrainingTimerModel extends ChangeNotifier {
   // Initial state of the timer
   // Maximum duration of the timer in seconds
   late final ProxyWOD proxyWod;
+  late final MovementHistory _movementsHistoryModel;
 
   final int _maxSeconds = 60;
   int? currentBlockIndex;
@@ -51,6 +54,16 @@ class TrainingTimerModel extends ChangeNotifier {
       return true;
     }
     return false;
+  }
+  /// Set the movementsHistoryModel to update the rates results
+  /// After the training is over.
+  void setMovementsHistoryModel(MovementHistory movementHistory) {
+    _movementsHistoryModel = movementHistory;
+  }
+
+  /// Set the Proxy Model this will help to manage all the Block in the WOD
+  void setProxyWod(ProxyWOD wod) {
+    proxyWod = wod;
   }
 
   getNameCurrentMovement() {
@@ -92,7 +105,7 @@ class TrainingTimerModel extends ChangeNotifier {
 
   /// Get the time and Set of the current block.
   /// It decide if the timer go, stop or pause.
-  void getTimeAndSets() {
+  void getTimeAndRounds() {
     if (_seconds != maxSeconds && currentRoundsBlock != 0) {
       _seconds = _seconds + 1;
       _currentState = TimerState.play;
@@ -109,12 +122,17 @@ class TrainingTimerModel extends ChangeNotifier {
       notifyListeners();
       // Block is finished
     } else if (currentRoundsBlock == 0) {
-      _timer?.cancel();
-      _seconds = 0;
-      notifyListeners();
-      stopTimer();
+      rateBlock();
     }
   }
+
+  void rateBlock() {
+    _currentState = TimerState.rateTraining;
+    _seconds = 0;
+    _timer?.cancel();
+    notifyListeners();
+  }
+
 
   void getGetReadyTimer() {
     if (_seconds != 5) {
@@ -173,7 +191,7 @@ class TrainingTimerModel extends ChangeNotifier {
         _timer = Timer.periodic(
           const Duration(seconds: 1),
           (timer) {
-            getTimeAndSets();
+            getTimeAndRounds();
           },
         );
         break;
@@ -215,7 +233,8 @@ class TrainingTimerModel extends ChangeNotifier {
   void stopTimer() {
     if (currentState == TimerState.pause ||
         currentState == TimerState.play ||
-        currentState == TimerState.unStarted) {
+        currentState == TimerState.unStarted ||
+        currentState == TimerState.rateTraining) {
       getNextBlock();
       getNameCurrentMovement();
       _timer?.cancel();
@@ -230,7 +249,23 @@ class TrainingTimerModel extends ChangeNotifier {
     if (currentBlockIndex != totalBlocksInWod) {
       return TimerState.stop;
     } else {
+      saveTrainingResults();
       return TimerState.finishWorkOut;
+    }
+  }
+
+  void saveTrainingResults() {
+    print(proxyWod.blocks);
+    for(var block in proxyWod.blocks!.entries) {
+      for(var move in block.value.movements.entries) {
+        print('MOVE TO SAVE RESULTS [${move.value.name}]----------------');
+        print('ID ${move.value.id}');
+        print('didExercise -> ${move.value.didExercise}');
+        print('didAllReps -> ${move.value.didAllReps}');
+        print('canDoMore -> ${move.value.canDoMore}');
+        // Update values in the Database
+        _movementsHistoryModel.updateRateMovement(move: move.value);
+      }
     }
   }
 
@@ -257,7 +292,12 @@ class TrainingTimerModel extends ChangeNotifier {
 
 final trainingTimerProvider = ChangeNotifierProvider<TrainingTimerModel>((ref) {
   final proxyWod = ref.watch(proxyWodProvider);
+  final movementHistoryModel = ref.watch(movementHistoryModelProvider);
   final timeModel = TrainingTimerModel();
-  timeModel.proxyWod = proxyWod;
+  // Set Model in the Timer
+  timeModel.setMovementsHistoryModel(movementHistoryModel);
+  timeModel.setProxyWod(proxyWod);
   return timeModel;
 });
+
+
