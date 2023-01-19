@@ -20,7 +20,7 @@ class TrainingTimerModel extends ChangeNotifier {
   // Maximum duration of the timer in seconds
   late final ProxyWOD proxyWod;
 
-  final int _maxSeconds = 1;
+  final int _maxSeconds = 60;
   int? currentBlockIndex;
   int? currentRoundsBlock;
   int? currentBlockTotalMovements;

@@ -25,10 +25,15 @@ class MovementDisplay extends ConsumerWidget {
                 header: 'Movement to do',
               ),
               TextInMovementDisplay(
-                  child: Text('Name: ${timer.currentMovement?.name ?? ''}')),
+                child: Text(
+                  'Name: ${timer.currentMovement?.name ?? ''}',
+                  overflow: TextOverflow.ellipsis, maxLines: 1,
+                ),
+              ),
               TextInMovementDisplay(
-                  child: Text(
-                      'Repetitions: ${timer.currentMovement?.reps ?? ''}')),
+                child:
+                    Text('Repetitions: ${timer.currentMovement?.reps ?? ''}'),
+              ),
             ],
           ),
         ),
@@ -52,7 +57,7 @@ class _TextInMovementDisplayState extends ConsumerState<TextInMovementDisplay> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
+      margin: const EdgeInsets.only(left: 20, right: 5,top: 5, bottom: 5),
       child: widget.child,
     );
   }

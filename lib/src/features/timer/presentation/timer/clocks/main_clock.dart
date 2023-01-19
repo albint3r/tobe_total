@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import '../../../../providers/timer/model/training_timer.dart';
-import 'color_timer.dart';
+import '../../../../../providers/timer/model/training_timer.dart';
+import '../utils/color_timer.dart';
 
 class MainClock extends ConsumerStatefulWidget {
   const MainClock({
