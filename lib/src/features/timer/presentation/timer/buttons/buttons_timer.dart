@@ -7,23 +7,15 @@ import 'package:tobe_total/src/features/timer/presentation/timer/buttons/stop.da
 import '../../../../../providers/timer/model/training_timer.dart';
 import '../dialogos/movementsToDoDialog.dart';
 
-
 class ButtonsTimeArea extends ConsumerWidget {
   const ButtonsTimeArea({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final timer = ref.watch(trainingTimerProvider);
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        PlayBtn(
-          labelBtn: 'Play',
-          callBack: timer.startTimer,
-        ),
-        PauseBtn(
-          labelBtn: 'Pause',
-          callBack: timer.pauseTime,
-        ),
         ShowMovesBtn(
             labelBtn: 'Show Moves',
             callBack: () {
@@ -34,6 +26,15 @@ class ButtonsTimeArea extends ConsumerWidget {
                 },
               );
             }),
+        PauseBtn(
+          labelBtn: 'Pause',
+          callBack: timer.pauseTime,
+        ),
+        PlayBtn(
+          labelBtn: 'Play',
+          callBack: timer.startTimer,
+        ),
+
         StopBtn(labelBtn: 'Stop', callBack: timer.stopTimer),
       ],
     );

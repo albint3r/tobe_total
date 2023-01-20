@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../providers/proxies/movement_proxy.dart';
 import '../../../../../providers/timer/model/training_timer.dart';
-import '../../training_timer_display.dart';
+
 
 class DialogShowedMove extends ConsumerWidget {
   const DialogShowedMove({

@@ -28,7 +28,7 @@ class _MainClockState extends ConsumerState<MainClock> {
           textAlign: TextAlign.center,
           whatToShowCenter(timer.seconds, timer),
           style: const TextStyle(
-            fontSize: 45,
+            fontSize: 40,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -63,7 +63,16 @@ class _MainClockState extends ConsumerState<MainClock> {
         return 'Pause';
         break;
       case TimerState.stop:
-        return 'Go \nNext';
+
+        String msg;
+        // This Create a new Msg when is the first block to train
+        // Creating a more natural msg flow for the user for the next steps.
+        if(timer.currentBlockIndex == 0) {
+           msg = 'Confirm\nStart';
+        } else {
+          msg = 'Go\nNext';
+        }
+        return msg;
         break;
       case TimerState.rateTraining:
         return 'Rate Time';

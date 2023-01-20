@@ -153,11 +153,11 @@ class TrainingTimerModel extends ChangeNotifier {
       notifyListeners();
       // Block is finished
     } else if (currentRoundsBlock == 0) {
-      rateBlock();
+      setRateBlock();
     }
   }
 
-  void rateBlock() {
+  void setRateBlock() {
     _currentState = TimerState.rateTraining;
     resetTimer();
     notifyListeners();
@@ -290,6 +290,10 @@ class TrainingTimerModel extends ChangeNotifier {
     }
   }
 
+  /// This save all the results and go the the progress screen.
+  /// this function is running in the:
+  /// widget -> [rate_block_dialog.dart]
+  /// file -> [RateBlockDialog]
   void saveAndExitTraining(BuildContext context, WidgetRef ref) {
     final routes = ref.watch(routesProvider);
     saveMovesResults();
