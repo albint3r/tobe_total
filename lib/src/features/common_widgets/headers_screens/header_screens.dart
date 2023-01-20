@@ -64,7 +64,7 @@ class H3FormFieldsHeader extends StatelessWidget {
       child: Text(
         header,
         style: Theme.of(context).textTheme.headline3,
-        overflow: TextOverflow.fade, maxLines: 1,
+        overflow: TextOverflow.ellipsis, maxLines: 1,
       ),
     );
   }

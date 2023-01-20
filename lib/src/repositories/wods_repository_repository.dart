@@ -1,4 +1,6 @@
 // Imports
+import 'package:tobe_total/src/providers/proxies/wod_proxy.dart';
+
 import '../data/db.dart';
 
 class WODs extends LocalDataBase {
@@ -139,6 +141,12 @@ class WODs extends LocalDataBase {
     String query = 'SELECT * FROM wods WHERE expected_training_day = "${today.toString().substring(0, 10)}"';
     List<Map<String, Object?>> todayWod = await rawQuery(query);
     return todayWod;
+  }
+  /// Update the Information of the Trained WOD. This mean, that the
+  /// WOD would be set as did it!
+  Future<void> updateWodTrainedInfo(ProxyWOD proxyWod) async {
+    String query = 'UPDATE wods SET did_wod= ${proxyWod.didWod ?? 'FALSE'}, created_manual=${proxyWod.isCreatedManual ?? 'FALSE'}, edited=${proxyWod.isEdited ?? 'FALSE'}  WHERE id=${proxyWod.id}  ';
+    await rawQuery(query);
   }
 
 }

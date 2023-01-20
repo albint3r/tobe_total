@@ -40,8 +40,14 @@ class _RateBlockDialogState extends ConsumerState<RateBlockDialog> {
           actions: [
             TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  widget.timer.setDidBlock();
                   widget.timer.stopTimer();
+                  // Check if close pop up or navigate to progress
+                  if (widget.timer.isFinishWorkOut) {
+                    widget.timer.saveAndExitTraining(context, ref);
+                  } else {
+                    Navigator.pop(context);
+                  }
                 },
                 child: const Text('Save Results'))
           ],

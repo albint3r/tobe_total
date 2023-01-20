@@ -140,7 +140,10 @@ class TitleFieldRateMove extends ConsumerWidget {
       children: [
         Expanded(
           flex: 2,
-          child: H3FormFieldsHeader(header: moveTitle),
+          child: Container(
+            margin: const EdgeInsets.only(right: 5),
+            child: H3FormFieldsHeader(header: moveTitle),
+          ),
         ),
         const Text('No'),
         const Padding(

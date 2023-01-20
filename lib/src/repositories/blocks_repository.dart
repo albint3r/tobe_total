@@ -1,5 +1,6 @@
 // Imports
 import '../data/db.dart';
+import '../providers/proxies/block_proxy.dart';
 
 class Blocks extends LocalDataBase {
   /// Checks if there are any Workouts of the Day (WODs) in the database.
@@ -58,6 +59,14 @@ class Blocks extends LocalDataBase {
   Future<List<Map<String, Object?>>> getBlocksMovementsById(int blockId) {
     String query = 'SELECT * FROM movement_history AS mh JOIN blocks as b ON b.id = mh.blocks_id JOIN wods as w ON w.id = b.wod_id JOIN fitness_moves AS fm ON fm.id = mh.fitness_move_id JOIN my_movements AS mm ON mm.fitness_move_id = fm.id WHERE blocks_id = $blockId';
     return rawQuery(query);
+  }
+
+  Future<void> updateBlocksTrainedInfo(Map<int, ProxyBlock> blocks) async {
+    for(ProxyBlock block in blocks.values) {
+      String query = 'UPDATE blocks SET did_block= ${block.didBlock??"FALSE"}, created_manual=${block.isCreatedManual??"FALSE"}, edited=${block.isEdited??"FALSE"} WHERE id=${block.id}';
+      rawQuery(query);
+    }
+
   }
 
 

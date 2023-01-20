@@ -16,9 +16,9 @@ class ProxyWOD extends ProxiesTraining {
   String? bodyArea;
   int? totalBlocks;
   int? totalTime;
-  List? equipment;
-  int? didWod;
-  int? isLike;
+  List? equipment; // SQL return bool -> INT, So manage this like 0 and 1
+  int? didWod; // SQL return bool -> INT, So manage this like 0 and 1
+  int? isLike; // SQL return bool -> INT, So manage this like 0 and 1
   Map<int, ProxyBlock>? blocks;
   ProxyBlock? currentBlockProcessing;
   List<int>? movementToDo;
@@ -67,7 +67,6 @@ class ProxyWOD extends ProxiesTraining {
     print('[getNextBlock]-----------------------');
     // Not exist next block, select first
     if(currentBlockProcessing == null) {
-
       tempId = blocks?.keys.first;
       print('tempId-> $tempId');
       currentBlockProcessing = blocks![tempId];
@@ -75,7 +74,9 @@ class ProxyWOD extends ProxiesTraining {
     } else {
       tempId = (currentBlockProcessing!.id! + 1);
       print('tempId-> $tempId');
-      // validate exist next Element in the Map
+      // validate exist [next] Element in the [Map]
+      // Is possible at the end of the training this will cause [errors]
+      // the reason is that the app don't get next [block] and stay in the last.
       if(blocks![tempId] != null) {
         currentBlockProcessing = blocks![tempId];
       }
