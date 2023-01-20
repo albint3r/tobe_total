@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/features/timer/presentation/timer/buttons/pause.dart';
 import 'package:tobe_total/src/features/timer/presentation/timer/buttons/play.dart';
 import 'package:tobe_total/src/features/timer/presentation/timer/buttons/show_moves.dart';
-import 'package:tobe_total/src/features/timer/presentation/timer/buttons/stop.dart';
+import 'package:tobe_total/src/features/timer/presentation/timer/buttons/skip.dart';
 import '../../../../../providers/timer/model/training_timer.dart';
 import '../dialogos/movementsToDoDialog.dart';
 
@@ -36,8 +36,10 @@ class ButtonsTimeArea extends ConsumerWidget {
             labelBtn: 'Play',
             callBack: timer.startTimer,
           ),
-
-          StopBtn(labelBtn: 'Stop', callBack: timer.stopTimer),
+          SkipBtn(
+            labelBtn: 'Skip',
+            callBack: timer.skipBlock,
+          ),
         ],
       ),
     );

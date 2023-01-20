@@ -18,7 +18,7 @@ enum TimerState {
   waitBlock,
   play,
   pause,
-  stop,
+  stop, // SKIP AND STOP ARE THE SAME.
   rateTraining,
   finishWorkOut
 }
@@ -122,11 +122,6 @@ class TrainingTimerModel extends ChangeNotifier {
         var blockToShowIndex = proxyWod.blocks!.keys.toList()[currentBlockIndex!];
         blockToShow = proxyWod.blocks![blockToShowIndex]!;
       } catch(e) {
-        print('-------------------------------');
-        print('-------------------------------');
-        print('-------------------------------');
-        print('-------------------------------');
-        print('Este es el error que tanto comentabamos');
         blockToShow = proxyWod.blocks![0]!;
       }
 
@@ -194,7 +189,7 @@ class TrainingTimerModel extends ChangeNotifier {
   void startTimer() {
     switch (currentState) {
       case TimerState.unStarted:
-        stopTimer();
+        skipBlock();
         break;
       case TimerState.waitBlock:
         _timer = Timer.periodic(
@@ -260,7 +255,7 @@ class TrainingTimerModel extends ChangeNotifier {
   }
 
   //Method that stops the timer
-  void stopTimer() {
+  void skipBlock() {
     if (currentState == TimerState.pause ||
         currentState == TimerState.play ||
         currentState == TimerState.unStarted ||

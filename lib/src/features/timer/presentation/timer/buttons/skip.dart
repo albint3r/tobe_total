@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/providers/timer/model/training_timer.dart';
 
-class StopBtn extends ConsumerWidget {
-  const StopBtn({
+class SkipBtn extends ConsumerWidget {
+  const SkipBtn({
     required this.labelBtn,
     required this.callBack,
     Key? key,

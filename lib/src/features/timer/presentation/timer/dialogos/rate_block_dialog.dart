@@ -41,7 +41,7 @@ class _RateBlockDialogState extends ConsumerState<RateBlockDialog> {
             TextButton(
                 onPressed: () {
                   widget.timer.setDidBlock();
-                  widget.timer.stopTimer();
+                  widget.timer.skipBlock();
                   // Check if close pop up or navigate to progress
                   if (widget.timer.isFinishWorkOut) {
                     widget.timer.saveAndExitTraining(context, ref);
