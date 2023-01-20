@@ -54,6 +54,10 @@ class MovementHistory extends LocalDataBase {
     return rawQuery(query);
   }
 
+  Future<List<Map<String, Object?>>> getTrainedMovementsOfTheCurrentWeek(String startDayOfTheWeek) async {
+    String query = 'SELECT * FROM movement_history AS mh JOIN blocks AS b ON b.id = mh.blocks_id JOIN wods AS w ON w.id = b.wod_id JOIN fitness_moves AS fm ON fm.id = mh.fitness_move_id WHERE w.expected_training_day > "$startDayOfTheWeek" AND w.did_wod';
+    return rawQuery(query);
+  }
 
 
 }
