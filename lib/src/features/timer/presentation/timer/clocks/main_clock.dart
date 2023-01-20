@@ -18,7 +18,7 @@ class _MainClockState extends ConsumerState<MainClock> {
   Widget build(BuildContext context) {
     final timer = ref.watch(trainingTimerProvider);
     return Container(
-      margin: const EdgeInsets.only(top: 30, bottom: 5),
+      margin: const EdgeInsets.only(top: 5, bottom: 5),
       child: CircularPercentIndicator(
         radius: 100.0,
         lineWidth: 15.0,
