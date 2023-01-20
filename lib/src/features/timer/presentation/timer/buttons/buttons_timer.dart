@@ -13,30 +13,33 @@ class ButtonsTimeArea extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final timer = ref.watch(trainingTimerProvider);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ShowMovesBtn(
-            labelBtn: 'Show Moves',
-            callBack: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return const DialogShowedMove();
-                },
-              );
-            }),
-        PauseBtn(
-          labelBtn: 'Pause',
-          callBack: timer.pauseTime,
-        ),
-        PlayBtn(
-          labelBtn: 'Play',
-          callBack: timer.startTimer,
-        ),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ShowMovesBtn(
+              labelBtn: 'Show Moves',
+              callBack: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const DialogShowedMove();
+                  },
+                );
+              }),
+          PauseBtn(
+            labelBtn: 'Pause',
+            callBack: timer.pauseTime,
+          ),
+          PlayBtn(
+            labelBtn: 'Play',
+            callBack: timer.startTimer,
+          ),
 
-        StopBtn(labelBtn: 'Stop', callBack: timer.stopTimer),
-      ],
+          StopBtn(labelBtn: 'Stop', callBack: timer.stopTimer),
+        ],
+      ),
     );
   }
 }

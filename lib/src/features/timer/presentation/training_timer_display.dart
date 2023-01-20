@@ -27,7 +27,10 @@ class _TrainingTimerState extends ConsumerState<TrainingTimerDisplay> {
     Wakelock.enable();
     return Container(
       width: double.infinity,
-      child: Column(
+      child: ListView(
+        physics: const ClampingScrollPhysics(),
+        primary: true,
+        shrinkWrap: true,
         children: [
           Row(
             children: const [
@@ -38,6 +41,8 @@ class _TrainingTimerState extends ConsumerState<TrainingTimerDisplay> {
             //TODO HERE ADD VIDEO FOR CURRENT MOVEMENT BACKGROUND
             child: ListView(
               shrinkWrap: true,
+              primary: true,
+              physics: const ClampingScrollPhysics(),
               children: [
                 const MainClock(),
                 Row(
@@ -57,8 +62,8 @@ class _TrainingTimerState extends ConsumerState<TrainingTimerDisplay> {
               ],
             ),
           ),
-          const MovementDisplay(),
           const ButtonsTimeArea(),
+          const MovementDisplay(),
           // This control when the Rate Quiz is display it after the Block is Ended.
           timer.currentState == TimerState.rateTraining
               ? RateBlockDialog(timer: timer)
