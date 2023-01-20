@@ -139,13 +139,11 @@ final goalProgressDaysProvider = FutureProvider.autoDispose<Map>((ref) async {
   };
 });
 
+/// This return the [REAL] total days trained fo the [Week].
+/// Thus select all the trained [WOD] in the Week and sum all the
+/// [training] time specified.
 final totalTrainedTimeProvider = FutureProvider.autoDispose<int>(
   (ref) async {
-    // Return an Integer with the total days trained.
-    // TODO FOR NOW THIS FUNCTION WONT CONSIDERATE THE REAL DAYS TRAINED
-    // only the overall time of all the training week.
-    // latter it will be good idea to filter the data by the
-    // complete days.
     String startDayOfTheWeekDate = ref.watch(startedDayOfTheWeekDateProvider);
     final wodModel = ref.watch(wodsModelProvider);
     final result = await wodModel.getTotalTrainedTime(startDayOfTheWeekDate);
