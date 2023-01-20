@@ -118,9 +118,8 @@ class SingleCardMoveStats extends ConsumerWidget {
                 ),
                 KPIBarMoveStat(
                   label: 'Learned Level',
-                  textInsideBar: '${(learned * 100).toInt()} %',
-                  score:
-                      myMovesController.generateLearningLevelProgress(learned),
+                  textInsideBar: '${myMovesController.generateLearningLevelTextLabel(learned)} %',
+                  score: myMovesController.generateLearningLevelProgress(learned),
                 ),
                 ChipEquipmentMoveStats(
                   noEquipment: noEquipment,
@@ -160,7 +159,7 @@ class SingleCardMoveStats extends ConsumerWidget {
     createDate = attributes['create_date'];
     id = attributes['id'];
     fitnessMoveId = attributes['fitness_move_id'];
-    learned = attributes['learned'];
+    learned = attributes['learned'] ?? 0;
     isLike = attributes['is_like'];
     bestRecord = attributes['best_record'];
     bestTime = attributes['best_time'];

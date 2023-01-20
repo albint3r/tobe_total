@@ -1,5 +1,6 @@
 // Imports
 import '../data/db.dart';
+import '../providers/proxies/movement_proxy.dart';
 
 /// A class that manages the `my_movements` table in the database.
 class MyMovements extends LocalDataBase {
@@ -35,7 +36,9 @@ class MyMovements extends LocalDataBase {
 
   /// Gets all rows from the `my_movements` table.
   Future<List<Map<String, Object?>>> getAllMovesStats() async {
+    //TODO CHECK HOW TO UPDATE THE STATS OF THE MOVEMENT
     String query = 'SELECT * FROM my_movements AS mm JOIN fitness_moves AS fm ON fm.id = mm.fitness_move_id ORDER BY difficulty, name';
+    // String query = "SELECT * FROM my_movements AS mm JOIN fitness_moves AS fm ON fm.id = mm.fitness_move_id JOIN (SELECT SUM(did_all_train_work) As 'learned_points', mh.fitness_move_id FROM movement_history AS mh GROUP BY fitness_move_id) AS p ON p.fitness_move_id = mm.fitness_move_id ORDER BY difficulty, name";
     return rawQuery(query);
   }
 
@@ -73,4 +76,10 @@ class MyMovements extends LocalDataBase {
         "SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM fitness_moves $selectedQueryBodyArea) $selectedQueryDifficulty) $selectedQueryEquipment) WHERE NOT movement_pattern = '$lastMovementPattern'";
     return rawQuery(query);
   }
+
+  Future<void> updateLearnedValues({required ProxyMovement move}) async {
+    String query = 'UPDATE my_movements SET learned = learned + 1 WHERE fitness_move_id= ${move.fitnessMoveId}';
+    await rawQuery(query);
+  }
+
 }

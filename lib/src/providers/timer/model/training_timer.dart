@@ -2,8 +2,10 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:tobe_total/src/providers/block/model/block_model_provider.dart';
+import 'package:tobe_total/src/providers/my_movements/model/my_movements_model.dart';
 import 'package:tobe_total/src/providers/routes/routes_provider.dart';
 import 'package:tobe_total/src/providers/wod/model/wod_model_provider.dart';
+import 'package:tobe_total/src/repositories/my_movements_repository.dart';
 import '../../../repositories/blocks_repository.dart';
 import '../../../repositories/movement_history_repository.dart';
 import '../../../repositories/wods_repository_repository.dart';
@@ -28,6 +30,7 @@ class TrainingTimerModel extends ChangeNotifier {
   // Maximum duration of the timer in seconds
   late final ProxyWOD proxyWod;
   late final MovementHistory _movementsHistoryModel;
+  late final MyMovements _myMovementsModel;
   late final Blocks _blocksModel;
   late final WODs _wodsModel;
 
@@ -63,10 +66,15 @@ class TrainingTimerModel extends ChangeNotifier {
     }
     return false;
   }
+
   /// Set the [movementsHistoryModel] to update the rates results
   /// After the training is over.
   void setMovementsHistoryModel(MovementHistory movementHistory) {
     _movementsHistoryModel = movementHistory;
+  }
+
+  void setMyMovementsModel(MyMovements myMovements) {
+    _myMovementsModel = myMovements;
   }
 
   /// Set the [wodsModel] to update the rates results
@@ -119,12 +127,12 @@ class TrainingTimerModel extends ChangeNotifier {
       // This catch an error that occur when the user ends the training
       // answering the Quiz training, this try to get another index out of range
       try {
-        var blockToShowIndex = proxyWod.blocks!.keys.toList()[currentBlockIndex!];
+        var blockToShowIndex =
+            proxyWod.blocks!.keys.toList()[currentBlockIndex!];
         blockToShow = proxyWod.blocks![blockToShowIndex]!;
-      } catch(e) {
+      } catch (e) {
         blockToShow = proxyWod.blocks![0]!;
       }
-
     }
     return blockToShow;
   }
@@ -157,7 +165,6 @@ class TrainingTimerModel extends ChangeNotifier {
     resetTimer();
     notifyListeners();
   }
-
 
   void getGetReadyTimer() {
     if (_seconds != 5) {
@@ -192,13 +199,19 @@ class TrainingTimerModel extends ChangeNotifier {
         skipBlock();
         break;
       case TimerState.waitBlock:
-        _timer = Timer.periodic(
-          const Duration(seconds: 1),
-          (timer) {
-            // this is the 5 second timer, it will be use if the other timer is not required yet.
-            getGetReadyTimer();
-          },
-        );
+        // If the Ready Timer is running (sec more than zero)
+        // it wont let the user click, preventing having two timers at the
+        // same time.
+        if (_seconds == 0) {
+          _timer = Timer.periodic(
+            const Duration(seconds: 1),
+            (timer) {
+              // this is the 5 second timer, it will be use if the other
+              // timer is not required yet.
+              getGetReadyTimer();
+            },
+          );
+        }
         break;
       case TimerState.play:
         // Get the information of the next block to do.
@@ -276,12 +289,25 @@ class TrainingTimerModel extends ChangeNotifier {
     _seconds = 0;
   }
 
+  void updateLearningMove() {
+    print('updateLearningMove----------------');
+    for (var block in proxyWod.blocks!.values) {
+      for (ProxyMovement move in block.movements.values) {
+        // Check if the client did All the Reps
+        // If is True, the value would be updated in MyMovements
+        if (move.didAllReps ?? false) {
+          _myMovementsModel.updateLearnedValues(move: move);
+        }
+      }
+    }
+  }
+
   /// Return is Finished if the Training don't have more Blocks in the Wod
   void setStateFinishOrStop() {
     if (currentBlockIndex != totalBlocksInWod) {
-      _currentState= TimerState.stop;
+      _currentState = TimerState.stop;
     } else {
-      _currentState= TimerState.finishWorkOut;
+      _currentState = TimerState.finishWorkOut;
     }
   }
 
@@ -294,13 +320,14 @@ class TrainingTimerModel extends ChangeNotifier {
     saveMovesResults();
     saveBlocksResults();
     saveWodResults();
+    updateLearningMove();
     routes.navigateTo(context, ConstantsUrls.progress);
   }
 
   void saveMovesResults() {
     print(proxyWod.blocks);
-    for(var block in proxyWod.blocks!.entries) {
-      for(var move in block.value.movements.entries) {
+    for (var block in proxyWod.blocks!.entries) {
+      for (var move in block.value.movements.entries) {
         print('MOVE TO SAVE RESULTS [${move.value.name}]----------------');
         print('ID ${move.value.id}');
         print('didExercise -> ${move.value.didExercise}');
@@ -324,7 +351,6 @@ class TrainingTimerModel extends ChangeNotifier {
     _blocksModel.updateBlocksTrainedInfo(proxyWod.blocks!);
   }
 
-
   /// Save [WODs] Result After training.
   void saveWodResults() {
     proxyWod.didWod = 1; // 1 is TRUE check note in proxyWod class.
@@ -332,7 +358,6 @@ class TrainingTimerModel extends ChangeNotifier {
     proxyWod.isEdited = 0; // 1 is TRUE check note in proxyWod class.
     _wodsModel.updateWodTrainedInfo(proxyWod);
   }
-
 
   /// Get the next [block] that would be trained and the [movements].
   void getNextBlock() {
@@ -359,15 +384,15 @@ class TrainingTimerModel extends ChangeNotifier {
 final trainingTimerProvider = ChangeNotifierProvider<TrainingTimerModel>((ref) {
   final proxyWod = ref.watch(proxyWodProvider);
   final movementHistoryModel = ref.watch(movementHistoryModelProvider);
+  final myMovementsModel = ref.watch(myMovementsProvider);
   final blocksModel = ref.watch(blocksModelProvider);
   final wodModel = ref.watch(wodsModelProvider);
   final timeModel = TrainingTimerModel();
   // Set Model in the Timer
   timeModel.setMovementsHistoryModel(movementHistoryModel);
+  timeModel.setMyMovementsModel(myMovementsModel);
   timeModel.setWodsModel(wodModel);
   timeModel.setBlockModel(blocksModel);
   timeModel.setProxyWod(proxyWod);
   return timeModel;
 });
-
-

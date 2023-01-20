@@ -90,7 +90,14 @@ class MyMovementControllers {
     }
     return learnedLevel / 10;
   }
+
+  int generateLearningLevelTextLabel(int learnedLevel) {
+    return (learnedLevel/10 <= 1 ? learnedLevel * 10: 100).toInt();
+  }
+
 }
+
+
 
 final equipmentTranslateProvider = Provider<Map<String, String>>((ref) {
   // Declaration of the equipment translation map
