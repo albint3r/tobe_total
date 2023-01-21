@@ -170,11 +170,11 @@ class LocalDataBase {
   /// Update a row in a table by passing a map with the columns and their new values.
   /// The column named 'id' is used as the identifier for the row to update
   Future<void> update(
-      String tableName, Map<String, Object> columnsValues) async {
+      String tableName, Map<String, Object> columnsValues, int id) async {
     var db = await openDB();
     String columnsQuery = createColumnInsertQuery(columnsValues);
     try {
-      await db.rawQuery('UPDATE $tableName SET $columnsQuery WHERE id = 1;');
+      await db.rawQuery('UPDATE $tableName SET $columnsQuery WHERE id = $id;');
       print('-----------------------------------');
       print('Updated Values Successfully');
       print('-----------------------------------');

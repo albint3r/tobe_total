@@ -336,7 +336,7 @@ class Client extends LocalDataBase {
 
   /// Update the user information
   Future<void> updateUser(List selectedFields) async {
-    update('users', selectFieldsToUpdate(selectedFields));
+    update('users', selectFieldsToUpdate(selectedFields), 1);
   }
 
   /// Update the training days for the noobs
@@ -350,7 +350,7 @@ class Client extends LocalDataBase {
       'friday': true,
       'saturday': false,
       'sunday': false,
-    });
+    }, 1);
   }
 
   // Get the profile of the user.

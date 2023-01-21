@@ -17,7 +17,7 @@ class HeightField extends ConsumerWidget {
       hintValue: 'Example: 170.0 cm',
       // callBackFunction: FormValidators.isNotValidDouble,
       callBackFunction: validator.isNotValidDouble,
-      errorMsg: 'Pleas enter a number with a decimal and a number after the decimal.',
+      errorMsg: "Enter height in centimeters (e.g. '180 cm')",
       isNumberType: true,
     );
   }

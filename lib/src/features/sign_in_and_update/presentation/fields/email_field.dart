@@ -16,7 +16,7 @@ class EmailField extends ConsumerWidget {
       icon: Icons.email,
       hintValue: 'Example: "example@gmail.com"',
       callBackFunction: validator.isNotValidEmail,
-      errorMsg: 'Pleas enter a valid Email',
+      errorMsg: "Enter a valid email address (e.g. 'example@gmail.com')",
       isNumberType: false,
     );
   }

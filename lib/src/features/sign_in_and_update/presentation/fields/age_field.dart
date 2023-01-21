@@ -16,7 +16,7 @@ class AgeField extends ConsumerWidget {
       icon: Icons.date_range,
       hintValue: 'Example: 37',
       callBackFunction: validator.isNotValidInteger,
-      errorMsg: 'Pleas enter a valid number (No letters or ,.#)',
+      errorMsg: "Enter age. No letters, commas, periods, or pound symbols.",
       isNumberType: true,
     );
   }

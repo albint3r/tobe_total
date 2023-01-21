@@ -16,7 +16,7 @@ class WeightField extends ConsumerWidget {
       icon: Icons.monitor_weight_outlined,
       hintValue: 'Example: 68.0 kg',
       callBackFunction: validator.isNotValidDouble,
-      errorMsg: 'Pleas enter a number with a decimal and a number after the decimal.',
+      errorMsg: "Enter weight in kg as decimal (e.g. '50.5 kg')",
       isNumberType: true,
     );
   }

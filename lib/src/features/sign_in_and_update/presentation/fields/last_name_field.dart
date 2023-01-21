@@ -16,7 +16,7 @@ class LastNameField extends ConsumerWidget {
       icon: Icons.account_box,
       hintValue: 'Example: "Doe"',
       callBackFunction: validator.isNotValidName,
-      errorMsg: 'Name in Lower Case (min 3, max 20 characters)',
+      errorMsg: "Enter last name (lowercase, min 3, max 20 characters)",
       isNumberType: false,
     );
   }

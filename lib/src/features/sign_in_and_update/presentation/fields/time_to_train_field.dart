@@ -16,7 +16,7 @@ class TimeToTrainField extends ConsumerWidget {
       icon: Icons.timelapse,
       hintValue: 'Example: 90 min',
       callBackFunction: validator.isNotValidInteger,
-      errorMsg: 'Pleas enter a valid number (No letters or ,.#)',
+      errorMsg: "Enter training time in minutes (e.g. '60 min')",
       isNumberType: true,
     );
   }
