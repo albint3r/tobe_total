@@ -28,6 +28,7 @@ class CloseTimerBtn extends ConsumerWidget {
                     child: const Text('cancel'),
                   ),
                   TextButton(onPressed: () {
+                    Navigator.pop(context);
                     route.navigateTo(context, ConstantsUrls.progress);
                   }, child: const Text('Exit'))
 

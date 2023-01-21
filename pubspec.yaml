@@ -47,6 +47,7 @@ dependencies:
   string_ext: ^0.2.0
   percent_indicator: ^4.2.2
   wakelock: ^0.6.2
+  url_launcher: ^6.1.8
 
 dev_dependencies:
   flutter_test:
