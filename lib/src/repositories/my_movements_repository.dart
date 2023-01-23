@@ -45,7 +45,7 @@ class MyMovements extends LocalDataBase {
   /// Gets all rows from the `my_movements` table where the
   /// `learned` column is `false`.
   Future<List<Map<String, Object?>>> getAllNoLearned() async {
-    String query = 'SELECT * FROM my_movements WHERE learned = FALSE';
+    String query = 'SELECT * FROM my_movements WHERE learned < 10';
     return rawQuery(query);
   }
 
@@ -59,6 +59,20 @@ class MyMovements extends LocalDataBase {
 // Get the profile of the user.
     String query =
         "SELECT * FROM (SELECT * FROM (SELECT * FROM fitness_moves $selectedQueryBodyArea) $selectedQueryDifficulty) $selectedQueryEquipment";
+    print('getAllPossibleMovements ---------------------------');
+    print(query);
+
+    return rawQuery(query);
+  }
+
+  Future<List<Map<String, Object?>>> getAllLearnedPossibleMovements(
+      String selectedQueryBodyArea,
+      String selectedQueryDifficulty,
+      String selectedQueryEquipment,
+      ) async {
+// Get the profile of the user.
+    String query =
+        "SELECT mh.* FROM my_movements JOIN (SELECT * FROM (SELECT * FROM (SELECT * FROM fitness_moves $selectedQueryBodyArea) $selectedQueryDifficulty) $selectedQueryEquipment) AS mh ON mh.id = my_movements.fitness_move_id";
     return rawQuery(query);
   }
 
@@ -76,6 +90,18 @@ class MyMovements extends LocalDataBase {
         "SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM fitness_moves $selectedQueryBodyArea) $selectedQueryDifficulty) $selectedQueryEquipment) WHERE NOT movement_pattern = '$lastMovementPattern'";
     return rawQuery(query);
   }
+
+  Future<List<Map<String, Object?>>> getAllPossibleMovementsNotCollidePrevLearningMoves(
+      String selectedQueryBodyArea,
+      String selectedQueryDifficulty,
+      String selectedQueryEquipment,
+      String lastMovementPattern) async {
+    // Get the profile of the user.
+    String query =
+        "SELECT mh.* FROM my_movements JOIN (SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM fitness_moves $selectedQueryBodyArea) $selectedQueryDifficulty) $selectedQueryEquipment) WHERE NOT movement_pattern = '$lastMovementPattern') AS mh ON mh.id = my_movements.fitness_move_id";
+    return rawQuery(query);
+  }
+
 
   Future<void> updateLearnedValues({required ProxyMovement move}) async {
     String query = 'UPDATE my_movements SET learned = learned + 1 WHERE fitness_move_id= ${move.fitnessMoveId}';

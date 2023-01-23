@@ -60,6 +60,24 @@ abstract class Modes {
     }
   }
 
+  Future<void> createFirstMoveWithLearningMoves(int i) async {
+    Map<String, Object?> movementOption;
+    while (currentBlock.isFirstMoveToAdd) {
+      movementOption = await getLearningMove();
+      MovementCreator movement = await createMove(i, movementOption);
+      // Check if the muscle frequencies isn't full
+      if (isSelectedMuscleFreqAvailable(
+          movement.muscleProta, currentBlock.sets)) {
+        setMovementSaveProcess(movement);
+        // If the counter is Zero it would use the move. But
+        // only would be added to my history not to myMoves
+      } else if (isMaxIterCounterZero()) {
+        setMovementSaveProcess(movement);
+      }
+      restMaxIterationCounter();
+    }
+  }
+
   /// Creates and adds the next move to the current block, if it is not
   /// already present in the list of my movements and the selected
   /// muscle frequency is available.
@@ -85,6 +103,35 @@ abstract class Modes {
         // only would be added to my history not to myMoves
       } else if (await notExistIdInMyMovements(movement.id) &
           isMaxIterCounterZero()) {
+        setMovementSaveProcess(movement);
+        finisProcess = !finisProcess;
+      }
+      restMaxIterationCounter();
+    }
+  }
+
+  /// Creates and adds the next move to the current block, if it is not
+  /// already present in the list of my movements and the selected
+  /// muscle frequency is available.
+  /// If the move is not in the list of my movements and the
+  /// [maxIterationCounter] is zero, it will be added to the block
+  /// and to my history.
+  Future<void> getNextLearningMove(int i) async {
+    bool finisProcess = false;
+    Map<String, Object?> movementOption;
+    while (!finisProcess) {
+      movementOption = await getLearningMoveNotCollidePrev();
+      MovementCreator movement = await createMove(i, movementOption);
+      // if the ID already exist in the Database it will skip
+      // so the blocks list wont have the first Move inside.
+      if (isSelectedMuscleFreqAvailable(movement.muscleProta, currentBlock.sets)) {
+        setMovementSaveProcess(movement);
+        finisProcess = !finisProcess;
+        // This will let the user add a move if this is not in [myMovements]
+        // and the counter is Zero. This will pass the Muscle Freq rule.
+        // If the counter is Zero it would use the move. But
+        // only would be added to my history not to myMoves
+      } else if (isMaxIterCounterZero()) {
         setMovementSaveProcess(movement);
         finisProcess = !finisProcess;
       }
@@ -120,79 +167,19 @@ abstract class Modes {
           // 4- Get Some Movements options
           // Iterate until the block have their first Move.
           await createFirstMove(i);
-          // while (currentBlock.isFirstMoveToAdd) {
-          //   movementOption = await getLearningMove();
-          //   MovementCreator movement = MovementCreator(
-          //     context: currentBlock,
-          //     index: i,
-          //     data: movementOption,
-          //   );
-          //   // if the ID already exist in the Database it will skip
-          //   // so the blocks list wont have the first Move inside.
-          //   if (await notExistIdInMyMovements(movement.id) &&
-          //       isSelectedMuscleFreqAvailable(
-          //           movement.muscleProta, currentBlock.sets)) {
-          //     currentBlock.setMovement(movement);
-          //     setMuscleFreqOfTheWeek(movement.muscleProta, currentBlock.sets);
-          //     resetMaxIterationCounter();
-          //     await movement.save();
-          //     // If the counter is Zero it would use the move. But
-          //     // only would be added to my history not to myMoves
-          //   } else if (await notExistIdInMyMovements(movement.id) &
-          //       isMaxIterCounterZero()) {
-          //     currentBlock.setMovement(movement);
-          //     setMuscleFreqOfTheWeek(movement.muscleProta, currentBlock.sets);
-          //     resetMaxIterationCounter();
-          //     await movement.save();
-          //   }
-          //   restMaxIterationCounter();
-          // }
         } else {
           // is not the first move and you need to fill the rest of the block.
           await createNextMove(i);
-          // bool finisProcess = false;
-          // Until the process is not finish the method
-          // would be iterated to get a movement
-          // while (!finisProcess) {
-          //   movementOption = await getLearningMoveNotCollidePrev();
-          //   MovementCreator movement = MovementCreator(
-          //     context: currentBlock,
-          //     index: i,
-          //     data: movementOption,
-          //   );
-          //   // if the ID already exist in the Database it will skip
-          //   // so the blocks list wont have the first Move inside.
-          //   if (await notExistIdInMyMovements(movement.id) &
-          //       isSelectedMuscleFreqAvailable(
-          //           movement.muscleProta, currentBlock.sets)) {
-          //     currentBlock.setMovement(movement);
-          //     finisProcess = !finisProcess;
-          //     setMuscleFreqOfTheWeek(movement.muscleProta, currentBlock.sets);
-          //     resetMaxIterationCounter();
-          //     await movement.save();
-          //     // This will let the user add a move if this is not in [myMovements]
-          //     // and the counter is Zero. This will pass the Muscle Freq rule.
-          //
-          //     // If the counter is Zero it would use the move. But
-          //     // only would be added to my history not to myMoves
-          //   } else if (await notExistIdInMyMovements(movement.id) &
-          //       isMaxIterCounterZero()) {
-          //     currentBlock.setMovement(movement);
-          //     finisProcess = !finisProcess;
-          //     setMuscleFreqOfTheWeek(movement.muscleProta, currentBlock.sets);
-          //     resetMaxIterationCounter();
-          //     await movement.save();
-          //   }
-          //   restMaxIterationCounter();
-          // }
         }
       } else {
-        print('***************MY MOVEMET IS FULL************************');
-        print('***************MY MOVEMET IS FULL************************');
-        print('***************MY MOVEMET IS FULL************************');
-        print('***************MY MOVEMET IS FULL************************');
-        print('***************MY MOVEMET IS FULL************************');
-        print('***************MY MOVEMET IS FULL************************');
+        if (currentBlock.isFirstMoveToAdd) {
+          // Select the first movement for the block, this will be
+          // a not learned movement
+          await createFirstMoveWithLearningMoves(i);
+        } else {
+          // Select next unlearned movement
+          await getNextLearningMove(i);
+        }
       }
     }
     print(
@@ -267,12 +254,29 @@ abstract class Modes {
     String selectedQueryEquipment = await queryEquipment();
     final myMovementsModel =
         currentBlock.context.context.context.ref.watch(myMovementsProvider);
-    List<Map<String, Object?>> movementOption =
-        await myMovementsModel.getAllPossibleMovements(
-      selectedQueryBodyArea,
-      selectedQueryDifficulty,
-      selectedQueryEquipment,
-    );
+
+    List<Map<String, Object?>> movementOption;
+    // Use all fitness movements if learning moves is not full
+    if (!await currentBlock.learningMovesIsFull()) {
+      movementOption = await myMovementsModel.getAllPossibleMovements(
+        selectedQueryBodyArea,
+        selectedQueryDifficulty,
+        selectedQueryEquipment,
+      );
+      // otherwise use only the learning movements to create the Block
+    } else {
+      movementOption = await myMovementsModel.getAllLearnedPossibleMovements(
+        selectedQueryBodyArea,
+        selectedQueryDifficulty,
+        selectedQueryEquipment,
+      );
+    }
+    // movementOption =
+    //     await myMovementsModel.getAllLearnedPossibleMovements(
+    //   selectedQueryBodyArea,
+    //   selectedQueryDifficulty,
+    //   selectedQueryEquipment,
+    // );
     Random random = Random();
     int randomIndex = random.nextInt(movementOption.length);
     return movementOption[randomIndex];
@@ -284,13 +288,24 @@ abstract class Modes {
     String selectedQueryEquipment = await queryEquipment();
     final myMovementsModel =
         currentBlock.context.context.context.ref.watch(myMovementsProvider);
-
-    List<Map<String, Object?>> movementOption =
-        await myMovementsModel.getAllPossibleMovementsNotCollidePrev(
-            selectedQueryBodyArea,
-            selectedQueryDifficulty,
-            selectedQueryEquipment,
-            getLastMovementPattern);
+    List<Map<String, Object?>> movementOption;
+    // Use all fitness movements if learning moves is not full
+    if(!await currentBlock.learningMovesIsFull()) {
+      movementOption =
+      await myMovementsModel.getAllPossibleMovementsNotCollidePrev(
+          selectedQueryBodyArea,
+          selectedQueryDifficulty,
+          selectedQueryEquipment,
+          getLastMovementPattern);
+      // otherwise use only the learning movements to create the Block
+    } else {
+      movementOption =
+      await myMovementsModel.getAllPossibleMovementsNotCollidePrevLearningMoves(
+          selectedQueryBodyArea,
+          selectedQueryDifficulty,
+          selectedQueryEquipment,
+          getLastMovementPattern);
+    }
     Random random = Random();
     int randomIndex = random.nextInt(movementOption.length);
     return movementOption[randomIndex];

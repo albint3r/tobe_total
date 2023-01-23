@@ -36,12 +36,6 @@ class CreateNewWeekActionBtn extends ConsumerWidget {
                       await trainingWeek.initContext();
                       await trainingWeek.initWODS();
                       await trainingWeek.initWODSBlocks();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Your training was created'),
-                          elevation: 5,
-                        ),
-                      );
                     },
                     child: const Text("Yes, I'm sure!"),
                   ),

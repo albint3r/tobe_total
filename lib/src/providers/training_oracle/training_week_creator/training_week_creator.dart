@@ -171,7 +171,7 @@ class TrainingWeek {
     final myMovementsModel = context.ref.watch(myMovementsProvider);
     final response = await myMovementsModel.getAllNoLearned();
     print('totalMoves -> $totalMoves');
-    return response.length == totalMoves;
+    return response.length >= totalMoves;
   }
 
   @override
