@@ -93,16 +93,16 @@ class CalendarDisplay extends ConsumerWidget {
                   // a banner to show a legend -> Dont exist Yet movements
                   if (selectedWodsDay.isEmpty & allWodsData.isEmpty) {
                     return [
-                      WODsCardInformation(selectedWodsDay: allWodsData),
+                      WODsCardInformation(selectedWodsDay: allWodsData, isSelectedUniqueDay: false,),
                       // This is the Card with the msg of no wod create.
                       const MessageNoWOD(),
                     ];
                   }
                   return selectedWodsDay.isNotEmpty
                       // This only display the selected day in the calendar.
-                      ? [WODsCardInformation(selectedWodsDay: selectedWodsDay)]
+                      ? [WODsCardInformation(selectedWodsDay: selectedWodsDay, isSelectedUniqueDay: true,)]
                       // This display all days
-                      : [WODsCardInformation(selectedWodsDay: allWodsData)];
+                      : [WODsCardInformation(selectedWodsDay: allWodsData, isSelectedUniqueDay: false,)];
                 },
               )
               // WODsInformation(selectedWodsDay: selectedWodsDay),

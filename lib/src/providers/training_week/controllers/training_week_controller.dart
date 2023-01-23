@@ -48,7 +48,6 @@ final selectedEventsProvider = FutureProvider.autoDispose<Map<DateTime, List<dyn
   final wods = await ref.watch(wodsModelProvider).getWODs();
   Map<DateTime, List<dynamic>> calendarWods = {};
   for (var wod in wods) {
-    /// TODO CHANGE THIS CREATE DATE FOR -> EXPECTED TRAINING DAY
     final date = DateFormat("yyyy-MM-dd").parse(wod['expected_training_day'] as String);
     if (calendarWods[DateTime.utc(date.year, date.month, date.day)] == null) {
       calendarWods[DateTime.utc(date.year, date.month, date.day)] = [wod];
