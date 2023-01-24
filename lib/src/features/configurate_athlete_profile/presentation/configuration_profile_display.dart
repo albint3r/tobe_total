@@ -70,6 +70,15 @@ class SettingsMenuDisplay extends ConsumerWidget {
             final routes = ref.watch(routesProvider);
             routes.navigateTo(context, ConstantsUrls.updateEquipment);
           }),
+        ),
+        SettingsCardMenu(
+          title: 'Update Athlete Level',
+          subtitle: 'Select your fitness level performance',
+          leading: Icons.leaderboard,
+          trailing: NextButtonSettingsCard(callBack: () {
+            final routes = ref.watch(routesProvider);
+            routes.navigateTo(context, ConstantsUrls.updateLevel);
+          }),
         )
       ],
     );

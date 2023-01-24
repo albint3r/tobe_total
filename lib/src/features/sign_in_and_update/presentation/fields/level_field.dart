@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tobe_total/src/providers/cliente/controllers/client_provider.dart';
 import '../../../../providers/cliente/model/cliente_model_provider.dart';
 import '../../../../providers/forms/athlete_level/level_provider.dart';
 import '../../../common_widgets/headers_screens/header_screens.dart';
@@ -17,32 +16,36 @@ class GroupLevelCheckFields extends ConsumerStatefulWidget {
 class _GroupLevelCheckFieldsState extends ConsumerState<GroupLevelCheckFields> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          H3FormFieldsHeader(header: 'Select your fitness level:'),
-          LevelCheckBoxField(
-            levelName: 'Beginner',
-            enumLevel: Level.beginner,
-            levelSpecification: '0 to 5 Months',
-          ),
-          LevelCheckBoxField(
-            levelName: 'Intermediate',
-            enumLevel: Level.intermediate,
-            levelSpecification: 'More than 5 Months to 1 year',
-          ),
-          LevelCheckBoxField(
-            levelName: 'Advance',
-            enumLevel: Level.advance,
-            levelSpecification: 'More than 1 year to 3 year',
-          ),
-          LevelCheckBoxField(
-            levelName: 'Elite',
-            enumLevel: Level.elite,
-            levelSpecification: 'More than 3 year',
-          ),
-        ],
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      width: MediaQuery.of(context).size.width * .90,
+      child: Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            H3FormFieldsHeader(header: 'Select your fitness level:'),
+            LevelCheckBoxField(
+              levelName: 'Beginner',
+              enumLevel: Level.beginner,
+              levelSpecification: '0 to 5 Months',
+            ),
+            LevelCheckBoxField(
+              levelName: 'Intermediate',
+              enumLevel: Level.intermediate,
+              levelSpecification: 'More than 5 Months to 1 year',
+            ),
+            LevelCheckBoxField(
+              levelName: 'Advance',
+              enumLevel: Level.advance,
+              levelSpecification: 'More than 1 year to 3 year',
+            ),
+            LevelCheckBoxField(
+              levelName: 'Elite',
+              enumLevel: Level.elite,
+              levelSpecification: 'More than 3 year',
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tobe_total/src/screens/forms/update_biometrics.dart';
 import '../screens/block_plan_screen.dart';
+import '../screens/forms/update_athlete_level.dart';
 import '../screens/forms/update_equipment.dart';
 import '../screens/settings_menu_screen.dart';
 import '../screens/my_movements_screen.dart';
@@ -37,6 +38,7 @@ class Routes {
       ConstantsUrls.updateTrainingItinerary: (context) => const UpdateTrainingItinerary(),
       ConstantsUrls.updateAthleteGoal: (context) => const UpdateAthleteGoal(),
       ConstantsUrls.updateEquipment: (context) => const UpdateAthletEquipment(),
+      ConstantsUrls.updateLevel: (context) => const UpdateAthleteLevel(),
     };
   }
 

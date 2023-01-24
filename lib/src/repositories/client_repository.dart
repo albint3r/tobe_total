@@ -333,6 +333,7 @@ class Client extends LocalDataBase {
     // The reason this get only the value of the leve is because
     // another method of the provider [levelManagerProvider] manage the parse.
     level = indexLevel;
+    print('level  $level-------------------');
   }
 
   /// Set the goal field in the client's state
