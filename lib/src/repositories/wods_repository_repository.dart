@@ -116,8 +116,8 @@ class WODs extends LocalDataBase {
   /// column names and values as keys and values, respectively.
   Future<List<Map<String, Object?>>> getTotalTrainedTime(
       String startDayOfTheWeekDate) async {
-    return rawQuery(
-        "SELECT SUM(time) AS trained_time FROM wods JOIN blocks ON blocks.wod_id = wods.id WHERE expected_training_day > '$startDayOfTheWeekDate' AND wods.did_wod =TRUE");
+    String query = "SELECT SUM(time) AS trained_time FROM wods JOIN blocks ON blocks.wod_id = wods.id WHERE expected_training_day >= '$startDayOfTheWeekDate' AND wods.did_wod =TRUE";
+    return rawQuery(query);
   }
   /// Retrieves the Last Muscle Trained from the local database.
   ///

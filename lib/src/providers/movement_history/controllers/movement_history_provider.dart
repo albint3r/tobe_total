@@ -24,7 +24,6 @@ final difficultyCountProvider =
   /// of the current week
   final difficultyCount = await movementHistoryModel.getDifficultyCount(
       startDayOfTheWeek: startDayOfTheWeek.toString().substring(0, 10));
-
   /// Create a Map object that will be returned by the provider.
   Map result = {'total': 0, 'difficulties': {}};
 
