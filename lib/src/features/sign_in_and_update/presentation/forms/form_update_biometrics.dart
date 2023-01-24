@@ -23,7 +23,8 @@ class BiometricsFormState extends State<BiometricsForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
+      child: ListView(
+        shrinkWrap: true,
         children: [
           const H1Screens(
             header: 'Biometrics Information',
