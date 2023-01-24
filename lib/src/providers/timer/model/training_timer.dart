@@ -34,7 +34,7 @@ class TrainingTimerModel extends ChangeNotifier {
   late final Blocks _blocksModel;
   late final WODs _wodsModel;
 
-  final int _maxSeconds = 1;
+  final int _maxSeconds = 60;
   int? currentBlockIndex;
   int? currentRoundsBlock;
   int? currentBlockTotalMovements;
