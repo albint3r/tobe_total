@@ -15,6 +15,7 @@ class Client extends LocalDataBase {
   int age = -1;
   double weight = -1.0;
   double height = -1.0;
+
   //TODO ESTO ESTA DE PRUEBA LUEGO SE CAMBIARA A 0 Y SE AGREGARA EL FORMULARIO
   int level = 1;
   int timeToTrain = 0;
@@ -56,7 +57,6 @@ class Client extends LocalDataBase {
   bool rope = false;
   bool wheel = false;
   bool assaultBike = false;
-
 
   Future<void> _initState() async {
     // Set the values in the DataBase in the User Object.
@@ -120,6 +120,154 @@ class Client extends LocalDataBase {
       wheel = _user['wheel'] as int == 1 ? true : false;
       assaultBike = _user['assault_bike'] as int == 1 ? true : false;
     }
+  }
+
+  void setEquipment(String equipmentName, bool isSelectedEquip) {
+    switch (equipmentName) {
+      case ('No Equipment'):
+        {
+          noEquipment = isSelectedEquip;
+        }
+        break;
+      case ('Dumbbells'):
+        {
+          dumbbells = isSelectedEquip;
+        }
+        break;
+      case ('Kettlebells'):
+        {
+          kettlebells = isSelectedEquip;
+        }
+        break;
+      case ('Bench'):
+        {
+          bench = isSelectedEquip;
+        }
+        break;
+      case ('Barbell'):
+        {
+          barbell = isSelectedEquip;
+        }
+        break;
+      case ('Weight Machines Selectorized'):
+        {
+          weightMachinesSelectorized = isSelectedEquip;
+        }
+        break;
+      case ('Resistance Bands Cables'):
+        {
+          resistanceBandsCables = isSelectedEquip;
+        }
+        break;
+      case ('Leggings'):
+        {
+          leggings = isSelectedEquip;
+        }
+        break;
+      case ('Medicine Ball'):
+        {
+          medicineBall = isSelectedEquip;
+        }
+        break;
+      case ('Stability BallProvider'):
+        {
+          stabilityBall = isSelectedEquip;
+        }
+        break;
+      case ('Ball'):
+        {
+          ball = isSelectedEquip;
+        }
+        break;
+      case ('TRX'):
+        {
+          trx = isSelectedEquip;
+        }
+        break;
+      case ('Raised Platform Box'):
+        {
+          raisedPlatformBox = isSelectedEquip;
+        }
+        break;
+      case ('Box'):
+        {
+          box = isSelectedEquip;
+        }
+        break;
+      case ('Rings'):
+        {
+          rings = isSelectedEquip;
+        }
+        break;
+      case ('Pull-Up Bar'):
+        {
+          pullUpBar = isSelectedEquip;
+        }
+        break;
+      case ('Parallels Bar'):
+        {
+          parallelsBar = isSelectedEquip;
+        }
+        break;
+      case ('Wall'):
+        {
+          wall = isSelectedEquip;
+        }
+        break;
+      case ('Pole'):
+        {
+          pole = isSelectedEquip;
+        }
+        break;
+      case ('Trineo'):
+        {
+          trineo = isSelectedEquip;
+        }
+        break;
+      case ('Rope'):
+        {
+          rope = isSelectedEquip;
+        }
+        break;
+      case ('Wheel'):
+        {
+          wheel = isSelectedEquip;
+        }
+        break;
+      case ('Assault Bike'):
+        {
+          assaultBike  = isSelectedEquip;
+        }
+        break;
+    }
+  }
+
+  Map<String, bool> equipmentParseToDataBase() {
+    return {
+      'no_equipment': noEquipment,
+      'dumbbells': dumbbells,
+      'kettlebells': kettlebells,
+      'bench': bench,
+      'barbell': barbell,
+      'weight_machines_selectorized': weightMachinesSelectorized,
+      'resistance_bands_cables': resistanceBandsCables,
+      'leggings': leggings,
+      'medicine_ball': medicineBall,
+      'stability_ball': stabilityBall,
+      'ball': ball,
+      'trx': trx,
+      'raised_platform_box': raisedPlatformBox,
+      'box': box,
+      'rings': rings,
+      'pull_up_bar': pullUpBar,
+      'parallels_bar': parallelsBar,
+      'wall': wall,
+      'pole': pole,
+      'trineo': trineo,
+      'rope': rope,
+      'wheel': wheel,
+      'assault_bike': assaultBike,
+    };
   }
 
   void setTrainingDaysInState(String dayName, bool value) {
@@ -301,9 +449,10 @@ class Client extends LocalDataBase {
 
   /// Return a map of the client's selected training days
   Future<Map<String, Object?>> trainingDayMap() async {
-      String query = 'SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM users WHERE id= 1';
-      List<Map<String, Object?>> response = await rawQuery(query);
-      return response[0];
+    String query =
+        'SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM users WHERE id= 1';
+    List<Map<String, Object?>> response = await rawQuery(query);
+    return response[0];
   }
 
   /// Return the total training days desired by the client
@@ -318,7 +467,8 @@ class Client extends LocalDataBase {
   /// Return the equipments of the client
   Future<Map<String, Object?>> getEquipment() async {
     // Return a Dictionary with the Equipment of the Client
-    String query ="SELECT no_equipment, dumbbells, kettlebells, bench, barbell, weight_machines_selectorized, resistance_bands_cables, leggings, medicine_ball, stability_ball, ball, trx, raised_platform_box, box, rings, pull_up_bar, parallels_bar, wall, pole, trineo, rope, wheel, assault_bike FROM users WHERE id = 1;";
+    String query =
+        "SELECT no_equipment, dumbbells, kettlebells, bench, barbell, weight_machines_selectorized, resistance_bands_cables, leggings, medicine_ball, stability_ball, ball, trx, raised_platform_box, box, rings, pull_up_bar, parallels_bar, wall, pole, trineo, rope, wheel, assault_bike FROM users WHERE id = 1;";
     final response = await rawQuery(query);
     return response[0];
   }
@@ -339,18 +489,25 @@ class Client extends LocalDataBase {
     update('users', selectFieldsToUpdate(selectedFields), 1);
   }
 
+  Future<void> updateUserEquipment() async {
+    update('users', equipmentParseToDataBase(), 1);
+  }
+
   /// Update the training days for the noobs
   Future<void> updateTrainingDaysToNoobs() async {
     // This client would have 3 days only to train full body.
-    update('users', {
-      'monday': true,
-      'tuesday': false,
-      'wednesday': true,
-      'thursday': false,
-      'friday': true,
-      'saturday': false,
-      'sunday': false,
-    }, 1);
+    update(
+        'users',
+        {
+          'monday': true,
+          'tuesday': false,
+          'wednesday': true,
+          'thursday': false,
+          'friday': true,
+          'saturday': false,
+          'sunday': false,
+        },
+        1);
   }
 
   // Get the profile of the user.

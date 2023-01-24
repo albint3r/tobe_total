@@ -20,6 +20,7 @@ class ConstantsUrls {
   static String updateBiometrics = 'update_biometrics';
   static String updateTrainingItinerary = 'update_training_itinerary';
   static String updateAthleteGoal = 'update_athlete_goal';
+  static String updateEquipment= 'update_equipment';
 
   /// Return the screen route of the specified index.
   ///

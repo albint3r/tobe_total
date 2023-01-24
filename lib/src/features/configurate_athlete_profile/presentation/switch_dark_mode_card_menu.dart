@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tobe_total/src/features/configurate_athlete_profile/presentation/item_settings_card_menu.dart';
-
 import '../../../providers/theme/is_dark_mode_provider.dart';
-import '../../../theme/settings_aparience.dart';
+
 
 
 class DarkModeCardSwitch extends ConsumerWidget {
