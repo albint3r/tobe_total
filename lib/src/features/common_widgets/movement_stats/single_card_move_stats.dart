@@ -103,50 +103,52 @@ class SingleCardMoveStats extends ConsumerWidget {
       child: Stack(
         children: [
           CarAspects(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TitleSingleCardMoveStat(name: name),
-                IconTextMuscleProtaMoveStat(
-                  nameMove: muscleProta,
-                ),
-                KPIBarMoveStat(
-                  label: 'Difficulty',
-                  textInsideBar: difficulty,
-                  score:
-                      myMovesController.generateDifficultyProgress(difficulty),
-                ),
-                KPIBarMoveStat(
-                  label: 'Learned Level',
-                  textInsideBar: '${myMovesController.generateLearningLevelTextLabel(learned)} %',
-                  score: myMovesController.generateLearningLevelProgress(learned),
-                ),
-                ChipEquipmentMoveStats(
-                  noEquipment: noEquipment,
-                  dumbbells: dumbbells,
-                  kettlebells: kettlebells,
-                  bench: bench,
-                  barbell: barbell,
-                  weightMachinesSelectorized: weightMachinesSelectorized,
-                  resistanceBandsCables: resistanceBandsCables,
-                  leggings: leggings,
-                  medicineBall: medicineBall,
-                  stabilityBall: stabilityBall,
-                  ball: ball,
-                  trx: trx,
-                  raisedPlatformBox: raisedPlatformBox,
-                  box: box,
-                  rings: rings,
-                  pullUpBar: pullUpBar,
-                  parallelsBar: parallelsBar,
-                  wall: wall,
-                  pole: pole,
-                  trineo: trineo,
-                  rope: rope,
-                  wheel: wheel,
-                  assaultBike: assaultBike,
-                ),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TitleSingleCardMoveStat(name: name),
+                  IconTextMuscleProtaMoveStat(
+                    nameMove: muscleProta,
+                  ),
+                  KPIBarMoveStat(
+                    label: 'Difficulty',
+                    textInsideBar: difficulty,
+                    score:
+                        myMovesController.generateDifficultyProgress(difficulty),
+                  ),
+                  KPIBarMoveStat(
+                    label: 'Learned Level',
+                    textInsideBar: '${myMovesController.generateLearningLevelTextLabel(learned)} %',
+                    score: myMovesController.generateLearningLevelProgress(learned),
+                  ),
+                  ChipEquipmentMoveStats(
+                    noEquipment: noEquipment,
+                    dumbbells: dumbbells,
+                    kettlebells: kettlebells,
+                    bench: bench,
+                    barbell: barbell,
+                    weightMachinesSelectorized: weightMachinesSelectorized,
+                    resistanceBandsCables: resistanceBandsCables,
+                    leggings: leggings,
+                    medicineBall: medicineBall,
+                    stabilityBall: stabilityBall,
+                    ball: ball,
+                    trx: trx,
+                    raisedPlatformBox: raisedPlatformBox,
+                    box: box,
+                    rings: rings,
+                    pullUpBar: pullUpBar,
+                    parallelsBar: parallelsBar,
+                    wall: wall,
+                    pole: pole,
+                    trineo: trineo,
+                    rope: rope,
+                    wheel: wheel,
+                    assaultBike: assaultBike,
+                  ),
+                ],
+              ),
             ),
           ),
           const ImageCardMoveStat()

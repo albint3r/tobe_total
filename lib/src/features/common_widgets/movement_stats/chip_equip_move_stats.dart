@@ -69,7 +69,8 @@ class ChipEquipmentMoveStats extends ConsumerWidget {
           width: constraints.maxWidth * .70,
           margin: const EdgeInsets.only(left: 20, top: 15),
           child: Wrap(
-            // mainAxisAlignment: MainAxisAlignment.start,
+            alignment: WrapAlignment.start,
+            crossAxisAlignment: WrapCrossAlignment.end,
             children: generateChipsEquipment(),
           ),
         );
