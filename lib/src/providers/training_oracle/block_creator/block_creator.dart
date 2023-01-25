@@ -79,6 +79,20 @@ class BlockCreator {
       ? RoundsCreator(context: this)
       : EMOMCreator(context: this);
 
+  // Validate if the Next Movement to add is already in the block
+  // if this is true, the program would select another movement.
+  bool isMoveIdInBlock(int moveId) {
+    print('isMovementIdInBlock-------------------');
+    for(MovementCreator move in movements) {
+      if(moveId == move.id) {
+        print('moveId $moveId == ${move.id} -> ${moveId == move.id}');
+        return true;
+      }
+    }
+    print('return false');
+    return false;
+  }
+
   /// Initialize the context of the block.
   Future<void> _initContext() async {
     print('----------GENERAL DATA---------------');

@@ -33,6 +33,10 @@ abstract class Modes {
     await movement.save();
   }
 
+  bool isMoveIdInBlock(int moveId) {
+    return _context.isMoveIdInBlock(moveId);
+  }
+
   /// Creates and adds the first move to the current block, if it is not
   /// already present in the list of my movements and the selected muscle
   /// frequency is available.
@@ -48,11 +52,13 @@ abstract class Modes {
       // so the blocks list wont have the first Move inside.
       if (await notExistIdInMyMovements(movement.id) &&
           isSelectedMuscleFreqAvailable(
-              movement.muscleProta, currentBlock.sets)) {
+              movement.muscleProta, currentBlock.sets) &&
+          !isMoveIdInBlock(movement.id)) {
         setMovementSaveProcess(movement);
         // If the counter is Zero it would use the move. But
         // only would be added to my history not to myMoves
-      } else if (await notExistIdInMyMovements(movement.id) &
+      } else if (await notExistIdInMyMovements(movement.id) &&
+          !isMoveIdInBlock(movement.id) &&
           isMaxIterCounterZero()) {
         setMovementSaveProcess(movement);
       }
@@ -67,11 +73,12 @@ abstract class Modes {
       MovementCreator movement = await createMove(i, movementOption);
       // Check if the muscle frequencies isn't full
       if (isSelectedMuscleFreqAvailable(
-          movement.muscleProta, currentBlock.sets)) {
+              movement.muscleProta, currentBlock.sets) &&
+          !isMoveIdInBlock(movement.id)) {
         setMovementSaveProcess(movement);
         // If the counter is Zero it would use the move. But
         // only would be added to my history not to myMoves
-      } else if (isMaxIterCounterZero()) {
+      } else if (isMaxIterCounterZero() && !isMoveIdInBlock(movement.id)) {
         setMovementSaveProcess(movement);
       }
       restMaxIterationCounter();
@@ -92,7 +99,8 @@ abstract class Modes {
       MovementCreator movement = await createMove(i, movementOption);
       // if the ID already exist in the Database it will skip
       // so the blocks list wont have the first Move inside.
-      if (await notExistIdInMyMovements(movement.id) &
+      if (await notExistIdInMyMovements(movement.id) &&
+          !isMoveIdInBlock(movement.id) &&
           isSelectedMuscleFreqAvailable(
               movement.muscleProta, currentBlock.sets)) {
         setMovementSaveProcess(movement);
@@ -101,7 +109,8 @@ abstract class Modes {
         // and the counter is Zero. This will pass the Muscle Freq rule.
         // If the counter is Zero it would use the move. But
         // only would be added to my history not to myMoves
-      } else if (await notExistIdInMyMovements(movement.id) &
+      } else if (await notExistIdInMyMovements(movement.id) &&
+          !isMoveIdInBlock(movement.id) &&
           isMaxIterCounterZero()) {
         setMovementSaveProcess(movement);
         finisProcess = !finisProcess;
@@ -124,14 +133,16 @@ abstract class Modes {
       MovementCreator movement = await createMove(i, movementOption);
       // if the ID already exist in the Database it will skip
       // so the blocks list wont have the first Move inside.
-      if (isSelectedMuscleFreqAvailable(movement.muscleProta, currentBlock.sets)) {
+      if (isSelectedMuscleFreqAvailable(
+              movement.muscleProta, currentBlock.sets) &&
+          !isMoveIdInBlock(movement.id)) {
         setMovementSaveProcess(movement);
         finisProcess = !finisProcess;
         // This will let the user add a move if this is not in [myMovements]
         // and the counter is Zero. This will pass the Muscle Freq rule.
         // If the counter is Zero it would use the move. But
         // only would be added to my history not to myMoves
-      } else if (isMaxIterCounterZero()) {
+      } else if (isMaxIterCounterZero() && !isMoveIdInBlock(movement.id)) {
         setMovementSaveProcess(movement);
         finisProcess = !finisProcess;
       }
@@ -290,21 +301,21 @@ abstract class Modes {
         currentBlock.context.context.context.ref.watch(myMovementsProvider);
     List<Map<String, Object?>> movementOption;
     // Use all fitness movements if learning moves is not full
-    if(!await currentBlock.learningMovesIsFull()) {
+    if (!await currentBlock.learningMovesIsFull()) {
       movementOption =
-      await myMovementsModel.getAllPossibleMovementsNotCollidePrev(
-          selectedQueryBodyArea,
-          selectedQueryDifficulty,
-          selectedQueryEquipment,
-          getLastMovementPattern);
+          await myMovementsModel.getAllPossibleMovementsNotCollidePrev(
+              selectedQueryBodyArea,
+              selectedQueryDifficulty,
+              selectedQueryEquipment,
+              getLastMovementPattern);
       // otherwise use only the learning movements to create the Block
     } else {
-      movementOption =
-      await myMovementsModel.getAllPossibleMovementsNotCollidePrevLearningMoves(
-          selectedQueryBodyArea,
-          selectedQueryDifficulty,
-          selectedQueryEquipment,
-          getLastMovementPattern);
+      movementOption = await myMovementsModel
+          .getAllPossibleMovementsNotCollidePrevLearningMoves(
+              selectedQueryBodyArea,
+              selectedQueryDifficulty,
+              selectedQueryEquipment,
+              getLastMovementPattern);
     }
     Random random = Random();
     int randomIndex = random.nextInt(movementOption.length);
