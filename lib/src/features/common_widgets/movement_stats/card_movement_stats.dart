@@ -78,12 +78,12 @@ class _CardsMovementStatsState extends ConsumerState<CardsMovementStats> {
     // If the user click the search option this will filter all the
     // card and only show the one that clicked.
     if (filteredMove[0] != '') {
+
       var moveResult = myMovementController.generateMyMoveSearch(movesData);
       Map<String, Object?> result =
           moveResult[filteredMove[0]] as Map<String, Object?>;
       movesData = [result];
     }
-
     for (Map<String, Object?> move in movesData) {
       final SingleCardMoveStats cardMoveStat = SingleCardMoveStats(
         moveStats: move,

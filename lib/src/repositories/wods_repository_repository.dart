@@ -24,7 +24,8 @@ class WODs extends LocalDataBase {
     return await add(
         'wods',
         'expected_training_day, day, body_area, total_blocks, total_time_work_out, expired',
-        "'${expectedTrainingDate.toString().substring(0, 10)}', $day, '$bodyArea', $totalBlocks, $totalTimeWorkOut, $isExpired");
+        //TODO CHECAR QUE ESTO ESTE BIEN
+        "'${expectedTrainingDate.toString().substring(0, 10)}', $day, '$bodyArea', $totalBlocks, $totalTimeWorkOut, ${isExpired ? 1: 0}");
   }
 
   /// Gets the last Workout of the Day (WOD) identifier from the database.

@@ -34,8 +34,10 @@ class _RateBlockDialogState extends ConsumerState<RateBlockDialog> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Evaluate the Trained Block'),
-          content: Column(
-            children: const [GroupRateTrainingFields()],
+          content: SingleChildScrollView(
+            child: Column(
+              children: const [GroupRateTrainingFields()],
+            ),
           ),
           actions: [
             TextButton(

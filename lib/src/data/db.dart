@@ -41,7 +41,7 @@ class LocalDataBase {
     if (wods.isNotEmpty) {
       DateTime now = DateTime.now();
       await db.rawQuery(
-          "UPDATE wods SET expired = TRUE WHERE expected_training_day < '${now.toString().substring(0, 10)}'");
+          "UPDATE wods SET expired = 1 WHERE expected_training_day < '${now.toString().substring(0, 10)}'");
     }
   }
 

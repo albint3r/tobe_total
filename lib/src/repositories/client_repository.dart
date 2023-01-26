@@ -85,7 +85,9 @@ class Client extends LocalDataBase {
       friday = _user['friday'] as int == 1 ? true : false;
       saturday = _user['saturday'] as int == 1 ? true : false;
       sunday = _user['sunday'] as int == 1 ? true : false;
-      haveLesion = _user['have_lesion'] as int == 1 ? true : false;
+      // TODO I not sure if this is the best way to solve this bug
+      // may be is better to create a method to manage this.
+      haveLesion = _user['have_lesion'] != null ? true : false;
       lesionArea = _user['lesion_area'] as int;
       totalPull = _user['total_pull'] as int;
       totalPush = _user['total_push'] as int;
@@ -456,36 +458,36 @@ class Client extends LocalDataBase {
       'weight': weight,
       'height': height,
       'time_to_train': timeToTrain,
-      'monday': monday,
-      'tuesday': tuesday,
-      'wednesday': wednesday,
-      'thursday': thursday,
-      'friday': friday,
-      'saturday': saturday,
-      'sunday': sunday,
-      'no_equipment': noEquipment,
-      'dumbbells': dumbbells,
-      'kettlebells': kettlebells,
-      'bench': bench,
-      'barbell': barbell,
-      'weight_machines_selectorized': weightMachinesSelectorized,
-      'resistance_bands_cables': resistanceBandsCables,
-      'leggings': leggings,
-      'medicine_ball': medicineBall,
-      'stability_ball': stabilityBall,
-      'ball': ball,
-      'trx': trx,
-      'raised_platform_box': raisedPlatformBox,
-      'box': box,
-      'rings': rings,
-      'pull_up_bar': pullUpBar,
-      'parallels_bar': parallelsBar,
-      'wall': wall,
-      'pole': pole,
-      'trineo': trineo,
-      'rope': rope,
-      'wheel': wheel,
-      'assault_bike': assaultBike,
+      'monday': monday ? 1: 0,
+      'tuesday': tuesday ? 1: 0,
+      'wednesday': wednesday ? 1: 0,
+      'thursday': thursday ? 1: 0,
+      'friday': friday ? 1: 0,
+      'saturday': saturday ? 1: 0,
+      'sunday': sunday ? 1: 0,
+      'no_equipment': noEquipment ? 1: 0,
+      'dumbbells': dumbbells ? 1: 0,
+      'kettlebells': kettlebells ? 1: 0,
+      'bench': bench ? 1: 0,
+      'barbell': barbell ? 1: 0,
+      'weight_machines_selectorized': weightMachinesSelectorized ? 1: 0,
+      'resistance_bands_cables': resistanceBandsCables ? 1: 0,
+      'leggings': leggings ? 1: 0,
+      'medicine_ball': medicineBall ? 1: 0,
+      'stability_ball': stabilityBall ? 1: 0,
+      'ball': ball ? 1: 0,
+      'trx': trx ? 1: 0,
+      'raised_platform_box': raisedPlatformBox ? 1: 0,
+      'box': box ? 1: 0,
+      'rings': rings ? 1: 0,
+      'pull_up_bar': pullUpBar ? 1: 0,
+      'parallels_bar': parallelsBar ? 1: 0,
+      'wall': wall ? 1: 0,
+      'pole': pole ? 1: 0,
+      'trineo': trineo ? 1: 0,
+      'rope': rope ? 1: 0,
+      'wheel': wheel ? 1: 0,
+      'assault_bike': assaultBike ? 1: 0,
       'level': level
     };
     update('users', columnsValues, 1);
