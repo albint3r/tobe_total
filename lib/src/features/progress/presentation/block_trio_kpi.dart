@@ -23,6 +23,7 @@ class BlockTrioKPI extends ConsumerWidget {
             loading: () => const CircularProgressIndicator(),
             data: (goalProgressData) {
               return totalTrainedTime.when(
+                  // TODO ERROR HERE FOR CESAR CEL PHONE
                   error: (error, stackTrace) => Text('Error $error'),
                   loading: () => const CircularProgressIndicator(),
                   data: (totalTrainingTimeData) {
@@ -65,7 +66,7 @@ class SingleBlockKPI extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(3),
         width: (MediaQuery.of(context).size.width - 100) / 3,
         height: 60,
         child: Column(
@@ -74,7 +75,8 @@ class SingleBlockKPI extends StatelessWidget {
             H4KPIHeader(
               header: _header,
             ),
-            Text(_subHeader.toUpperCase()),
+            Text(_subHeader.toUpperCase(), textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis, maxLines: 1),
           ],
         ),
       ),

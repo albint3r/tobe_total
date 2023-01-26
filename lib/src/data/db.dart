@@ -194,4 +194,13 @@ class LocalDataBase {
   Future<List<Map<String, Object?>>> getLastId() async {
     return await rawQuery('SELECT last_insert_rowid()');
   }
+
+  Future<void>  checkTablesStatus() async {
+    // String query = "SELECT name FROM sqlite_master WHERE type='table'";
+    String query = "SELECT * FROM fitness_moves";
+    print('checkTablesStatus------------------------------------------');
+    print(await rawQuery(query));
+  }
+
+
 }
