@@ -236,7 +236,7 @@ class Client extends LocalDataBase {
         break;
       case ('Assault Bike'):
         {
-          assaultBike  = isSelectedEquip;
+          assaultBike = isSelectedEquip;
         }
         break;
     }
@@ -446,6 +446,49 @@ class Client extends LocalDataBase {
   /// Create a new user in the SQLite database
   Future<void> createNewUser() async {
     add('users', 'name, last_name, email', "'$name', '$lastName', '$email'");
+  }
+
+  /// Create a new user in the SQLite database
+  Future<void> updateInitStats() async {
+    print('updateInitStats-----------------');
+    Map<String, Object> columnsValues = {
+      'age': age,
+      'weight': weight,
+      'height': height,
+      'time_to_train': timeToTrain,
+      'monday': monday,
+      'tuesday': tuesday,
+      'wednesday': wednesday,
+      'thursday': thursday,
+      'friday': friday,
+      'saturday': saturday,
+      'sunday': sunday,
+      'no_equipment': noEquipment,
+      'dumbbells': dumbbells,
+      'kettlebells': kettlebells,
+      'bench': bench,
+      'barbell': barbell,
+      'weight_machines_selectorized': weightMachinesSelectorized,
+      'resistance_bands_cables': resistanceBandsCables,
+      'leggings': leggings,
+      'medicine_ball': medicineBall,
+      'stability_ball': stabilityBall,
+      'ball': ball,
+      'trx': trx,
+      'raised_platform_box': raisedPlatformBox,
+      'box': box,
+      'rings': rings,
+      'pull_up_bar': pullUpBar,
+      'parallels_bar': parallelsBar,
+      'wall': wall,
+      'pole': pole,
+      'trineo': trineo,
+      'rope': rope,
+      'wheel': wheel,
+      'assault_bike': assaultBike,
+      'level': level
+    };
+    update('users', columnsValues, 1);
   }
 
   /// Return a map of the client's selected training days

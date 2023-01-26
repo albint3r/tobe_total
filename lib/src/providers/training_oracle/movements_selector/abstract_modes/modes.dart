@@ -54,12 +54,14 @@ abstract class Modes {
           isSelectedMuscleFreqAvailable(
               movement.muscleProta, currentBlock.sets) &&
           !isMoveIdInBlock(movement.id)) {
+        await movement.setRepsToDo();
         setMovementSaveProcess(movement);
         // If the counter is Zero it would use the move. But
         // only would be added to my history not to myMoves
       } else if (await notExistIdInMyMovements(movement.id) &&
           !isMoveIdInBlock(movement.id) &&
           isMaxIterCounterZero()) {
+        await movement.setRepsToDo();
         setMovementSaveProcess(movement);
       }
       restMaxIterationCounter();
@@ -75,10 +77,12 @@ abstract class Modes {
       if (isSelectedMuscleFreqAvailable(
               movement.muscleProta, currentBlock.sets) &&
           !isMoveIdInBlock(movement.id)) {
+        await movement.setRepsToDo();
         setMovementSaveProcess(movement);
         // If the counter is Zero it would use the move. But
         // only would be added to my history not to myMoves
       } else if (isMaxIterCounterZero() && !isMoveIdInBlock(movement.id)) {
+        await movement.setRepsToDo();
         setMovementSaveProcess(movement);
       }
       restMaxIterationCounter();
@@ -103,6 +107,7 @@ abstract class Modes {
           !isMoveIdInBlock(movement.id) &&
           isSelectedMuscleFreqAvailable(
               movement.muscleProta, currentBlock.sets)) {
+        await movement.setRepsToDo();
         setMovementSaveProcess(movement);
         finisProcess = !finisProcess;
         // This will let the user add a move if this is not in [myMovements]
@@ -112,6 +117,7 @@ abstract class Modes {
       } else if (await notExistIdInMyMovements(movement.id) &&
           !isMoveIdInBlock(movement.id) &&
           isMaxIterCounterZero()) {
+        await movement.setRepsToDo();
         setMovementSaveProcess(movement);
         finisProcess = !finisProcess;
       }
@@ -136,6 +142,7 @@ abstract class Modes {
       if (isSelectedMuscleFreqAvailable(
               movement.muscleProta, currentBlock.sets) &&
           !isMoveIdInBlock(movement.id)) {
+        await movement.setRepsToDo();
         setMovementSaveProcess(movement);
         finisProcess = !finisProcess;
         // This will let the user add a move if this is not in [myMovements]
@@ -143,6 +150,7 @@ abstract class Modes {
         // If the counter is Zero it would use the move. But
         // only would be added to my history not to myMoves
       } else if (isMaxIterCounterZero() && !isMoveIdInBlock(movement.id)) {
+        await movement.setRepsToDo();
         setMovementSaveProcess(movement);
         finisProcess = !finisProcess;
       }

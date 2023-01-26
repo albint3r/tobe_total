@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../movement_history/model/movement_history_model.dart';
 import '../../my_movements/model/my_movements_model.dart';
 import '../block_creator/block_creator.dart';
@@ -139,7 +141,34 @@ class MovementCreator {
       print('************************************');
       print('');
     }
-    await movementHistoryModel.addNew(id, currentBlock.id);
+    await movementHistoryModel.addNew(id, currentBlock.id, maxRepsExpected);
+  }
+
+  Future<void> setRepsToDo() async {
+      final movementHistoryModel = currentBlock.context.context.context.ref.watch(movementHistoryModelProvider);
+      List<Map<String, Object?>> response  = await movementHistoryModel.getLastTrainedMovementHistory(id);
+      // if is not empty is because client did movement
+      if(response.isNotEmpty) {
+        Map<String, Object?> moveMap = response[0];
+        int didAllTrainWorkOut = moveMap['did_all_train_work'] as int;
+        int canDoMore = moveMap['can_do_more'] as int;
+        int lastReps = moveMap['reps'] as int;
+        // Add more reps if did all training work and can do more
+        if(didAllTrainWorkOut == 1 && canDoMore == 1) {
+          maxRepsExpected = lastReps + 1;
+        // Equal reps because he can't do more
+        } else if(didAllTrainWorkOut == 1 && canDoMore != 1) {
+          maxRepsExpected = lastReps;
+        // Reduce training work, because client cant do all the training work.
+        } else if(didAllTrainWorkOut != 1) {
+          maxRepsExpected = lastReps - 2;
+        }
+      // firs time doing the movement
+      } else  {
+        // By default the move have 15 reps, if the value is null.
+        // so in this case We expect 5 reps to start.
+        maxRepsExpected = maxRepsExpected ~/ 3;
+      }
   }
 
   @override

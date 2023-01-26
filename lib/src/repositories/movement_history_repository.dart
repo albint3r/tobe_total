@@ -15,11 +15,11 @@ class MovementHistory extends LocalDataBase {
   /// 'fitnessMoveId' and 'blocksId' values.
   ///
   /// Returns a [Future] that completes when the operation is finished.
-  Future<void> addNew(int fitnessMoveId, int blocksId) async {
+  Future<void> addNew(int fitnessMoveId, int blocksId, int reps) async {
     return await add(
       'movement_history',
-      'fitness_move_id, blocks_id',
-      "$fitnessMoveId, $blocksId",
+      'fitness_move_id, blocks_id, reps',
+      "$fitnessMoveId, $blocksId, $reps ",
     );
   }
 
@@ -57,6 +57,12 @@ class MovementHistory extends LocalDataBase {
   Future<List<Map<String, Object?>>> getTrainedMovementsOfTheCurrentWeek(String startDayOfTheWeek) async {
     String query = 'SELECT * FROM movement_history AS mh JOIN blocks AS b ON b.id = mh.blocks_id JOIN wods AS w ON w.id = b.wod_id JOIN fitness_moves AS fm ON fm.id = mh.fitness_move_id WHERE w.expected_training_day >= "$startDayOfTheWeek" AND w.did_wod';
     return rawQuery(query);
+  }
+
+  Future<List<Map<String, Object?>>> getLastTrainedMovementHistory(int moveId) async {
+    String query = 'SELECT * FROM movement_history WHERE fitness_move_id = $moveId AND did_exercise = 1 ORDER BY create_date DESC LIMIT 1';
+    List<Map<String, Object?>> response = await rawQuery(query);
+    return response;
   }
 
 
