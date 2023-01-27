@@ -14,6 +14,8 @@ import '../../movement_history/model/movement_history_model.dart';
 import '../../proxies/block_proxy.dart';
 import '../../proxies/movement_proxy.dart';
 import '../../proxies/wod_proxy.dart';
+import 'package:audioplayers/audioplayers.dart';
+
 
 enum TimerState {
   unStarted,
@@ -28,13 +30,14 @@ enum TimerState {
 class TrainingTimerModel extends ChangeNotifier {
   // Initial state of the timer
   // Maximum duration of the timer in seconds
+
   late final ProxyWOD proxyWod;
   late final MovementHistory _movementsHistoryModel;
   late final MyMovements _myMovementsModel;
   late final Blocks _blocksModel;
   late final WODs _wodsModel;
 
-  final int _maxSeconds = 1;
+  final int _maxSeconds = 60;
   int? currentBlockIndex;
   int? currentRoundsBlock;
   int? currentBlockTotalMovements;
@@ -119,9 +122,6 @@ class TrainingTimerModel extends ChangeNotifier {
     ProxyBlock blockToShow;
     if (currentBlockIndex == null) {
       var blockToShowIndex = proxyWod.blocks!.keys.toList()[0];
-      // TODO PUEDE SER PROBABLE QUE AL FINALIZAR EL ENTRENAMIENTO
-      // EL INDEX SE MUEVA Y GENERE ERROR, ES IMPORTANTE MONITOREAR ESTO
-      // PARA EVITAR QUE PASE CUANDO SE MUESTRAN LOS MOVIMIENTOS A HACER
       blockToShow = proxyWod.blocks![blockToShowIndex]!;
     } else {
       // This catch an error that occur when the user ends the training
@@ -137,10 +137,46 @@ class TrainingTimerModel extends ChangeNotifier {
     return blockToShow;
   }
 
+
+  void playLastFiveSecondsSound() {
+    if(_seconds >=55) {
+      final audioPlayer = AudioPlayer();
+      audioPlayer.play(AssetSource('start_beep.mp3'));
+      audioPlayer.release();
+    }
+  }
+
+  void playStartNewRoundSound() {
+    if(_seconds ==0) {
+      final audioPlayer = AudioPlayer();
+      audioPlayer.setVolume(1);
+      audioPlayer.play(AssetSource('star_new_round.mp3'));
+      audioPlayer.release();
+    }
+  }
+
+  void playReadyBlockSound() {
+    if(_seconds <=5) {
+      final audioPlayer = AudioPlayer();
+      audioPlayer.play(AssetSource('start_beep.mp3'));
+      audioPlayer.release();
+    }
+  }
+
+  void pauseSound() {
+    final audioPlayer = AudioPlayer();
+    audioPlayer.play(AssetSource('stop_beep.mp3'));
+    audioPlayer.release();
+  }
+
+
   /// Get the time and Set of the current block.
   /// It decide if the timer go, stop or pause.
   void getTimeAndRounds() {
     if (_seconds != maxSeconds && currentRoundsBlock != 0) {
+      // if the remaining time is 5 or less, start sound counting
+      playLastFiveSecondsSound();
+      playStartNewRoundSound();
       _seconds = _seconds + 1;
       _currentState = TimerState.play;
       notifyListeners();
@@ -168,6 +204,7 @@ class TrainingTimerModel extends ChangeNotifier {
 
   void getGetReadyTimer() {
     if (_seconds != 5) {
+      playReadyBlockSound();
       _seconds = _seconds + 1;
       notifyListeners();
       // Change Round State and reset time
@@ -234,6 +271,7 @@ class TrainingTimerModel extends ChangeNotifier {
         );
         break;
       case TimerState.pause:
+        pauseSound();
         _currentState = TimerState.play;
         notifyListeners();
         startTimer();
@@ -261,6 +299,7 @@ class TrainingTimerModel extends ChangeNotifier {
   /// it will not perform any action.
   void pauseTime() {
     if (currentState == TimerState.play || currentState == TimerState.stop) {
+      pauseSound();
       _currentState = TimerState.pause;
       _timer?.cancel();
       notifyListeners();

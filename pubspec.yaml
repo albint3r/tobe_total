@@ -48,10 +48,13 @@ dependencies:
   percent_indicator: ^4.2.2
   wakelock: ^0.6.2
   url_launcher: ^6.1.8
+  audioplayers: ^3.0.0
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  audioplayers: ^3.0.0
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -80,8 +83,6 @@ flutter:
     - assets/statics/profile_picture.jpg
     - assets/statics/body_front.png
     - assets/statics/body_back.png
-#    - assets/sounds/start_beep.mp3
-    - assets/sounds/stop_beep.mp3
     - assets/
   #   - images/a_dot_ham.jpeg
 
