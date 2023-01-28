@@ -33,7 +33,7 @@ class SubmitUpdateInitStats extends ConsumerWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Wait to util training week is created'),
-                duration: Duration(seconds: 1),
+                duration: Duration(seconds: 3),
               ),
             );
             final trainingWeek =

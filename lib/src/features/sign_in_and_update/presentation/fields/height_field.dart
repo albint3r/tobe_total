@@ -16,7 +16,7 @@ class HeightField extends ConsumerWidget {
       icon: Icons.height,
       hintValue: 'Example: 170.0 cm',
       // callBackFunction: FormValidators.isNotValidDouble,
-      callBackFunction: validator.isNotValidDouble,
+      callBackFunction: validator.isNotValidInteger,
       errorMsg: "Enter height in centimeters (e.g. '180 cm')",
       isNumberType: true,
     );

@@ -32,6 +32,19 @@ class FormValidators {
     return false;
   }
 
+  bool isNotMultipleOfFive(String? fieldValue) {
+    // Check if the Age is validated
+    if (fieldValue != null) {
+      try{
+        return int.parse(fieldValue) % 5 != 0;
+      } catch(e) {
+        print('[isMultipleOfFive error] -> $e');
+        return true;
+      }
+    }
+    return true;
+  }
+
   bool isNotValidDouble(String? fieldValue) {
     // Check if the Age is validated
     if (fieldValue != null) {

@@ -420,7 +420,7 @@ class TrainingTimerModel extends ChangeNotifier {
   }
 }
 
-final trainingTimerProvider = ChangeNotifierProvider<TrainingTimerModel>((ref) {
+final trainingTimerProvider = ChangeNotifierProvider.autoDispose<TrainingTimerModel>((ref) {
   final proxyWod = ref.watch(proxyWodProvider);
   final movementHistoryModel = ref.watch(movementHistoryModelProvider);
   final myMovementsModel = ref.watch(myMovementsProvider);

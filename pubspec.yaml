@@ -84,7 +84,29 @@ flutter:
     - assets/statics/body_front.png
     - assets/statics/body_back.png
     - assets/
-  #   - images/a_dot_ham.jpeg
+    - assets/img/assault_bike.png
+    - assets/img/barbell.png
+    - assets/img/bench.png
+    - assets/img/box.png
+    - assets/img/dumbbells.png
+    - assets/img/kettlebells.png
+    - assets/img/leggings.png
+    - assets/img/medicine_ball.png
+    - assets/img/no_photo.png
+    - assets/img/parallels_bar.png
+    - assets/img/pole.png
+    - assets/img/pull_up_bar.png
+    - assets/img/raised_platform_box.png
+    - assets/img/resistance_bands_cables.png
+    - assets/img/rings.png
+    - assets/img/rope.png
+    - assets/img/stability_ball.png
+    - assets/img/trineo.png
+    - assets/img/trx.png
+    - assets/img/wall.png
+    - assets/img/weight_machines_selectorized.png
+    - assets/img/wheel.png
+    - assets/img/stability_ball.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

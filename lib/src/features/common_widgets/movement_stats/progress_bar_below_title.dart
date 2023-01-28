@@ -30,7 +30,7 @@ class KPIBarMoveStat extends ConsumerWidget {
           children: [
             LinearPercentIndicator(
               barRadius: const Radius.circular(20),
-              width: constraints.maxWidth * .60,
+              width: constraints.maxWidth * .50,
               animation: true,
               lineHeight: 12.0,
               animationDuration: 2000,

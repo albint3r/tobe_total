@@ -7,7 +7,7 @@ import '../features/common_widgets/floating_action_btn/float_action_bottom_btn_c
 import '../providers/wod/model/wod_model_provider.dart';
 import '../features/common_widgets/bottom_nav_bar/presentation/bottom_nav_bar2.dart';
 import '../features/common_widgets/floating_action_btn/float_action_bottom_btn_go_training.dart';
-
+import 'package:wakelock/wakelock.dart';
 
 class Progress extends ConsumerStatefulWidget {
   const Progress({
@@ -21,7 +21,7 @@ class Progress extends ConsumerStatefulWidget {
 class _ProgressState extends ConsumerState<Progress> {
   @override
   Widget build(BuildContext context) {
-
+    Wakelock.disable();
     final existWodOfTheWeek = ref.watch(existWodsOfTheWeekProvider);
     return existWodOfTheWeek.when(
       error: (error, stackTrace) => Text('error $error'),

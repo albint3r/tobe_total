@@ -194,6 +194,7 @@ class BarChartMuscleSetCounter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 1.05,
+      height: 230,
       child: AspectRatio(
         aspectRatio: 1.7,
         child: Card(

@@ -15,9 +15,7 @@ class Client extends LocalDataBase {
   int age = -1;
   double weight = -1.0;
   double height = -1.0;
-
-  //TODO ESTO ESTA DE PRUEBA LUEGO SE CAMBIARA A 0 Y SE AGREGARA EL FORMULARIO
-  int level = 1;
+  int level = 0;
   int timeToTrain = 0;
   bool monday = false;
   bool tuesday = false;
@@ -246,7 +244,6 @@ class Client extends LocalDataBase {
 
   Map<String, bool> equipmentParseToDataBase() {
     return {
-      'no_equipment': noEquipment,
       'dumbbells': dumbbells,
       'kettlebells': kettlebells,
       'bench': bench,
@@ -256,7 +253,6 @@ class Client extends LocalDataBase {
       'leggings': leggings,
       'medicine_ball': medicineBall,
       'stability_ball': stabilityBall,
-      'ball': ball,
       'trx': trx,
       'raised_platform_box': raisedPlatformBox,
       'box': box,

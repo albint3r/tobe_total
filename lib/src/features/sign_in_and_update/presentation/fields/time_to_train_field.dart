@@ -15,8 +15,8 @@ class TimeToTrainField extends ConsumerWidget {
       typeValue: 'Time to train',
       icon: Icons.timelapse,
       hintValue: 'Example: 90 min',
-      callBackFunction: validator.isNotValidInteger,
-      errorMsg: "Enter training time in minutes (e.g. '60 min')",
+      callBackFunction: validator.isNotMultipleOfFive,
+      errorMsg: "Enter training time in minutes, multiple of 5 (e.g. 5,10,15,20).",
       isNumberType: true,
     );
   }

@@ -28,94 +28,107 @@ class _EquipmentGroupCheckBoxFieldsState
             H3FormFieldsHeader(header: 'Select your training equipment:'),
             EquipmentBoxField(
               equipmentName: 'Assault Bike',
+              imgName: 'assault_bike',
               currentProvider: assaultBikeProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Barbell',
+              imgName: 'barbell',
               currentProvider: barbellProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Bench',
+              imgName: 'bench',
               currentProvider: benchProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Box',
+              imgName: 'box',
               currentProvider: boxProvider,
             ),
             EquipmentBoxField(
-              equipmentName: 'Ball',
-              currentProvider: ballProvider,
-            ),
-            EquipmentBoxField(
               equipmentName: 'Dumbbells',
+              imgName: 'dumbbells',
               currentProvider: dumbbellsProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Kettlebells',
+              imgName: 'kettlebells',
               currentProvider: kettlebellsProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Leggings',
+              imgName: 'leggings',
               currentProvider: leggingsProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Medicine Ball',
+              imgName: 'medicine_ball',
               currentProvider: medicineBallProvider,
             ),
             EquipmentBoxField(
-              equipmentName: 'No Equipment',
-              currentProvider: noEquipmentProvider,
-            ),
-            EquipmentBoxField(
               equipmentName: 'Parallels Bar',
+              imgName: 'parallels_bar',
               currentProvider: parallelsBarProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Pole',
+              imgName: 'pole',
               currentProvider: poleProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Pull-Up Bar',
+              imgName: 'pull_up_bar',
               currentProvider: pullUpBarProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Raised Platform Box',
+              imgName: 'raised_platform_box',
               currentProvider: raisedPlatformBoxProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Resistance Bands Cables',
+              imgName: 'resistance_bands_cables',
               currentProvider: resistanceBandsCablesProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Rings',
+              imgName: 'rings',
               currentProvider: ringsProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Rope',
+              imgName: 'rope',
               currentProvider: ropeProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Stability BallProvider',
+              imgName: 'stability_ball',
               currentProvider: stabilityBallProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Trineo',
+              imgName: 'trineo',
               currentProvider: trineoProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'TRX',
+              imgName: 'trx',
               currentProvider: trxProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Wall',
+              imgName: 'wall',
               currentProvider: wallProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Weight Machines Selectorized',
+              imgName: 'weight_machines_selectorized',
               currentProvider: weightMachinesSelectorizedProvider,
             ),
             EquipmentBoxField(
               equipmentName: 'Wheel',
+              imgName: 'wheel',
               currentProvider: wheelProvider,
             ),
           ],
@@ -128,11 +141,14 @@ class _EquipmentGroupCheckBoxFieldsState
 class EquipmentBoxField extends ConsumerStatefulWidget {
   const EquipmentBoxField({
     required this.equipmentName,
+    required this.imgName,
     required this.currentProvider,
     Key? key,
   }) : super(key: key);
   final String equipmentName;
+  final String imgName;
   final StateProvider<bool> currentProvider;
+
 
   @override
   ConsumerState createState() => _EquipmentBoxFieldState();
@@ -142,7 +158,19 @@ class _EquipmentBoxFieldState extends ConsumerState<EquipmentBoxField> {
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
-      secondary: const Icon(Icons.calendar_month),
+      secondary: Container(
+        height: 50,
+        width: 50,
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.black),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10),
+            ),
+            image: DecorationImage(
+              image: AssetImage("assets/img/${widget.imgName}.png"),
+              fit: BoxFit.contain,
+            )),
+      ),
       title: Text(widget.equipmentName),
       value: ref.watch(widget.currentProvider),
       onChanged: (val) {
