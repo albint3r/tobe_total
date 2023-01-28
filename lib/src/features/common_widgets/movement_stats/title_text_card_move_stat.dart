@@ -15,7 +15,7 @@ class TitleSingleCardMoveStat extends StatelessWidget {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
       return SizedBox(
-        width: constraints.maxWidth * .60,
+        width: constraints.maxWidth * .55,
         child: H3FormFieldsHeader(
           header: name,
         ),
