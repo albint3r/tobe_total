@@ -33,8 +33,8 @@ class CreateNewWeekActionBtn extends ConsumerWidget {
                   ),
                   TextButton(
                     onPressed: () async {
-                      Navigator.pop(context);
                       final wodModel = ref.watch(wodsModelProvider);
+                      final routes = ref.watch(routesProvider);
                       // check if is the first  training week to create
                       if(await wodModel.isWODsExist()) {
                         final trainingWeek =
@@ -42,15 +42,15 @@ class CreateNewWeekActionBtn extends ConsumerWidget {
                         await trainingWeek.initContext();
                         await trainingWeek.initWODS();
                         await trainingWeek.initWODSBlocks();
-                        final routes = ref.watch(routesProvider);
+                        routes.navigateTo(context, ConstantsUrls.trainingPlan);
                         // TODO SOLVE THIS ERROR
                         // o safely refer to a widget's ancestor in its
                         // dispose() method, save a reference to the ancestor
                         // by calling dependOnInheritedWidgetOfExactType() in
                         // the widget's didChangeDependencies() method
-                        routes.navigateTo(context, ConstantsUrls.updateLevel);
+
                       } else {
-                        final routes = ref.watch(routesProvider);
+                        Navigator.pop(context);
                         routes.navigateTo(context, ConstantsUrls.updateLevel);
                       }
 

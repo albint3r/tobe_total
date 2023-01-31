@@ -103,8 +103,8 @@ class MyMovements extends LocalDataBase {
   }
 
 
-  Future<void> updateLearnedValues({required ProxyMovement move}) async {
-    String query = 'UPDATE my_movements SET learned = learned + 1 WHERE fitness_move_id= ${move.fitnessMoveId}';
+  Future<void> updateLearnedValues({required ProxyMovement move, required int points}) async {
+    String query = 'UPDATE my_movements SET learned = learned + $points WHERE fitness_move_id= ${move.fitnessMoveId}';
     await rawQuery(query);
   }
 

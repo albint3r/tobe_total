@@ -535,19 +535,27 @@ class Client extends LocalDataBase {
     update('users', equipmentParseToDataBase(), 1);
   }
 
+  /// Update the values of the client.
+  /// This avoid to create errors when the user create the fist training.
+  void updateClientValuesTrainingDaysToNoobs() {
+    monday = true;
+    wednesday = true;
+    friday = true;
+  }
+
   /// Update the training days for the noobs
   Future<void> updateTrainingDaysToNoobs() async {
     // This client would have 3 days only to train full body.
     update(
         'users',
         {
-          'monday': true,
-          'tuesday': false,
-          'wednesday': true,
-          'thursday': false,
-          'friday': true,
-          'saturday': false,
-          'sunday': false,
+          'monday': 1,
+          'tuesday': 0,
+          'wednesday': 1,
+          'thursday': 0,
+          'friday': 1,
+          'saturday': 0,
+          'sunday': 1,
         },
         1);
   }

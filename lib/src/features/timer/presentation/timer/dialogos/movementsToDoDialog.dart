@@ -77,7 +77,7 @@ class MoveToShow extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(movement.name.toString().toUpperCase()),
+            Text(movement.name.toString().toUpperCase(), overflow: TextOverflow.fade, maxLines: 1),
             const SizedBox(
               height: 10,
             ),
@@ -93,10 +93,11 @@ class MoveToShow extends ConsumerWidget {
     );
   }
 
-  /// This return True if the timer is play and is the name of the
+  /// This return True if the timer is play or pause and is the name of the
   /// current movement is the same of the movement in the card
   bool isDoingMove() {
-    if (timer.currentState == TimerState.play &&
+    if ((timer.currentState == TimerState.play ||
+            timer.currentState == TimerState.pause) &&
         timer.currentMovement?.name == movement.name) {
       return true;
     }

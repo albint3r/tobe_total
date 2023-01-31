@@ -82,6 +82,19 @@ class SettingsTrainingManager {
     return _initTrainingCreation();
   }
 
+  int selectTrainingDays(
+      int level, List<Map<String, Object?>> response) {
+    int trainingDays;
+    if (level != 0) {
+      trainingDays = response[0]['total_training_days'] == null
+          ? 0
+          : response[0]['total_training_days'] as int;
+    } else {
+      trainingDays = 3;
+    }
+    return trainingDays;
+  }
+
   /// A private method that calls other private methods to set the muscle areas,
   /// training dates, block durations, modes, and sets for each
   /// training session, as well as creating a client object and getting
@@ -93,15 +106,15 @@ class SettingsTrainingManager {
     final client = _ref.watch(clientProvider);
     // Get the total number of training days from the client object
     final response = await client.getTotalTrainingDays();
-    final int trainingDays = response[0]['total_training_days'] == null
-        ? 0
-        : response[0]['total_training_days'] as int;
+    int trainingDays = selectTrainingDays(client.level, response);
     // Call the getTrainingWeekMuscleDistribution() method to
     // set the muscle areas for each training session of the week
     await getTrainingWeekMuscleDistribution(
       client.level,
       trainingDays,
+      // this callbacks only apply for noobs
       client.updateTrainingDaysToNoobs,
+      client.updateClientValuesTrainingDaysToNoobs,
     );
     // Call the getTrainingDatesOfTheWeek() method to set the
     // training dates for each training session of the week
@@ -244,7 +257,10 @@ class SettingsTrainingManager {
   ///
   /// Sets the `_musclesAreasOfTheWeek` variable with the selected muscle areas.
   Future<void> getTrainingWeekMuscleDistribution(
-      int clientLevel, int trainingDays, updateTrainingDaysToNoobs) async {
+      int clientLevel,
+      int trainingDays,
+      updateTrainingDaysToNoobs,
+      updateClientValuesToNoobs) async {
     // List to store the selected muscle areas
     List<String>? lastTrainedMuscleArea = [];
     // Get the WODs model object from the provider reference
@@ -261,6 +277,7 @@ class SettingsTrainingManager {
         // between muscles areas, but in these case We area training
         // the full body, so because that Is necessary to reduce the training days
         // to 3, or in other cases add one day.
+        updateClientValuesToNoobs();
         await updateTrainingDaysToNoobs();
       } else {
         lastTrainedMuscleArea =
@@ -431,8 +448,8 @@ class SettingsTrainingManager {
 
   void getTotalMoves() {
     // Create forward the totalMoves in the Training Week.
-    for(List<int> block in blocksDuration) {
-      for(int duration in block) {
+    for (List<int> block in blocksDuration) {
+      for (int duration in block) {
         // Always divide by Zero
         double result = duration / 5;
         totalMovesInWeek = (result + totalMovesInWeek).toInt();
@@ -494,5 +511,4 @@ class SettingsTrainingManager {
     );
     return trainingWeek;
   }
-
 }

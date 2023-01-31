@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tobe_total/src/providers/block/model/block_model_provider.dart';
 import 'package:tobe_total/src/providers/my_movements/model/my_movements_model.dart';
 import 'package:tobe_total/src/providers/routes/routes_provider.dart';
+import 'package:tobe_total/src/providers/timer/model/timer_sounds.dart';
 import 'package:tobe_total/src/providers/wod/model/wod_model_provider.dart';
 import 'package:tobe_total/src/repositories/my_movements_repository.dart';
 import '../../../repositories/blocks_repository.dart';
@@ -14,7 +15,6 @@ import '../../movement_history/model/movement_history_model.dart';
 import '../../proxies/block_proxy.dart';
 import '../../proxies/movement_proxy.dart';
 import '../../proxies/wod_proxy.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 
 enum TimerState {
@@ -138,45 +138,13 @@ class TrainingTimerModel extends ChangeNotifier {
   }
 
 
-  void playLastFiveSecondsSound() {
-    if(_seconds >=55) {
-      final audioPlayer = AudioPlayer();
-      audioPlayer.play(AssetSource('start_beep.mp3'));
-      audioPlayer.release();
-    }
-  }
-
-  void playStartNewRoundSound() {
-    if(_seconds ==0) {
-      final audioPlayer = AudioPlayer();
-      audioPlayer.setVolume(1);
-      audioPlayer.play(AssetSource('star_new_round.mp3'));
-      audioPlayer.release();
-    }
-  }
-
-  void playReadyBlockSound() {
-    if(_seconds <=5) {
-      final audioPlayer = AudioPlayer();
-      audioPlayer.play(AssetSource('start_beep.mp3'));
-      audioPlayer.release();
-    }
-  }
-
-  void pauseSound() {
-    final audioPlayer = AudioPlayer();
-    audioPlayer.play(AssetSource('stop_beep.mp3'));
-    audioPlayer.release();
-  }
-
-
   /// Get the time and Set of the current block.
   /// It decide if the timer go, stop or pause.
   void getTimeAndRounds() {
     if (_seconds != maxSeconds && currentRoundsBlock != 0) {
       // if the remaining time is 5 or less, start sound counting
-      playLastFiveSecondsSound();
-      playStartNewRoundSound();
+      TimerSound.lastFiveSeconds(_seconds);
+      TimerSound.startNewRound(_seconds);
       _seconds = _seconds + 1;
       _currentState = TimerState.play;
       notifyListeners();
@@ -204,7 +172,8 @@ class TrainingTimerModel extends ChangeNotifier {
 
   void getGetReadyTimer() {
     if (_seconds != 5) {
-      playReadyBlockSound();
+      TimerSound.playReady(_seconds);
+      // playReadyBlockSound();
       _seconds = _seconds + 1;
       notifyListeners();
       // Change Round State and reset time
@@ -271,7 +240,8 @@ class TrainingTimerModel extends ChangeNotifier {
         );
         break;
       case TimerState.pause:
-        pauseSound();
+        // pauseSound();
+        TimerSound.pause();
         _currentState = TimerState.play;
         notifyListeners();
         startTimer();
@@ -299,7 +269,7 @@ class TrainingTimerModel extends ChangeNotifier {
   /// it will not perform any action.
   void pauseTime() {
     if (currentState == TimerState.play || currentState == TimerState.stop) {
-      pauseSound();
+      TimerSound.pause();
       _currentState = TimerState.pause;
       _timer?.cancel();
       notifyListeners();
@@ -328,14 +298,25 @@ class TrainingTimerModel extends ChangeNotifier {
     _seconds = 0;
   }
 
-  void updateLearningMove() {
-    print('updateLearningMove----------------');
+  /// Change the total points of the current movement
+  void updateLearnPointsingMove() {
+    print('updateLearnPointsingMove----------------');
     for (var block in proxyWod.blocks!.values) {
       for (ProxyMovement move in block.movements.values) {
         // Check if the client did All the Reps
         // If is True, the value would be updated in MyMovements
         if (move.didAllReps ?? false) {
-          _myMovementsModel.updateLearnedValues(move: move);
+          _myMovementsModel.updateLearnedValues(
+            move: move,
+            points: 2,
+          );
+          break;
+        } else if (move.didExercise ?? false) {
+          _myMovementsModel.updateLearnedValues(
+            move: move,
+            points: 1,
+          );
+          break;
         }
       }
     }
@@ -359,7 +340,7 @@ class TrainingTimerModel extends ChangeNotifier {
     saveMovesResults();
     saveBlocksResults();
     saveWodResults();
-    updateLearningMove();
+    updateLearnPointsingMove();
     routes.navigateTo(context, ConstantsUrls.progress);
   }
 
@@ -420,7 +401,8 @@ class TrainingTimerModel extends ChangeNotifier {
   }
 }
 
-final trainingTimerProvider = ChangeNotifierProvider.autoDispose<TrainingTimerModel>((ref) {
+final trainingTimerProvider =
+    ChangeNotifierProvider.autoDispose<TrainingTimerModel>((ref) {
   final proxyWod = ref.watch(proxyWodProvider);
   final movementHistoryModel = ref.watch(movementHistoryModelProvider);
   final myMovementsModel = ref.watch(myMovementsProvider);
